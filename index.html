@@ -14,7 +14,7 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            transition: background-color 1.5s ease-in-out, color 1.5s ease-in-out;
+            transition: background-color 2s ease-in-out, color 2s ease-in-out;
         }
 
         .serif {
@@ -31,13 +31,13 @@
             text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
         }
 
-        /* Gentle Color Progression Phases */
-        .state-normal { background-color: #f0f4f8; color: #1e293b; }
-        .state-2h { background-color: #f1f5f1; color: #1e293b; } /* Soft Sage */
-        .state-1h { background-color: #fffbeb; color: #451a03; } /* Warm Butter */
-        .state-30m { background-color: #fff7ed; color: #7c2d12; } /* Soft Peach */
-        .state-10m-pre { background-color: #ffedd5; color: #9a3412; } /* Muted Apricot */
-        .state-sunset { background-color: #1e1b4b; color: #e0e7ff; } /* Deep Indigo */
+        /* Gentle Techelet Progression Phases */
+        .state-normal { background-color: #f8fafc; color: #1e293b; }
+        .state-2h { background-color: #e0f2fe; color: #0369a1; } /* Light Techelet (Sky Blue) */
+        .state-1h { background-color: #bae6fd; color: #075985; } /* Deepening Sky */
+        .state-30m { background-color: #7dd3fc; color: #0c4a6e; } /* Twilight Blue */
+        .state-10m-pre { background-color: #38bdf8; color: #082f49; } /* Dusk Blue */
+        .state-sunset { background-color: #1e1b4b; color: #e0e7ff; } /* Deep Indigo (Clear Night) */
         
         @keyframes pulse-warm {
             0% { transform: scale(1); opacity: 1; }
@@ -91,56 +91,49 @@
             </div>
 
             <div class="space-y-1">
-                <div id="current-time-display" class="text-xs opacity-40 font-medium tracking-widest">CURRENT TIME: 00:00 AM</div>
+                <div id="current-time-display" class="text-xs opacity-40 font-medium tracking-widest uppercase">CURRENT TIME: 00:00 AM</div>
                 <h2 id="status-label" class="text-sm uppercase tracking-[0.2em] font-medium opacity-60">Time until lighting</h2>
                 <div id="countdown" class="serif text-5xl sm:text-6xl glow-gold py-2">00:00</div>
             </div>
 
-            <div id="lighting-time-box" class="py-3 border-y border-slate-200/50 flex justify-around items-center">
+            <!-- Times Grid -->
+            <div id="times-grid" class="py-3 border-y border-slate-200/50 grid grid-cols-3 gap-1 items-center">
                 <div>
-                    <p class="text-[10px] uppercase opacity-60">Candle Lighting</p>
-                    <p id="lighting-time" class="text-xl font-semibold">—:— PM</p>
+                    <p class="text-[9px] uppercase opacity-50 font-semibold tracking-tighter">Candles</p>
+                    <p id="lighting-time" class="text-base font-semibold">—:— PM</p>
                 </div>
-                <div class="h-8 w-[1px] bg-slate-200/50"></div>
                 <div>
-                    <p class="text-[10px] uppercase opacity-60">Shabbat Starts</p>
-                    <p id="shabbat-starts" class="text-xl font-semibold">—:— PM</p>
+                    <p class="text-[9px] uppercase opacity-50 font-semibold tracking-tighter">Starts</p>
+                    <p id="shabbat-starts" class="text-base font-semibold">—:— PM</p>
+                </div>
+                <div class="opacity-40">
+                    <p class="text-[9px] uppercase font-semibold tracking-tighter">Havdalah</p>
+                    <p id="havdalah-time" class="text-base">—:— PM</p>
                 </div>
             </div>
 
             <!-- AI Features Section -->
             <div class="text-left space-y-4 pt-2">
                 <h3 class="text-xs font-bold uppercase tracking-widest opacity-40 text-current/50">Spiritual Prep</h3>
-                <div id="ai-content-area" class="hidden mb-4 p-4 bg-white/10 rounded-xl text-sm italic leading-relaxed border border-white/20 transition-all"></div>
+                <div id="ai-content-area" class="hidden mb-4 p-4 bg-white/10 rounded-xl transition-all border border-white/20">
+                    <div id="ai-quote" class="text-sm italic leading-relaxed"></div>
+                    <div id="ai-source" class="mt-2 text-[10px] uppercase tracking-wider font-bold opacity-60 text-right"></div>
+                </div>
                 
                 <div class="flex flex-col gap-2">
-                    <button id="spark-btn" onclick="getWeeklySpark()" class="flex items-center justify-center gap-2 bg-black/5 hover:bg-black/10 border border-current/20 py-3 rounded-xl text-sm font-medium transition-all">
-                        <span>Weekly Spark ✨</span>
+                    <button id="spark-btn" onclick="getWeeklySpark()" class="flex flex-col items-center justify-center gap-1 bg-black/5 hover:bg-black/10 border border-current/20 py-3 rounded-xl transition-all">
+                        <span class="text-sm font-medium">Rebbe's Insight ✨</span>
+                        <span class="text-[9px] uppercase tracking-tighter opacity-50">Click for a spark of wisdom</span>
                     </button>
                     <!-- Notification Permission Button -->
-                    <button id="notif-perm-btn" onclick="requestNotificationPermission()" class="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">
-                        Enable System Alerts 🔔
-                    </button>
-                    <p id="notif-hint" class="text-[9px] text-center opacity-30 hidden mt-1 italic">Note: iOS requires 'Add to Home Screen' first.</p>
-                </div>
-            </div>
-
-            <!-- Testing Toggle & Slider -->
-            <div class="bg-black/5 rounded-xl p-4 mt-4 text-left border border-black/5">
-                <div class="flex items-center justify-between mb-2">
-                    <h3 class="text-[10px] font-bold uppercase tracking-widest opacity-40">Vibe Preview Mode</h3>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="test-mode-toggle" class="sr-only peer" onchange="toggleTestMode()">
-                        <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500"></div>
-                    </label>
-                </div>
-                <div id="test-slider-container" class="opacity-30 pointer-events-none transition-opacity">
-                    <input type="range" id="test-slider" min="-18" max="140" value="140" step="1" 
-                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
-                        oninput="manualUpdateVibe(this.value)">
-                    <div class="flex justify-between text-[9px] mt-1 opacity-60">
-                        <span>2h+ Until Lighting</span>
-                        <span>Sunset</span>
+                    <div id="notif-controls" class="flex flex-col items-center gap-2 pt-4">
+                        <button id="notif-perm-btn" onclick="requestNotificationPermission()" class="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">
+                            Enable System Alerts 🔔
+                        </button>
+                        <button id="test-notif-btn" onclick="testSystemNotification()" class="hidden text-[9px] uppercase tracking-widest text-emerald-500 font-bold hover:underline">
+                            Test Alert Now ⚡
+                        </button>
+                        <p id="notif-hint" class="text-[9px] text-center opacity-30 hidden mt-1 italic leading-tight">iPhone users: Must "Add to Home Screen" first.</p>
                     </div>
                 </div>
             </div>
@@ -164,7 +157,6 @@
         let lightingTime = null; 
         let sunsetTime = null;
         let timerInterval = null;
-        let isTestMode = false;
         
         let notificationsSent = {
             pre2h: false, pre1h: false, pre30m: false, pre10m: false, lighting: false, finalDetox: false
@@ -179,33 +171,38 @@
             if (currentZip) initDashboard(currentZip); 
             checkNotificationStatus();
             
-            // Show iOS hint if it's an iPhone
+            // iOS check
             if (/iPhone|iPad|iPod/.test(navigator.userAgent) && !window.navigator.standalone) {
                 document.getElementById('notif-hint').classList.remove('hidden');
             }
         };
 
         function checkNotificationStatus() {
+            const btn = document.getElementById('notif-perm-btn');
+            const testBtn = document.getElementById('test-notif-btn');
+            
             if (!("Notification" in window)) {
-                document.getElementById('notif-perm-btn').innerText = "Alerts not supported ❌";
+                btn.innerText = "Alerts not supported ❌";
                 return;
             }
             if (Notification.permission === 'granted') {
-                document.getElementById('notif-perm-btn').innerText = "System Alerts Enabled ✅";
-                document.getElementById('notif-perm-btn').disabled = true;
+                btn.innerText = "System Alerts Enabled ✅";
+                btn.disabled = true;
+                btn.classList.add('text-emerald-500', 'opacity-100');
+                testBtn.classList.remove('hidden');
                 document.getElementById('notif-hint').classList.add('hidden');
             } else if (Notification.permission === 'denied') {
-                document.getElementById('notif-perm-btn').innerText = "Alerts Blocked - Reset Settings ⚠️";
+                btn.innerText = "Alerts Blocked ⚠️";
+                btn.classList.add('text-rose-500', 'opacity-100');
             }
         }
 
         async function requestNotificationPermission() {
             if (!("Notification" in window)) {
-                alert("This browser does not support notifications.");
+                alert("Your browser doesn't support system notifications.");
                 return;
             }
 
-            // iOS check
             if (/iPhone|iPad|iPod/.test(navigator.userAgent) && !window.navigator.standalone) {
                 showNotification('Setup Required', 'Please "Add to Home Screen" first to enable notifications on iPhone.', '📱');
                 return;
@@ -213,40 +210,58 @@
 
             try {
                 const permission = await Notification.requestPermission();
+                checkNotificationStatus();
                 if (permission === 'granted') {
-                    checkNotificationStatus();
-                    setTimeout(() => {
-                        showNotification('Shabbat Vibe', 'System alerts are now active. Shabbat Shalom!', '🔔');
-                    }, 1000);
-                } else {
-                    showNotification('Permission Denied', 'Please enable notifications in your browser settings.', '⚠️');
-                    checkNotificationStatus();
+                    showNotification('Shabbat Vibe', 'System alerts are active. Test them below!', '🔔');
                 }
             } catch (err) {
-                console.error("Error requesting permission", err);
+                console.error("Permission error:", err);
             }
+        }
+
+        function testSystemNotification() {
+            showNotification('Vibe Check', 'This is how your Shabbat reminders will look. Rest well.', '🧘');
         }
 
         async function callGemini(prompt) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { parts: [{ text: "You are a warm, spiritual Shabbat assistant. Response < 180 chars." }] }
+                systemInstruction: { parts: [{ text: "You are an assistant providing a short, inspiring teaching or quote from the Lubavitcher Rebbe (Rabbi Menachem Mendel Schneerson). You MUST always include a specific verifiable source for the teaching (e.g., 'Likutei Sichos, Vol. 10', 'Igros Kodesh, Vol. 1', 'Sicha, Parshat X, 19XX', or similar). Format the response as a JSON object with two fields: 'teaching' and 'source'." }] },
+                generationConfig: { responseMimeType: "application/json" }
             };
-            const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-            const data = await response.json();
-            return data.candidates?.[0]?.content?.parts?.[0]?.text;
+            
+            const fetchWithRetry = async (retries = 5, delay = 1000) => {
+                try {
+                    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!response.ok) throw new Error('API Error');
+                    const data = await response.json();
+                    return JSON.parse(data.candidates?.[0]?.content?.parts?.[0]?.text);
+                } catch (error) {
+                    if (retries > 0) {
+                        await new Promise(res => setTimeout(res, delay));
+                        return fetchWithRetry(retries - 1, delay * 2);
+                    }
+                    throw error;
+                }
+            };
+
+            return await fetchWithRetry();
         }
 
         async function getWeeklySpark() {
             const btn = document.getElementById('spark-btn');
+            const originalContent = btn.innerHTML;
             btn.innerHTML = `<span class="loading-spinner"></span>`;
             try {
-                const spark = await callGemini("Give me a beautiful one-sentence thought for Shabbat preparation.");
-                const area = document.getElementById('ai-content-area');
-                area.innerHTML = `<strong class="block mb-1 text-[10px] uppercase opacity-60 text-current">✨ Weekly Spark</strong>${spark}`;
-                area.classList.remove('hidden');
-            } finally { btn.innerHTML = `<span>Weekly Spark ✨</span>`; }
+                const data = await callGemini("Provide a short teaching from the Lubavitcher Rebbe about the spiritual dimension of Shabbat, preparing for Shabbat, or adding light to the world.");
+                document.getElementById('ai-quote').innerText = data.teaching;
+                document.getElementById('ai-source').innerText = `— ${data.source}`;
+                document.getElementById('ai-content-area').classList.remove('hidden');
+            } catch (error) {
+                console.error(error);
+                showNotification('Error', 'Could not reach the spark of wisdom right now.', '⚠️');
+            } finally { btn.innerHTML = originalContent; }
         }
 
         function saveZip() {
@@ -279,14 +294,23 @@
             try {
                 const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&zip=${zip}&m=18`);
                 const data = await response.json();
+                
                 const lighting = data.items.find(item => item.category === 'candles');
+                const havdalah = data.items.find(item => item.category === 'havdalah');
+
                 if (lighting) {
                     lightingTime = new Date(lighting.date);
                     sunsetTime = new Date(lightingTime.getTime() + (18 * 60000));
                     document.getElementById('lighting-time').innerText = lightingTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     document.getElementById('shabbat-starts').innerText = sunsetTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    document.getElementById('location-display').innerText = data.location.city || zip;
                 }
+
+                if (havdalah) {
+                    const hTime = new Date(havdalah.date);
+                    document.getElementById('havdalah-time').innerText = hTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+
+                document.getElementById('location-display').innerText = data.location.city || zip;
             } catch (e) { showNotification('Error', 'Check connection.', '🌐'); }
         }
 
@@ -296,7 +320,7 @@
                 const now = new Date();
                 document.getElementById('current-time-display').innerText = `CURRENT TIME: ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
                 
-                if (isTestMode || !lightingTime) return;
+                if (!lightingTime) return;
                 const diffMs = lightingTime - now;
                 updateDisplay(diffMs / 60000);
             }, 1000);
@@ -319,15 +343,14 @@
                 countdownEl.innerText = "Shabbat Shalom";
             }
 
-            // Vibe logic 
             if (totalMins > 120) {
                 body.className = 'state-normal';
                 statusLabel.innerText = "Time until lighting";
             } 
             else if (totalMins <= 120 && totalMins > 60) {
-                body.className = 'state-2h';
+                body.className = 'state-2h'; 
                 statusLabel.innerText = "2 hours until lighting prep";
-                if (!notificationsSent.pre2h && !isTestMode) {
+                if (!notificationsSent.pre2h) {
                     showNotification('2 Hour Warning', '120 minutes until lighting prep.', '⏳');
                     notificationsSent.pre2h = true;
                 }
@@ -335,7 +358,7 @@
             else if (totalMins <= 60 && totalMins > 30) {
                 body.className = 'state-1h';
                 statusLabel.innerText = "1 hour until lighting prep";
-                if (!notificationsSent.pre1h && !isTestMode) {
+                if (!notificationsSent.pre1h) {
                     showNotification('1 Hour Warning', '60 minutes until lighting prep.', '✨');
                     notificationsSent.pre1h = true;
                 }
@@ -343,7 +366,7 @@
             else if (totalMins <= 30 && totalMins > 10) {
                 body.className = 'state-30m';
                 statusLabel.innerText = "30 mins until lighting prep";
-                if (!notificationsSent.pre30m && !isTestMode) {
+                if (!notificationsSent.pre30m) {
                     showNotification('30 Minute Warning', 'Time to start winding down.', '☕');
                     notificationsSent.pre30m = true;
                 }
@@ -351,7 +374,7 @@
             else if (totalMins <= 10 && totalMins > 0) {
                 body.className = 'state-10m-pre';
                 statusLabel.innerText = "10 mins until lighting prep";
-                if (!notificationsSent.pre10m && !isTestMode) {
+                if (!notificationsSent.pre10m) {
                     showNotification('Almost time', '10 minutes until lighting window.', '🕯️');
                     notificationsSent.pre10m = true;
                 }
@@ -359,7 +382,7 @@
             else if (totalMins <= 0 && totalMins > -8) {
                 body.className = 'state-sunset';
                 statusLabel.innerText = "Lighting time is now";
-                if (!notificationsSent.lighting && !isTestMode) {
+                if (!notificationsSent.lighting) {
                     showNotification('Lighting Time', 'The 18 minute window has started. Light now.', '🕯️');
                     notificationsSent.lighting = true;
                 }
@@ -368,9 +391,7 @@
                 body.className = 'state-sunset animate-warm';
                 statusLabel.innerText = "It can wait... rest";
                 const aiArea = document.getElementById('ai-content-area');
-                aiArea.innerHTML = `<span class="text-orange-200">"10 minutes until Shabbat, breathe and put it all away... it can wait"</span>`;
-                aiArea.classList.remove('hidden');
-                if (!notificationsSent.finalDetox && !isTestMode) {
+                if (!notificationsSent.finalDetox) {
                     showNotification('Digital Sunset', '10 minutes until Shabbat. Breathe and put it all away.', '📴');
                     notificationsSent.finalDetox = true;
                 }
@@ -381,22 +402,7 @@
             }
         }
 
-        function toggleTestMode() {
-            isTestMode = document.getElementById('test-mode-toggle').checked;
-            const container = document.getElementById('test-slider-container');
-            if (isTestMode) {
-                container.classList.remove('opacity-30', 'pointer-events-none');
-                manualUpdateVibe(document.getElementById('test-slider').value);
-            } else {
-                container.classList.add('opacity-30', 'pointer-events-none');
-                startCountdown();
-            }
-        }
-
-        function manualUpdateVibe(val) { updateDisplay(parseFloat(val)); }
-
         function showNotification(title, bodyText, icon) {
-            // Internal Toast
             const notif = document.getElementById('notification');
             document.getElementById('notif-title').innerText = title;
             document.getElementById('notif-body').innerText = bodyText;
@@ -404,7 +410,6 @@
             notif.style.transform = 'translate(-50%, 0)';
             setTimeout(() => { notif.style.transform = 'translate(-50%, -200%)'; }, 6000);
 
-            // System Alert
             if (("Notification" in window) && Notification.permission === 'granted') {
                 try {
                     new Notification(title, {
@@ -412,7 +417,7 @@
                         icon: 'https://cdn-icons-png.flaticon.com/512/3050/3050306.png'
                     });
                 } catch (e) {
-                    console.warn("System notification failed.");
+                    console.warn("System alert failed.");
                 }
             }
         }
