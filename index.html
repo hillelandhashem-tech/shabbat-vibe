@@ -187,7 +187,7 @@
 
         function checkNotificationStatus() {
             if (!("Notification" in window)) {
-                document.getElementById('notif-perm-btn').innerText = "Alerts not supported on this browser ❌";
+                document.getElementById('notif-perm-btn').innerText = "Alerts not supported ❌";
                 return;
             }
             if (Notification.permission === 'granted') {
@@ -195,13 +195,13 @@
                 document.getElementById('notif-perm-btn').disabled = true;
                 document.getElementById('notif-hint').classList.add('hidden');
             } else if (Notification.permission === 'denied') {
-                document.getElementById('notif-perm-btn').innerText = "Alerts Blocked - Reset in Settings ⚠️";
+                document.getElementById('notif-perm-btn').innerText = "Alerts Blocked - Reset Settings ⚠️";
             }
         }
 
         async function requestNotificationPermission() {
             if (!("Notification" in window)) {
-                alert("This browser does not support desktop notifications.");
+                alert("This browser does not support notifications.");
                 return;
             }
 
@@ -214,8 +214,10 @@
             try {
                 const permission = await Notification.requestPermission();
                 if (permission === 'granted') {
-                    showNotification('Shabbat Vibe', 'System alerts enabled!', '🔔');
                     checkNotificationStatus();
+                    setTimeout(() => {
+                        showNotification('Shabbat Vibe', 'System alerts are now active. Shabbat Shalom!', '🔔');
+                    }, 1000);
                 } else {
                     showNotification('Permission Denied', 'Please enable notifications in your browser settings.', '⚠️');
                     checkNotificationStatus();
@@ -394,7 +396,7 @@
         function manualUpdateVibe(val) { updateDisplay(parseFloat(val)); }
 
         function showNotification(title, bodyText, icon) {
-            // 1. Show the visual Toast (internal)
+            // Internal Toast
             const notif = document.getElementById('notification');
             document.getElementById('notif-title').innerText = title;
             document.getElementById('notif-body').innerText = bodyText;
@@ -402,12 +404,16 @@
             notif.style.transform = 'translate(-50%, 0)';
             setTimeout(() => { notif.style.transform = 'translate(-50%, -200%)'; }, 6000);
 
-            // 2. Show System Alert (external) if permission is granted
+            // System Alert
             if (("Notification" in window) && Notification.permission === 'granted') {
-                new Notification(title, {
-                    body: bodyText,
-                    icon: 'https://cdn-icons-png.flaticon.com/512/3050/3050306.png'
-                });
+                try {
+                    new Notification(title, {
+                        body: bodyText,
+                        icon: 'https://cdn-icons-png.flaticon.com/512/3050/3050306.png'
+                    });
+                } catch (e) {
+                    console.warn("System notification failed.");
+                }
             }
         }
     </script>
