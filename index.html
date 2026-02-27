@@ -121,6 +121,7 @@
                     <button id="notif-perm-btn" onclick="requestNotificationPermission()" class="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">
                         Enable System Alerts 🔔
                     </button>
+                    <p id="notif-hint" class="text-[9px] text-center opacity-30 hidden mt-1 italic">Note: iOS requires 'Add to Home Screen' first.</p>
                 </div>
             </div>
 
@@ -177,20 +178,50 @@
         window.onload = () => { 
             if (currentZip) initDashboard(currentZip); 
             checkNotificationStatus();
+            
+            // Show iOS hint if it's an iPhone
+            if (/iPhone|iPad|iPod/.test(navigator.userAgent) && !window.navigator.standalone) {
+                document.getElementById('notif-hint').classList.remove('hidden');
+            }
         };
 
         function checkNotificationStatus() {
+            if (!("Notification" in window)) {
+                document.getElementById('notif-perm-btn').innerText = "Alerts not supported on this browser ❌";
+                return;
+            }
             if (Notification.permission === 'granted') {
                 document.getElementById('notif-perm-btn').innerText = "System Alerts Enabled ✅";
                 document.getElementById('notif-perm-btn').disabled = true;
+                document.getElementById('notif-hint').classList.add('hidden');
+            } else if (Notification.permission === 'denied') {
+                document.getElementById('notif-perm-btn').innerText = "Alerts Blocked - Reset in Settings ⚠️";
             }
         }
 
         async function requestNotificationPermission() {
-            const permission = await Notification.requestPermission();
-            if (permission === 'granted') {
-                showNotification('Shabbat Vibe', 'System alerts enabled! We will notify you at your intervals.', '🔔');
-                checkNotificationStatus();
+            if (!("Notification" in window)) {
+                alert("This browser does not support desktop notifications.");
+                return;
+            }
+
+            // iOS check
+            if (/iPhone|iPad|iPod/.test(navigator.userAgent) && !window.navigator.standalone) {
+                showNotification('Setup Required', 'Please "Add to Home Screen" first to enable notifications on iPhone.', '📱');
+                return;
+            }
+
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    showNotification('Shabbat Vibe', 'System alerts enabled!', '🔔');
+                    checkNotificationStatus();
+                } else {
+                    showNotification('Permission Denied', 'Please enable notifications in your browser settings.', '⚠️');
+                    checkNotificationStatus();
+                }
+            } catch (err) {
+                console.error("Error requesting permission", err);
             }
         }
 
@@ -372,7 +403,7 @@
             setTimeout(() => { notif.style.transform = 'translate(-50%, -200%)'; }, 6000);
 
             // 2. Show System Alert (external) if permission is granted
-            if (Notification.permission === 'granted') {
+            if (("Notification" in window) && Notification.permission === 'granted') {
                 new Notification(title, {
                     body: bodyText,
                     icon: 'https://cdn-icons-png.flaticon.com/512/3050/3050306.png'
