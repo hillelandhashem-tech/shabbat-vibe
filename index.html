@@ -91,6 +91,7 @@
             </div>
 
             <div class="space-y-1">
+                <div id="parsha-display" class="text-[10px] uppercase font-bold tracking-[0.3em] opacity-40 mb-1">—</div>
                 <div id="current-time-display" class="text-xs opacity-40 font-medium tracking-widest uppercase">CURRENT TIME: 00:00 AM</div>
                 <h2 id="status-label" class="text-sm uppercase tracking-[0.2em] font-medium opacity-60">Time until lighting</h2>
                 <div id="countdown" class="serif text-5xl sm:text-6xl glow-gold py-2">00:00</div>
@@ -171,7 +172,7 @@
             if (currentZip) initDashboard(currentZip); 
             checkNotificationStatus();
             
-            // iOS check
+            // Show iOS hint if it's an iPhone
             if (/iPhone|iPad|iPod/.test(navigator.userAgent) && !window.navigator.standalone) {
                 document.getElementById('notif-hint').classList.remove('hidden');
             }
@@ -292,11 +293,14 @@
 
         async function fetchShabbatTimes(zip) {
             try {
-                const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&zip=${zip}&m=18`);
+                // Fetch from Hebcal API with Havdalah (m=42 is standard Chabad/Standard)
+                // ash=on for Ashkenazi transliterations
+                const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&zip=${zip}&m=42&ash=on`);
                 const data = await response.json();
                 
                 const lighting = data.items.find(item => item.category === 'candles');
                 const havdalah = data.items.find(item => item.category === 'havdalah');
+                const parsha = data.items.find(item => item.category === 'parashat');
 
                 if (lighting) {
                     lightingTime = new Date(lighting.date);
@@ -310,8 +314,17 @@
                     document.getElementById('havdalah-time').innerText = hTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 }
 
+                if (parsha) {
+                    // Normalize Parsha name to avoid "Parshat Parashat"
+                    let cleanName = parsha.title.replace(/Parashat|Parshat/gi, '').trim();
+                    document.getElementById('parsha-display').innerText = `PARSHAT ${cleanName.toUpperCase()}`;
+                }
+
                 document.getElementById('location-display').innerText = data.location.city || zip;
-            } catch (e) { showNotification('Error', 'Check connection.', '🌐'); }
+            } catch (e) { 
+                console.error(e);
+                showNotification('Error', 'Check connection.', '🌐'); 
+            }
         }
 
         function startCountdown() {
@@ -390,7 +403,6 @@
             else if (totalMins <= -8 && totalMins > -18) {
                 body.className = 'state-sunset animate-warm';
                 statusLabel.innerText = "It can wait... rest";
-                const aiArea = document.getElementById('ai-content-area');
                 if (!notificationsSent.finalDetox) {
                     showNotification('Digital Sunset', '10 minutes until Shabbat. Breathe and put it all away.', '📴');
                     notificationsSent.finalDetox = true;
