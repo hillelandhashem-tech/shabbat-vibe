@@ -1,419 +1,384 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2487.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #4689cc; -webkit-text-stroke: #4689cc}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #8cd3fe; -webkit-text-stroke: #8cd3fe}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #c27e65; -webkit-text-stroke: #c27e65}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #cacaca; -webkit-text-stroke: #cacaca}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #6d7378; -webkit-text-stroke: #6d7378}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #71c083; -webkit-text-stroke: #71c083}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #cacaca; -webkit-text-stroke: #cacaca; min-height: 16.0px}
-    span.s1 {font-kerning: none; background-color: #171818}
-    span.s2 {font-kerning: none; color: #8cd3fe; background-color: #171818; -webkit-text-stroke: 0px #8cd3fe}
-    span.s3 {font-kerning: none; color: #6d6d6d; background-color: #171818; -webkit-text-stroke: 0px #6d6d6d}
-    span.s4 {font-kerning: none; color: #cacaca; background-color: #171818; -webkit-text-stroke: 0px #cacaca}
-    span.s5 {font-kerning: none; color: #c27e65; background-color: #171818; -webkit-text-stroke: 0px #c27e65}
-    span.s6 {font-kerning: none; color: #4689cc; background-color: #171818; -webkit-text-stroke: 0px #4689cc}
-    span.s7 {font-kerning: none; color: #b76ff7; background-color: #171818; -webkit-text-stroke: 0px #b76ff7}
-    span.s8 {font-kerning: none; color: #d4d4d4; background-color: #171818; -webkit-text-stroke: 0px #d4d4d4}
-    span.s9 {font-kerning: none; color: #71c083; background-color: #171818; -webkit-text-stroke: 0px #71c083}
-    span.s10 {font-kerning: none; color: #a7c598; background-color: #171818; -webkit-text-stroke: 0px #a7c598}
-    span.s11 {font-kerning: none}
-    span.s12 {font-kerning: none; color: #6d7378; background-color: #171818; -webkit-text-stroke: 0px #6d7378}
-    span.s13 {font-kerning: none; color: #36c0a0; background-color: #171818; -webkit-text-stroke: 0px #36c0a0}
-    span.s14 {font-kerning: none; color: #f67c30; background-color: #171818; -webkit-text-stroke: 0px #f67c30}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shabbat Vibe - Digital Sunset</title>
+    <!-- Manifest for PWA feel -->
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3050/3050306.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 1.5s ease-in-out, color 1.5s ease-in-out;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glow-gold {
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Gentle Color Progression Phases */
+        .state-normal { background-color: #f0f4f8; color: #1e293b; }
+        .state-2h { background-color: #f1f5f1; color: #1e293b; } /* Soft Sage */
+        .state-1h { background-color: #fffbeb; color: #451a03; } /* Warm Butter */
+        .state-30m { background-color: #fff7ed; color: #7c2d12; } /* Soft Peach */
+        .state-10m-pre { background-color: #ffedd5; color: #9a3412; } /* Muted Apricot */
+        .state-sunset { background-color: #1e1b4b; color: #e0e7ff; } /* Deep Indigo */
+        
+        @keyframes pulse-warm {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.01); opacity: 0.85; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-warm {
+            animation: pulse-warm 5s infinite ease-in-out;
+        }
+
+        .loading-spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 2px solid white;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE</span><span class="s2"> html</span><span class="s1">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;</span><span class="s1">html</span><span class="s4"> </span><span class="s2">lang</span><span class="s3">=</span><span class="s5">"en"</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;</span><span class="s1">head</span><span class="s3">&gt;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">meta</span><span class="s4"> </span><span class="s1">charset</span><span class="s3">=</span><span class="s5">"UTF-8"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">meta</span><span class="s4"> </span><span class="s2">name</span><span class="s3">=</span><span class="s1">"viewport"</span><span class="s4"> </span><span class="s2">content</span><span class="s3">=</span><span class="s1">"width=device-width, initial-scale=1.0"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">title</span><span class="s3">&gt;</span><span class="s1">Shabbat Vibe - Digital Sunset</span><span class="s3">&lt;/</span><span class="s6">title</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;!-- Manifest for PWA feel --&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">link</span><span class="s4"> </span><span class="s2">rel</span><span class="s3">=</span><span class="s1">"apple-touch-icon"</span><span class="s4"> </span><span class="s2">href</span><span class="s3">=</span><span class="s1">"https://cdn-icons-png.flaticon.com/512/3050/3050306.png"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">meta</span><span class="s4"> </span><span class="s2">name</span><span class="s3">=</span><span class="s1">"apple-mobile-web-app-capable"</span><span class="s4"> </span><span class="s2">content</span><span class="s3">=</span><span class="s1">"yes"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">meta</span><span class="s4"> </span><span class="s2">name</span><span class="s3">=</span><span class="s1">"apple-mobile-web-app-status-bar-style"</span><span class="s4"> </span><span class="s2">content</span><span class="s3">=</span><span class="s1">"black-translucent"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">script</span><span class="s4"> </span><span class="s2">src</span><span class="s3">=</span><span class="s1">"https://cdn.tailwindcss.com"</span><span class="s3">&gt;&lt;/</span><span class="s6">script</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s1">style</span><span class="s3">&gt;</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s7">@import</span><span class="s4"> </span><span class="s5">url</span><span class="s8">(</span><span class="s1">'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&amp;family=Playfair+Display:ital,wght@0,700;1,700&amp;display=swap'</span><span class="s8">);</span></p>
-<p class="p7"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">body</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">font-family:</span><span class="s1"> </span><span class="s9">'Inter'</span><span class="s8">,</span><span class="s1"> </span><span class="s5">sans-serif</span><span class="s8">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">transition:</span><span class="s4"> </span><span class="s1">background-color</span><span class="s4"> </span><span class="s10">1.5s</span><span class="s4"> </span><span class="s1">ease-in-out</span><span class="s8">,</span><span class="s4"> </span><span class="s1">color</span><span class="s4"> </span><span class="s10">1.5s</span><span class="s4"> </span><span class="s1">ease-in-out</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.serif</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">font-family:</span><span class="s4"> </span><span class="s1">'Playfair Display'</span><span class="s8">,</span><span class="s4"> </span><span class="s5">serif</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.glass</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">background:</span><span class="s1"> </span><span class="s5">rgba(</span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">0.05</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">backdrop-filter:</span><span class="s4"> </span><span class="s5">blur(</span><span class="s10">12px</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border:</span><span class="s1"> </span><span class="s10">1px</span><span class="s1"> </span><span class="s5">solid</span><span class="s1"> </span><span class="s5">rgba(</span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">0.1</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.glow-gold</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">text-shadow:</span><span class="s1"> </span><span class="s10">0</span><span class="s1"> </span><span class="s10">0</span><span class="s1"> </span><span class="s10">15px</span><span class="s1"> </span><span class="s5">rgba(</span><span class="s10">212</span><span class="s8">,</span><span class="s1"> </span><span class="s10">175</span><span class="s8">,</span><span class="s1"> </span><span class="s10">55</span><span class="s8">,</span><span class="s1"> </span><span class="s10">0.4</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">/* Gentle Color Progression Phases */</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.state-normal</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s2">background-color:</span><span class="s1"> #f0f4f8</span><span class="s8">;</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #1e293b</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.state-2h</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s2">background-color:</span><span class="s1"> #f1f5f1</span><span class="s8">;</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #1e293b</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span><span class="s1"> </span><span class="s12">/* Soft Sage */</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.state-1h</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s2">background-color:</span><span class="s1"> #fffbeb</span><span class="s8">;</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #451a03</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span><span class="s1"> </span><span class="s12">/* Warm Butter */</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.state-30m</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s2">background-color:</span><span class="s1"> #fff7ed</span><span class="s8">;</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #7c2d12</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span><span class="s1"> </span><span class="s12">/* Soft Peach */</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.state-10m-pre</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s2">background-color:</span><span class="s1"> #ffedd5</span><span class="s8">;</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #9a3412</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span><span class="s1"> </span><span class="s12">/* Muted Apricot */</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s6">.state-sunset</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s2">background-color:</span><span class="s1"> #1e1b4b</span><span class="s8">;</span><span class="s1"> </span><span class="s2">color:</span><span class="s1"> #e0e7ff</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span><span class="s1"> </span><span class="s12">/* Deep Indigo */</span></p>
-<p class="p7"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">@keyframes</span><span class="s1"> </span><span class="s5">pulse-warm</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">0%</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s2">transform:</span><span class="s1"> </span><span class="s5">scale(</span><span class="s10">1</span><span class="s5">)</span><span class="s8">;</span><span class="s1"> </span><span class="s2">opacity:</span><span class="s1"> </span><span class="s10">1</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">50%</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s2">transform:</span><span class="s1"> </span><span class="s5">scale(</span><span class="s10">1.01</span><span class="s5">)</span><span class="s8">;</span><span class="s1"> </span><span class="s2">opacity:</span><span class="s1"> </span><span class="s10">0.85</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">100%</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s2">transform:</span><span class="s1"> </span><span class="s5">scale(</span><span class="s10">1</span><span class="s5">)</span><span class="s8">;</span><span class="s1"> </span><span class="s2">opacity:</span><span class="s1"> </span><span class="s10">1</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.animate-warm</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">animation:</span><span class="s4"> </span><span class="s1">pulse-warm</span><span class="s4"> </span><span class="s10">5s</span><span class="s4"> </span><span class="s1">infinite</span><span class="s4"> </span><span class="s1">ease-in-out</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">.loading-spinner</span><span class="s4"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border:</span><span class="s1"> </span><span class="s10">2px</span><span class="s1"> </span><span class="s5">solid</span><span class="s1"> </span><span class="s5">rgba(</span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">255</span><span class="s8">,</span><span class="s1"> </span><span class="s10">0.3</span><span class="s5">)</span><span class="s8">;</span></p>
-<p class="p2"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">border-radius:</span><span class="s4"> </span><span class="s10">50%</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">border-top:</span><span class="s1"> </span><span class="s10">2px</span><span class="s1"> </span><span class="s5">solid</span><span class="s1"> </span><span class="s5">white</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">width:</span><span class="s1"> </span><span class="s10">16px</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">height:</span><span class="s1"> </span><span class="s10">16px</span><span class="s8">;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s2">animation:</span><span class="s4"> </span><span class="s1">spin</span><span class="s4"> </span><span class="s10">1s</span><span class="s4"> </span><span class="s1">linear</span><span class="s4"> </span><span class="s1">infinite</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s2">display:</span><span class="s1"> </span><span class="s5">inline-block</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">@keyframes</span><span class="s1"> </span><span class="s5">spin</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">0%</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s2">transform:</span><span class="s1"> </span><span class="s5">rotate(</span><span class="s10">0deg</span><span class="s5">)</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s10">100%</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s2">transform:</span><span class="s1"> </span><span class="s5">rotate(</span><span class="s10">360deg</span><span class="s5">)</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s1">style</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">head</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s3">&lt;</span><span class="s6">body</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"state-normal min-h-screen flex items-center justify-center p-4"</span><span class="s3">&gt;</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"app"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"max-w-md w-full glass rounded-3xl p-6 sm:p-8 shadow-2xl transition-all duration-1000 overflow-hidden"</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">&lt;!-- Setup Screen --&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"setup-view"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"space-y-6"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">h1</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"serif text-4xl text-center mb-2"</span><span class="s3">&gt;</span><span class="s4">Shabbat Vibe</span><span class="s3">&lt;/</span><span class="s6">h1</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"text-center opacity-70"</span><span class="s3">&gt;</span><span class="s1">Enter your zip code to begin your countdown.</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"relative"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">input</span><span class="s4"> </span><span class="s2">type</span><span class="s3">=</span><span class="s1">"text"</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"zip-input"</span><span class="s4"> </span><span class="s2">placeholder</span><span class="s3">=</span><span class="s1">"Zip Code (e.g. 10001)"</span><span class="s4"><span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-full bg-white/50 border-2 border-slate-200 rounded-xl px-4 py-4 text-xl text-center focus:outline-none focus:border-amber-400 transition-colors"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">button</span><span class="s4"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"saveZip()"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-full bg-slate-900 text-white py-4 rounded-xl font-semibold hover:bg-slate-800 transition-all active:scale-95"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>Set Location</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">button</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">&lt;!-- Dashboard Screen --&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"dashboard-view"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"hidden space-y-6 text-center"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex justify-between items-start"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">button</span><span class="s4"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"resetZip()"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-xs opacity-50 hover:opacity-100 uppercase tracking-widest"</span><span class="s3">&gt;</span><span class="s4">Change Zip</span><span class="s3">&lt;/</span><span class="s6">button</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"location-display"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-xs font-bold uppercase tracking-widest"</span><span class="s3">&gt;</span><span class="s4">NY, New York</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"space-y-1"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"current-time-display"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-xs opacity-40 font-medium tracking-widest"</span><span class="s3">&gt;</span><span class="s4">CURRENT TIME: 00:00 AM</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">h2</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"status-label"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-sm uppercase tracking-[0.2em] font-medium opacity-60"</span><span class="s3">&gt;</span><span class="s4">Time until lighting</span><span class="s3">&lt;/</span><span class="s6">h2</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"countdown"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"serif text-5xl sm:text-6xl glow-gold py-2"</span><span class="s3">&gt;</span><span class="s4">00:00</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"lighting-time-box"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"py-3 border-y border-slate-200/50 flex justify-around items-center"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"text-[10px] uppercase opacity-60"</span><span class="s3">&gt;</span><span class="s1">Candle Lighting</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"lighting-time"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-xl font-semibold"</span><span class="s3">&gt;</span><span class="s4">—:— PM</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"h-8 w-[1px] bg-slate-200/50"</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"text-[10px] uppercase opacity-60"</span><span class="s3">&gt;</span><span class="s1">Shabbat Starts</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"shabbat-starts"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-xl font-semibold"</span><span class="s3">&gt;</span><span class="s4">—:— PM</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">&lt;!-- AI Features Section --&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-left space-y-4 pt-2"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">h3</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-xs font-bold uppercase tracking-widest opacity-40 text-current/50"</span><span class="s3">&gt;</span><span class="s4">Spiritual Prep</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"ai-content-area"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"hidden mb-4 p-4 bg-white/10 rounded-xl text-sm italic leading-relaxed border border-white/20 transition-all"</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p7"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex flex-col gap-2"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">button</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"spark-btn"</span><span class="s4"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"getWeeklySpark()"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex items-center justify-center gap-2 bg-black/5 hover:bg-black/10 border border-current/20 py-3 rounded-xl text-sm font-medium transition-all"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s1">Weekly Spark ✨</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;/</span><span class="s6">button</span><span class="s3">&gt;</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s1">&lt;!-- Notification Permission Button --&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">button</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"notif-perm-btn"</span><span class="s4"> </span><span class="s2">onclick</span><span class="s3">=</span><span class="s1">"requestNotificationPermission()"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span>Enable System Alerts 🔔</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;/</span><span class="s6">button</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">&lt;!-- Testing Toggle &amp; Slider --&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"bg-black/5 rounded-xl p-4 mt-4 text-left border border-black/5"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex items-center justify-between mb-2"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">h3</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"text-[10px] font-bold uppercase tracking-widest opacity-40"</span><span class="s3">&gt;</span><span class="s4">Vibe Preview Mode</span><span class="s3">&lt;/</span><span class="s6">h3</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">label</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"relative inline-flex items-center cursor-pointer"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                        </span></span><span class="s3">&lt;</span><span class="s6">input</span><span class="s4"> </span><span class="s2">type</span><span class="s3">=</span><span class="s1">"checkbox"</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"test-mode-toggle"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"sr-only peer"</span><span class="s4"> </span><span class="s2">onchange</span><span class="s3">=</span><span class="s1">"toggleTestMode()"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500"</span><span class="s3">&gt;&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;/</span><span class="s6">label</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"test-slider-container"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"opacity-30 pointer-events-none transition-opacity"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">input</span><span class="s4"> </span><span class="s2">type</span><span class="s3">=</span><span class="s1">"range"</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"test-slider"</span><span class="s4"> </span><span class="s2">min</span><span class="s3">=</span><span class="s1">"-18"</span><span class="s4"> </span><span class="s2">max</span><span class="s3">=</span><span class="s1">"140"</span><span class="s4"> </span><span class="s2">value</span><span class="s3">=</span><span class="s1">"140"</span><span class="s4"> </span><span class="s2">step</span><span class="s3">=</span><span class="s1">"1"</span><span class="s4"><span class="Apple-converted-space"> </span></span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                        </span></span><span class="s2">class</span><span class="s3">=</span><span class="s1">"w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-amber-500"</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                        </span></span><span class="s2">oninput</span><span class="s3">=</span><span class="s1">"manualUpdateVibe(this.value)"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex justify-between text-[9px] mt-1 opacity-60"</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s1">2h+ Until Lighting</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                        </span></span><span class="s3">&lt;</span><span class="s6">span</span><span class="s3">&gt;</span><span class="s1">Sunset</span><span class="s3">&lt;/</span><span class="s6">span</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;!-- Notification Toast --&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"notification"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"fixed top-6 left-1/2 -translate-x-1/2 w-80 bg-slate-900 text-white p-4 rounded-2xl shadow-2xl transform translate-y-[-200%] transition-transform duration-500 z-50"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"flex items-center gap-3"</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"notif-icon"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"p-2 bg-amber-500 rounded-full text-lg"</span><span class="s3">&gt;</span><span class="s4">🕯️</span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s4"> </span><span class="s2">id</span><span class="s3">=</span><span class="s1">"notif-title"</span><span class="s4"> </span><span class="s2">class</span><span class="s3">=</span><span class="s1">"font-bold text-sm"</span><span class="s3">&gt;</span><span class="s4">Shabbat Vibe</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3">&lt;</span><span class="s6">p</span><span class="s1"> </span><span class="s2">id</span><span class="s3">=</span><span class="s5">"notif-body"</span><span class="s1"> </span><span class="s2">class</span><span class="s3">=</span><span class="s5">"text-xs opacity-70"</span><span class="s3">&gt;</span><span class="s1">Ready to begin?</span><span class="s3">&lt;/</span><span class="s6">p</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s6">div</span><span class="s3">&gt;</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;</span><span class="s1">script</span><span class="s3">&gt;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">const</span><span class="s1"> apiKey </span><span class="s8">=</span><span class="s1"> </span><span class="s9">""</span><span class="s8">;</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">let</span><span class="s1"> currentZip </span><span class="s8">=</span><span class="s1"> localStorage</span><span class="s8">.</span><span class="s1">getItem</span><span class="s8">(</span><span class="s9">'shabbat_zip'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">let</span><span class="s1"> lightingTime </span><span class="s8">=</span><span class="s1"> </span><span class="s7">null</span><span class="s8">;</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">let</span><span class="s1"> sunsetTime </span><span class="s8">=</span><span class="s1"> </span><span class="s7">null</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">let</span><span class="s1"> timerInterval </span><span class="s8">=</span><span class="s1"> </span><span class="s7">null</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">let</span><span class="s1"> isTestMode </span><span class="s8">=</span><span class="s1"> </span><span class="s7">false</span><span class="s8">;</span></p>
-<p class="p7"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">let</span><span class="s1"> notificationsSent </span><span class="s8">=</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>pre2h</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span><span class="s8">,</span><span class="s1"> pre1h</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span><span class="s8">,</span><span class="s1"> pre30m</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span><span class="s8">,</span><span class="s1"> pre10m</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span><span class="s8">,</span><span class="s1"> lighting</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span><span class="s8">,</span><span class="s1"> finalDetox</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">};</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">const</span><span class="s1"> views </span><span class="s8">=</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>setup</span><span class="s8">:</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'setup-view'</span><span class="s8">),</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>dashboard</span><span class="s8">:</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'dashboard-view'</span><span class="s8">)</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">};</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span>window</span><span class="s8">.</span><span class="s1">onload </span><span class="s8">=</span><span class="s1"> </span><span class="s8">()</span><span class="s1"> </span><span class="s8">=&gt;</span><span class="s1"> </span><span class="s8">{</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">currentZip</span><span class="s8">)</span><span class="s1"> initDashboard</span><span class="s8">(</span><span class="s1">currentZip</span><span class="s8">);</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>checkNotificationStatus</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">};</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> checkNotificationStatus</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s13">Notification</span><span class="s8">.</span><span class="s1">permission </span><span class="s8">===</span><span class="s1"> </span><span class="s9">'granted'</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'notif-perm-btn'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">"System Alerts Enabled ✅"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'notif-perm-btn'</span><span class="s8">).</span><span class="s1">disabled </span><span class="s8">=</span><span class="s1"> </span><span class="s7">true</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">async</span><span class="s1"> </span><span class="s7">function</span><span class="s1"> requestNotificationPermission</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> permission </span><span class="s8">=</span><span class="s1"> </span><span class="s7">await</span><span class="s1"> </span><span class="s13">Notification</span><span class="s8">.</span><span class="s1">requestPermission</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">permission </span><span class="s8">===</span><span class="s1"> </span><span class="s9">'granted'</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                </span>showNotification</span><span class="s8">(</span><span class="s1">'Shabbat Vibe'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'System alerts enabled! We will notify you at your intervals.'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'🔔'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>checkNotificationStatus</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">async</span><span class="s1"> </span><span class="s7">function</span><span class="s1"> callGemini</span><span class="s8">(</span><span class="s1">prompt</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s4"> url </span><span class="s8">=</span><span class="s4"> </span><span class="s1">`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=</span><span class="s8">${</span><span class="s4">apiKey</span><span class="s8">}</span><span class="s1">`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> payload </span><span class="s8">=</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>contents</span><span class="s8">:</span><span class="s1"> </span><span class="s8">[{</span><span class="s1"> parts</span><span class="s8">:</span><span class="s1"> </span><span class="s8">[{</span><span class="s1"> text</span><span class="s8">:</span><span class="s1"> prompt </span><span class="s8">}]</span><span class="s1"> </span><span class="s8">}],</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                </span>systemInstruction</span><span class="s8">:</span><span class="s4"> </span><span class="s8">{</span><span class="s4"> parts</span><span class="s8">:</span><span class="s4"> </span><span class="s8">[{</span><span class="s4"> text</span><span class="s8">:</span><span class="s4"> </span><span class="s1">"You are a warm, spiritual Shabbat assistant. Response &lt; 180 chars."</span><span class="s4"> </span><span class="s8">}]</span><span class="s4"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> response </span><span class="s8">=</span><span class="s1"> </span><span class="s7">await</span><span class="s1"> fetch</span><span class="s8">(</span><span class="s1">url</span><span class="s8">,</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> method</span><span class="s8">:</span><span class="s1"> </span><span class="s9">'POST'</span><span class="s8">,</span><span class="s1"> headers</span><span class="s8">:</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> </span><span class="s9">'Content-Type'</span><span class="s8">:</span><span class="s1"> </span><span class="s9">'application/json'</span><span class="s1"> </span><span class="s8">},</span><span class="s1"> body</span><span class="s8">:</span><span class="s1"> </span><span class="s13">JSON</span><span class="s8">.</span><span class="s1">stringify</span><span class="s8">(</span><span class="s1">payload</span><span class="s8">)</span><span class="s1"> </span><span class="s8">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> data </span><span class="s8">=</span><span class="s1"> </span><span class="s7">await</span><span class="s1"> response</span><span class="s8">.</span><span class="s1">json</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">return</span><span class="s1"> data</span><span class="s8">.</span><span class="s1">candidates</span><span class="s8">?.[</span><span class="s14">0</span><span class="s8">]?.</span><span class="s1">content</span><span class="s8">?.</span><span class="s1">parts</span><span class="s8">?.[</span><span class="s14">0</span><span class="s8">]?.</span><span class="s1">text</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">async</span><span class="s1"> </span><span class="s7">function</span><span class="s1"> getWeeklySpark</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> btn </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'spark-btn'</span><span class="s8">);</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">            </span>btn</span><span class="s8">.</span><span class="s4">innerHTML </span><span class="s8">=</span><span class="s4"> </span><span class="s1">`&lt;span class="loading-spinner"&gt;&lt;/span&gt;`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">try</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s4"> spark </span><span class="s8">=</span><span class="s4"> </span><span class="s7">await</span><span class="s4"> callGemini</span><span class="s8">(</span><span class="s1">"Give me a beautiful one-sentence thought for Shabbat preparation."</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> area </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'ai-content-area'</span><span class="s8">);</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                </span>area</span><span class="s8">.</span><span class="s4">innerHTML </span><span class="s8">=</span><span class="s4"> </span><span class="s1">`&lt;strong class="block mb-1 text-[10px] uppercase opacity-60 text-current"&gt;✨ Weekly Spark&lt;/strong&gt;</span><span class="s8">${</span><span class="s4">spark</span><span class="s8">}</span><span class="s1">`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>area</span><span class="s8">.</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">remove</span><span class="s8">(</span><span class="s9">'hidden'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span><span class="s1"> </span><span class="s7">finally</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> btn</span><span class="s8">.</span><span class="s1">innerHTML </span><span class="s8">=</span><span class="s1"> </span><span class="s9">`&lt;span&gt;Weekly Spark ✨&lt;/span&gt;`</span><span class="s8">;</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> saveZip</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> zip </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'zip-input'</span><span class="s8">).</span><span class="s1">value</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">zip</span><span class="s8">.</span><span class="s1">length </span><span class="s8">===</span><span class="s1"> </span><span class="s14">5</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>localStorage</span><span class="s8">.</span><span class="s1">setItem</span><span class="s8">(</span><span class="s9">'shabbat_zip'</span><span class="s8">,</span><span class="s1"> zip</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>currentZip </span><span class="s8">=</span><span class="s1"> zip</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>initDashboard</span><span class="s8">(</span><span class="s1">zip</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> resetZip</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>localStorage</span><span class="s8">.</span><span class="s1">removeItem</span><span class="s8">(</span><span class="s9">'shabbat_zip'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>currentZip </span><span class="s8">=</span><span class="s1"> </span><span class="s7">null</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>clearInterval</span><span class="s8">(</span><span class="s1">timerInterval</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>views</span><span class="s8">.</span><span class="s1">dashboard</span><span class="s8">.</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">add</span><span class="s8">(</span><span class="s9">'hidden'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>views</span><span class="s8">.</span><span class="s1">setup</span><span class="s8">.</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">remove</span><span class="s8">(</span><span class="s9">'hidden'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">body</span><span class="s8">.</span><span class="s1">className </span><span class="s8">=</span><span class="s1"> </span><span class="s9">'state-normal'</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>notificationsSent </span><span class="s8">=</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> pre2h</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span><span class="s8">,</span><span class="s1"> pre1h</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span><span class="s8">,</span><span class="s1"> pre30m</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span><span class="s8">,</span><span class="s1"> pre10m</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span><span class="s8">,</span><span class="s1"> lighting</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span><span class="s8">,</span><span class="s1"> finalDetox</span><span class="s8">:</span><span class="s1"> </span><span class="s7">false</span><span class="s1"> </span><span class="s8">};</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">async</span><span class="s1"> </span><span class="s7">function</span><span class="s1"> initDashboard</span><span class="s8">(</span><span class="s1">zip</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>views</span><span class="s8">.</span><span class="s1">setup</span><span class="s8">.</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">add</span><span class="s8">(</span><span class="s9">'hidden'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>views</span><span class="s8">.</span><span class="s1">dashboard</span><span class="s8">.</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">remove</span><span class="s8">(</span><span class="s9">'hidden'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">await</span><span class="s1"> fetchShabbatTimes</span><span class="s8">(</span><span class="s1">zip</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>startCountdown</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">async</span><span class="s1"> </span><span class="s7">function</span><span class="s1"> fetchShabbatTimes</span><span class="s8">(</span><span class="s1">zip</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">try</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s4"> response </span><span class="s8">=</span><span class="s4"> </span><span class="s7">await</span><span class="s4"> fetch</span><span class="s8">(</span><span class="s1">`https://www.hebcal.com/shabbat?cfg=json&amp;zip=</span><span class="s8">${</span><span class="s4">zip</span><span class="s8">}</span><span class="s1">&amp;m=18`</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> data </span><span class="s8">=</span><span class="s1"> </span><span class="s7">await</span><span class="s1"> response</span><span class="s8">.</span><span class="s1">json</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> lighting </span><span class="s8">=</span><span class="s1"> data</span><span class="s8">.</span><span class="s1">items</span><span class="s8">.</span><span class="s1">find</span><span class="s8">(</span><span class="s1">item </span><span class="s8">=&gt;</span><span class="s1"> item</span><span class="s8">.</span><span class="s1">category </span><span class="s8">===</span><span class="s1"> </span><span class="s9">'candles'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">lighting</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>lightingTime </span><span class="s8">=</span><span class="s1"> </span><span class="s7">new</span><span class="s1"> </span><span class="s13">Date</span><span class="s8">(</span><span class="s1">lighting</span><span class="s8">.</span><span class="s1">date</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>sunsetTime </span><span class="s8">=</span><span class="s1"> </span><span class="s7">new</span><span class="s1"> </span><span class="s13">Date</span><span class="s8">(</span><span class="s1">lightingTime</span><span class="s8">.</span><span class="s1">getTime</span><span class="s8">()</span><span class="s1"> </span><span class="s8">+</span><span class="s1"> </span><span class="s8">(</span><span class="s14">18</span><span class="s1"> </span><span class="s8">*</span><span class="s1"> </span><span class="s14">60000</span><span class="s8">));</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'lighting-time'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> lightingTime</span><span class="s8">.</span><span class="s1">toLocaleTimeString</span><span class="s8">([],</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> hour</span><span class="s8">:</span><span class="s1"> </span><span class="s9">'2-digit'</span><span class="s8">,</span><span class="s1"> minute</span><span class="s8">:</span><span class="s1"> </span><span class="s9">'2-digit'</span><span class="s1"> </span><span class="s8">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'shabbat-starts'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> sunsetTime</span><span class="s8">.</span><span class="s1">toLocaleTimeString</span><span class="s8">([],</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> hour</span><span class="s8">:</span><span class="s1"> </span><span class="s9">'2-digit'</span><span class="s8">,</span><span class="s1"> minute</span><span class="s8">:</span><span class="s1"> </span><span class="s9">'2-digit'</span><span class="s1"> </span><span class="s8">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'location-display'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> data</span><span class="s8">.</span><span class="s1">location</span><span class="s8">.</span><span class="s1">city </span><span class="s8">||</span><span class="s1"> zip</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span><span class="s1"> </span><span class="s7">catch</span><span class="s1"> </span><span class="s8">(</span><span class="s1">e</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> showNotification</span><span class="s8">(</span><span class="s9">'Error'</span><span class="s8">,</span><span class="s1"> </span><span class="s9">'Check connection.'</span><span class="s8">,</span><span class="s1"> </span><span class="s9">'🌐'</span><span class="s8">);</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> startCountdown</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">timerInterval</span><span class="s8">)</span><span class="s1"> clearInterval</span><span class="s8">(</span><span class="s1">timerInterval</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>timerInterval </span><span class="s8">=</span><span class="s1"> setInterval</span><span class="s8">(()</span><span class="s1"> </span><span class="s8">=&gt;</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> now </span><span class="s8">=</span><span class="s1"> </span><span class="s7">new</span><span class="s1"> </span><span class="s13">Date</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'current-time-display'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">`CURRENT TIME: </span><span class="s8">${</span><span class="s1">now</span><span class="s8">.</span><span class="s1">toLocaleTimeString</span><span class="s8">([],</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> hour</span><span class="s8">:</span><span class="s1"> </span><span class="s9">'2-digit'</span><span class="s8">,</span><span class="s1"> minute</span><span class="s8">:</span><span class="s1"> </span><span class="s9">'2-digit'</span><span class="s1"> </span><span class="s8">})}</span><span class="s9">`</span><span class="s8">;</span></p>
-<p class="p7"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">isTestMode </span><span class="s8">||</span><span class="s1"> </span><span class="s8">!</span><span class="s1">lightingTime</span><span class="s8">)</span><span class="s1"> </span><span class="s7">return</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> diffMs </span><span class="s8">=</span><span class="s1"> lightingTime </span><span class="s8">-</span><span class="s1"> now</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>updateDisplay</span><span class="s8">(</span><span class="s1">diffMs </span><span class="s8">/</span><span class="s1"> </span><span class="s14">60000</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">},</span><span class="s1"> </span><span class="s14">1000</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> updateDisplay</span><span class="s8">(</span><span class="s1">totalMins</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> statusLabel </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'status-label'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> countdownEl </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'countdown'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> body </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">body</span><span class="s8">;</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">totalMins </span><span class="s8">&gt;</span><span class="s1"> </span><span class="s14">0</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> h </span><span class="s8">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s8">.</span><span class="s1">floor</span><span class="s8">(</span><span class="s1">totalMins </span><span class="s8">/</span><span class="s1"> </span><span class="s14">60</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> m </span><span class="s8">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s8">.</span><span class="s1">floor</span><span class="s8">(</span><span class="s1">totalMins </span><span class="s8">%</span><span class="s1"> </span><span class="s14">60</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>countdownEl</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">`</span><span class="s8">${</span><span class="s13">String</span><span class="s8">(</span><span class="s1">h</span><span class="s8">).</span><span class="s1">padStart</span><span class="s8">(</span><span class="s14">2</span><span class="s8">,</span><span class="s1"> </span><span class="s9">'0'</span><span class="s8">)}</span><span class="s9">:</span><span class="s8">${</span><span class="s13">String</span><span class="s8">(</span><span class="s1">m</span><span class="s8">).</span><span class="s1">padStart</span><span class="s8">(</span><span class="s14">2</span><span class="s8">,</span><span class="s1"> </span><span class="s9">'0'</span><span class="s8">)}</span><span class="s9">`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span><span class="s1"> </span><span class="s7">else</span><span class="s1"> </span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">totalMins </span><span class="s8">&lt;=</span><span class="s1"> </span><span class="s14">0</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> totalMins </span><span class="s8">&gt;</span><span class="s1"> </span><span class="s8">-</span><span class="s14">18</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> minsTillSunset </span><span class="s8">=</span><span class="s1"> </span><span class="s14">18</span><span class="s1"> </span><span class="s8">+</span><span class="s1"> totalMins</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> m </span><span class="s8">=</span><span class="s1"> </span><span class="s13">Math</span><span class="s8">.</span><span class="s1">floor</span><span class="s8">(</span><span class="s1">minsTillSunset</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>countdownEl</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">`</span><span class="s8">${</span><span class="s13">String</span><span class="s8">(</span><span class="s1">m</span><span class="s8">).</span><span class="s1">padStart</span><span class="s8">(</span><span class="s14">2</span><span class="s8">,</span><span class="s1"> </span><span class="s9">'0'</span><span class="s8">)}</span><span class="s9"> MIN`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span><span class="s1"> </span><span class="s7">else</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>countdownEl</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">"Shabbat Shalom"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">// Vibe logic<span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">totalMins </span><span class="s8">&gt;</span><span class="s1"> </span><span class="s14">120</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>body</span><span class="s8">.</span><span class="s1">className </span><span class="s8">=</span><span class="s1"> </span><span class="s9">'state-normal'</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>statusLabel</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">"Time until lighting"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span><span class="s1"><span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">else</span><span class="s1"> </span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">totalMins </span><span class="s8">&lt;=</span><span class="s1"> </span><span class="s14">120</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> totalMins </span><span class="s8">&gt;</span><span class="s1"> </span><span class="s14">60</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>body</span><span class="s8">.</span><span class="s1">className </span><span class="s8">=</span><span class="s1"> </span><span class="s9">'state-2h'</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>statusLabel</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">"2 hours until lighting prep"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(!</span><span class="s1">notificationsSent</span><span class="s8">.</span><span class="s1">pre2h </span><span class="s8">&amp;&amp;</span><span class="s1"> </span><span class="s8">!</span><span class="s1">isTestMode</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                    </span>showNotification</span><span class="s8">(</span><span class="s1">'2 Hour Warning'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'120 minutes until lighting prep.'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'⏳'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>notificationsSent</span><span class="s8">.</span><span class="s1">pre2h </span><span class="s8">=</span><span class="s1"> </span><span class="s7">true</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">else</span><span class="s1"> </span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">totalMins </span><span class="s8">&lt;=</span><span class="s1"> </span><span class="s14">60</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> totalMins </span><span class="s8">&gt;</span><span class="s1"> </span><span class="s14">30</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>body</span><span class="s8">.</span><span class="s1">className </span><span class="s8">=</span><span class="s1"> </span><span class="s9">'state-1h'</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>statusLabel</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">"1 hour until lighting prep"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(!</span><span class="s1">notificationsSent</span><span class="s8">.</span><span class="s1">pre1h </span><span class="s8">&amp;&amp;</span><span class="s1"> </span><span class="s8">!</span><span class="s1">isTestMode</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                    </span>showNotification</span><span class="s8">(</span><span class="s1">'1 Hour Warning'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'60 minutes until lighting prep.'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'✨'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>notificationsSent</span><span class="s8">.</span><span class="s1">pre1h </span><span class="s8">=</span><span class="s1"> </span><span class="s7">true</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">else</span><span class="s1"> </span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">totalMins </span><span class="s8">&lt;=</span><span class="s1"> </span><span class="s14">30</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> totalMins </span><span class="s8">&gt;</span><span class="s1"> </span><span class="s14">10</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>body</span><span class="s8">.</span><span class="s1">className </span><span class="s8">=</span><span class="s1"> </span><span class="s9">'state-30m'</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>statusLabel</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">"30 mins until lighting prep"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(!</span><span class="s1">notificationsSent</span><span class="s8">.</span><span class="s1">pre30m </span><span class="s8">&amp;&amp;</span><span class="s1"> </span><span class="s8">!</span><span class="s1">isTestMode</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                    </span>showNotification</span><span class="s8">(</span><span class="s1">'30 Minute Warning'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'Time to start winding down.'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'☕'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>notificationsSent</span><span class="s8">.</span><span class="s1">pre30m </span><span class="s8">=</span><span class="s1"> </span><span class="s7">true</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">else</span><span class="s1"> </span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">totalMins </span><span class="s8">&lt;=</span><span class="s1"> </span><span class="s14">10</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> totalMins </span><span class="s8">&gt;</span><span class="s1"> </span><span class="s14">0</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>body</span><span class="s8">.</span><span class="s1">className </span><span class="s8">=</span><span class="s1"> </span><span class="s9">'state-10m-pre'</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>statusLabel</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">"10 mins until lighting prep"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(!</span><span class="s1">notificationsSent</span><span class="s8">.</span><span class="s1">pre10m </span><span class="s8">&amp;&amp;</span><span class="s1"> </span><span class="s8">!</span><span class="s1">isTestMode</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                    </span>showNotification</span><span class="s8">(</span><span class="s1">'Almost time'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'10 minutes until lighting window.'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'🕯️'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>notificationsSent</span><span class="s8">.</span><span class="s1">pre10m </span><span class="s8">=</span><span class="s1"> </span><span class="s7">true</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">else</span><span class="s1"> </span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">totalMins </span><span class="s8">&lt;=</span><span class="s1"> </span><span class="s14">0</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> totalMins </span><span class="s8">&gt;</span><span class="s1"> </span><span class="s8">-</span><span class="s14">8</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>body</span><span class="s8">.</span><span class="s1">className </span><span class="s8">=</span><span class="s1"> </span><span class="s9">'state-sunset'</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>statusLabel</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">"Lighting time is now"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(!</span><span class="s1">notificationsSent</span><span class="s8">.</span><span class="s1">lighting </span><span class="s8">&amp;&amp;</span><span class="s1"> </span><span class="s8">!</span><span class="s1">isTestMode</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                    </span>showNotification</span><span class="s8">(</span><span class="s1">'Lighting Time'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'The 18 minute window has started. Light now.'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'🕯️'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>notificationsSent</span><span class="s8">.</span><span class="s1">lighting </span><span class="s8">=</span><span class="s1"> </span><span class="s7">true</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">else</span><span class="s1"> </span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">totalMins </span><span class="s8">&lt;=</span><span class="s1"> </span><span class="s8">-</span><span class="s14">8</span><span class="s1"> </span><span class="s8">&amp;&amp;</span><span class="s1"> totalMins </span><span class="s8">&gt;</span><span class="s1"> </span><span class="s8">-</span><span class="s14">18</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>body</span><span class="s8">.</span><span class="s1">className </span><span class="s8">=</span><span class="s1"> </span><span class="s9">'state-sunset animate-warm'</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>statusLabel</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">"It can wait... rest"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">const</span><span class="s1"> aiArea </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'ai-content-area'</span><span class="s8">);</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                </span>aiArea</span><span class="s8">.</span><span class="s4">innerHTML </span><span class="s8">=</span><span class="s4"> </span><span class="s1">`&lt;span class="text-orange-200"&gt;"10 minutes until Shabbat, breathe and put it all away... it can wait"&lt;/span&gt;`</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>aiArea</span><span class="s8">.</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">remove</span><span class="s8">(</span><span class="s9">'hidden'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(!</span><span class="s1">notificationsSent</span><span class="s8">.</span><span class="s1">finalDetox </span><span class="s8">&amp;&amp;</span><span class="s1"> </span><span class="s8">!</span><span class="s1">isTestMode</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                    </span>showNotification</span><span class="s8">(</span><span class="s1">'Digital Sunset'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'10 minutes until Shabbat. Breathe and put it all away.'</span><span class="s8">,</span><span class="s4"> </span><span class="s1">'📴'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>notificationsSent</span><span class="s8">.</span><span class="s1">finalDetox </span><span class="s8">=</span><span class="s1"> </span><span class="s7">true</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">else</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>body</span><span class="s8">.</span><span class="s1">className </span><span class="s8">=</span><span class="s1"> </span><span class="s9">'state-sunset'</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>statusLabel</span><span class="s8">.</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> </span><span class="s9">"Shabbat Shalom"</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> toggleTestMode</span><span class="s8">()</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>isTestMode </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'test-mode-toggle'</span><span class="s8">).</span><span class="s1">checked</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> container </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'test-slider-container'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s1">isTestMode</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>container</span><span class="s8">.</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">remove</span><span class="s8">(</span><span class="s9">'opacity-30'</span><span class="s8">,</span><span class="s1"> </span><span class="s9">'pointer-events-none'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>manualUpdateVibe</span><span class="s8">(</span><span class="s1">document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'test-slider'</span><span class="s8">).</span><span class="s1">value</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span><span class="s1"> </span><span class="s7">else</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>container</span><span class="s8">.</span><span class="s1">classList</span><span class="s8">.</span><span class="s1">add</span><span class="s8">(</span><span class="s9">'opacity-30'</span><span class="s8">,</span><span class="s1"> </span><span class="s9">'pointer-events-none'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span>startCountdown</span><span class="s8">();</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> manualUpdateVibe</span><span class="s8">(</span><span class="s1">val</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> updateDisplay</span><span class="s8">(</span><span class="s1">parseFloat</span><span class="s8">(</span><span class="s1">val</span><span class="s8">));</span><span class="s1"> </span><span class="s8">}</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s7">function</span><span class="s1"> showNotification</span><span class="s8">(</span><span class="s1">title</span><span class="s8">,</span><span class="s1"> bodyText</span><span class="s8">,</span><span class="s1"> icon</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">// 1. Show the visual Toast (internal)</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">const</span><span class="s1"> notif </span><span class="s8">=</span><span class="s1"> document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'notification'</span><span class="s8">);</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'notif-title'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> title</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'notif-body'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> bodyText</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>document</span><span class="s8">.</span><span class="s1">getElementById</span><span class="s8">(</span><span class="s9">'notif-icon'</span><span class="s8">).</span><span class="s1">innerText </span><span class="s8">=</span><span class="s1"> icon</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>notif</span><span class="s8">.</span><span class="s1">style</span><span class="s8">.</span><span class="s1">transform </span><span class="s8">=</span><span class="s1"> </span><span class="s9">'translate(-50%, 0)'</span><span class="s8">;</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span>setTimeout</span><span class="s8">(()</span><span class="s1"> </span><span class="s8">=&gt;</span><span class="s1"> </span><span class="s8">{</span><span class="s1"> notif</span><span class="s8">.</span><span class="s1">style</span><span class="s8">.</span><span class="s1">transform </span><span class="s8">=</span><span class="s1"> </span><span class="s9">'translate(-50%, -200%)'</span><span class="s8">;</span><span class="s1"> </span><span class="s8">},</span><span class="s1"> </span><span class="s14">6000</span><span class="s8">);</span></p>
-<p class="p7"><span class="s11"></span><br></p>
-<p class="p5"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s1">// 2. Show System Alert (external) if permission is granted</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s7">if</span><span class="s1"> </span><span class="s8">(</span><span class="s13">Notification</span><span class="s8">.</span><span class="s1">permission </span><span class="s8">===</span><span class="s1"> </span><span class="s9">'granted'</span><span class="s8">)</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s7">new</span><span class="s1"> </span><span class="s13">Notification</span><span class="s8">(</span><span class="s1">title</span><span class="s8">,</span><span class="s1"> </span><span class="s8">{</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                    </span>body</span><span class="s8">:</span><span class="s1"> bodyText</span><span class="s8">,</span></p>
-<p class="p6"><span class="s4"><span class="Apple-converted-space">                    </span>icon</span><span class="s8">:</span><span class="s4"> </span><span class="s1">'https://cdn-icons-png.flaticon.com/512/3050/3050306.png'</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s8">});</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s8">}</span></p>
-<p class="p4"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s8">}</span></p>
-<p class="p1"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3">&lt;/</span><span class="s1">script</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">body</span><span class="s3">&gt;</span></p>
-<p class="p1"><span class="s3">&lt;/</span><span class="s1">html</span><span class="s3">&gt;</span></p>
+<body class="state-normal min-h-screen flex items-center justify-center p-4">
+
+    <div id="app" class="max-w-md w-full glass rounded-3xl p-6 sm:p-8 shadow-2xl transition-all duration-1000 overflow-hidden">
+        <!-- Setup Screen -->
+        <div id="setup-view" class="space-y-6">
+            <h1 class="serif text-4xl text-center mb-2">Shabbat Vibe</h1>
+            <p class="text-center opacity-70">Enter your zip code to begin your countdown.</p>
+            
+            <div class="relative">
+                <input type="text" id="zip-input" placeholder="Zip Code (e.g. 10001)" 
+                    class="w-full bg-white/50 border-2 border-slate-200 rounded-xl px-4 py-4 text-xl text-center focus:outline-none focus:border-amber-400 transition-colors">
+            </div>
+
+            <button onclick="saveZip()" class="w-full bg-slate-900 text-white py-4 rounded-xl font-semibold hover:bg-slate-800 transition-all active:scale-95">
+                Set Location
+            </button>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="dashboard-view" class="hidden space-y-6 text-center">
+            <div class="flex justify-between items-start">
+                <button onclick="resetZip()" class="text-xs opacity-50 hover:opacity-100 uppercase tracking-widest">Change Zip</button>
+                <div id="location-display" class="text-xs font-bold uppercase tracking-widest">NY, New York</div>
+            </div>
+
+            <div class="space-y-1">
+                <div id="current-time-display" class="text-xs opacity-40 font-medium tracking-widest">CURRENT TIME: 00:00 AM</div>
+                <h2 id="status-label" class="text-sm uppercase tracking-[0.2em] font-medium opacity-60">Time until lighting</h2>
+                <div id="countdown" class="serif text-5xl sm:text-6xl glow-gold py-2">00:00</div>
+            </div>
+
+            <div id="lighting-time-box" class="py-3 border-y border-slate-200/50 flex justify-around items-center">
+                <div>
+                    <p class="text-[10px] uppercase opacity-60">Candle Lighting</p>
+                    <p id="lighting-time" class="text-xl font-semibold">—:— PM</p>
+                </div>
+                <div class="h-8 w-[1px] bg-slate-200/50"></div>
+                <div>
+                    <p class="text-[10px] uppercase opacity-60">Shabbat Starts</p>
+                    <p id="shabbat-starts" class="text-xl font-semibold">—:— PM</p>
+                </div>
+            </div>
+
+            <!-- AI Features Section -->
+            <div class="text-left space-y-4 pt-2">
+                <h3 class="text-xs font-bold uppercase tracking-widest opacity-40 text-current/50">Spiritual Prep</h3>
+                <div id="ai-content-area" class="hidden mb-4 p-4 bg-white/10 rounded-xl text-sm italic leading-relaxed border border-white/20 transition-all"></div>
+                
+                <div class="flex flex-col gap-2">
+                    <button id="spark-btn" onclick="getWeeklySpark()" class="flex items-center justify-center gap-2 bg-black/5 hover:bg-black/10 border border-current/20 py-3 rounded-xl text-sm font-medium transition-all">
+                        <span>Weekly Spark ✨</span>
+                    </button>
+                    <!-- Notification Permission Button -->
+                    <button id="notif-perm-btn" onclick="requestNotificationPermission()" class="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">
+                        Enable System Alerts 🔔
+                    </button>
+                </div>
+            </div>
+
+            <!-- Testing Toggle & Slider -->
+            <div class="bg-black/5 rounded-xl p-4 mt-4 text-left border border-black/5">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest opacity-40">Vibe Preview Mode</h3>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="test-mode-toggle" class="sr-only peer" onchange="toggleTestMode()">
+                        <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500"></div>
+                    </label>
+                </div>
+                <div id="test-slider-container" class="opacity-30 pointer-events-none transition-opacity">
+                    <input type="range" id="test-slider" min="-18" max="140" value="140" step="1" 
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                        oninput="manualUpdateVibe(this.value)">
+                    <div class="flex justify-between text-[9px] mt-1 opacity-60">
+                        <span>2h+ Until Lighting</span>
+                        <span>Sunset</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="fixed top-6 left-1/2 -translate-x-1/2 w-80 bg-slate-900 text-white p-4 rounded-2xl shadow-2xl transform translate-y-[-200%] transition-transform duration-500 z-50">
+        <div class="flex items-center gap-3">
+            <div id="notif-icon" class="p-2 bg-amber-500 rounded-full text-lg">🕯️</div>
+            <div>
+                <p id="notif-title" class="font-bold text-sm">Shabbat Vibe</p>
+                <p id="notif-body" class="text-xs opacity-70">Ready to begin?</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const apiKey = ""; 
+        let currentZip = localStorage.getItem('shabbat_zip');
+        let lightingTime = null; 
+        let sunsetTime = null;
+        let timerInterval = null;
+        let isTestMode = false;
+        
+        let notificationsSent = {
+            pre2h: false, pre1h: false, pre30m: false, pre10m: false, lighting: false, finalDetox: false
+        };
+
+        const views = {
+            setup: document.getElementById('setup-view'),
+            dashboard: document.getElementById('dashboard-view')
+        };
+
+        window.onload = () => { 
+            if (currentZip) initDashboard(currentZip); 
+            checkNotificationStatus();
+        };
+
+        function checkNotificationStatus() {
+            if (Notification.permission === 'granted') {
+                document.getElementById('notif-perm-btn').innerText = "System Alerts Enabled ✅";
+                document.getElementById('notif-perm-btn').disabled = true;
+            }
+        }
+
+        async function requestNotificationPermission() {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                showNotification('Shabbat Vibe', 'System alerts enabled! We will notify you at your intervals.', '🔔');
+                checkNotificationStatus();
+            }
+        }
+
+        async function callGemini(prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: "You are a warm, spiritual Shabbat assistant. Response < 180 chars." }] }
+            };
+            const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            const data = await response.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text;
+        }
+
+        async function getWeeklySpark() {
+            const btn = document.getElementById('spark-btn');
+            btn.innerHTML = `<span class="loading-spinner"></span>`;
+            try {
+                const spark = await callGemini("Give me a beautiful one-sentence thought for Shabbat preparation.");
+                const area = document.getElementById('ai-content-area');
+                area.innerHTML = `<strong class="block mb-1 text-[10px] uppercase opacity-60 text-current">✨ Weekly Spark</strong>${spark}`;
+                area.classList.remove('hidden');
+            } finally { btn.innerHTML = `<span>Weekly Spark ✨</span>`; }
+        }
+
+        function saveZip() {
+            const zip = document.getElementById('zip-input').value;
+            if (zip.length === 5) {
+                localStorage.setItem('shabbat_zip', zip);
+                currentZip = zip;
+                initDashboard(zip);
+            }
+        }
+
+        function resetZip() {
+            localStorage.removeItem('shabbat_zip');
+            currentZip = null;
+            clearInterval(timerInterval);
+            views.dashboard.classList.add('hidden');
+            views.setup.classList.remove('hidden');
+            document.body.className = 'state-normal';
+            notificationsSent = { pre2h: false, pre1h: false, pre30m: false, pre10m: false, lighting: false, finalDetox: false };
+        }
+
+        async function initDashboard(zip) {
+            views.setup.classList.add('hidden');
+            views.dashboard.classList.remove('hidden');
+            await fetchShabbatTimes(zip);
+            startCountdown();
+        }
+
+        async function fetchShabbatTimes(zip) {
+            try {
+                const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&zip=${zip}&m=18`);
+                const data = await response.json();
+                const lighting = data.items.find(item => item.category === 'candles');
+                if (lighting) {
+                    lightingTime = new Date(lighting.date);
+                    sunsetTime = new Date(lightingTime.getTime() + (18 * 60000));
+                    document.getElementById('lighting-time').innerText = lightingTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    document.getElementById('shabbat-starts').innerText = sunsetTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    document.getElementById('location-display').innerText = data.location.city || zip;
+                }
+            } catch (e) { showNotification('Error', 'Check connection.', '🌐'); }
+        }
+
+        function startCountdown() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                const now = new Date();
+                document.getElementById('current-time-display').innerText = `CURRENT TIME: ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+                
+                if (isTestMode || !lightingTime) return;
+                const diffMs = lightingTime - now;
+                updateDisplay(diffMs / 60000);
+            }, 1000);
+        }
+
+        function updateDisplay(totalMins) {
+            const statusLabel = document.getElementById('status-label');
+            const countdownEl = document.getElementById('countdown');
+            const body = document.body;
+
+            if (totalMins > 0) {
+                const h = Math.floor(totalMins / 60);
+                const m = Math.floor(totalMins % 60);
+                countdownEl.innerText = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+            } else if (totalMins <= 0 && totalMins > -18) {
+                const minsTillSunset = 18 + totalMins;
+                const m = Math.floor(minsTillSunset);
+                countdownEl.innerText = `${String(m).padStart(2, '0')} MIN`;
+            } else {
+                countdownEl.innerText = "Shabbat Shalom";
+            }
+
+            // Vibe logic 
+            if (totalMins > 120) {
+                body.className = 'state-normal';
+                statusLabel.innerText = "Time until lighting";
+            } 
+            else if (totalMins <= 120 && totalMins > 60) {
+                body.className = 'state-2h';
+                statusLabel.innerText = "2 hours until lighting prep";
+                if (!notificationsSent.pre2h && !isTestMode) {
+                    showNotification('2 Hour Warning', '120 minutes until lighting prep.', '⏳');
+                    notificationsSent.pre2h = true;
+                }
+            }
+            else if (totalMins <= 60 && totalMins > 30) {
+                body.className = 'state-1h';
+                statusLabel.innerText = "1 hour until lighting prep";
+                if (!notificationsSent.pre1h && !isTestMode) {
+                    showNotification('1 Hour Warning', '60 minutes until lighting prep.', '✨');
+                    notificationsSent.pre1h = true;
+                }
+            }
+            else if (totalMins <= 30 && totalMins > 10) {
+                body.className = 'state-30m';
+                statusLabel.innerText = "30 mins until lighting prep";
+                if (!notificationsSent.pre30m && !isTestMode) {
+                    showNotification('30 Minute Warning', 'Time to start winding down.', '☕');
+                    notificationsSent.pre30m = true;
+                }
+            }
+            else if (totalMins <= 10 && totalMins > 0) {
+                body.className = 'state-10m-pre';
+                statusLabel.innerText = "10 mins until lighting prep";
+                if (!notificationsSent.pre10m && !isTestMode) {
+                    showNotification('Almost time', '10 minutes until lighting window.', '🕯️');
+                    notificationsSent.pre10m = true;
+                }
+            }
+            else if (totalMins <= 0 && totalMins > -8) {
+                body.className = 'state-sunset';
+                statusLabel.innerText = "Lighting time is now";
+                if (!notificationsSent.lighting && !isTestMode) {
+                    showNotification('Lighting Time', 'The 18 minute window has started. Light now.', '🕯️');
+                    notificationsSent.lighting = true;
+                }
+            }
+            else if (totalMins <= -8 && totalMins > -18) {
+                body.className = 'state-sunset animate-warm';
+                statusLabel.innerText = "It can wait... rest";
+                const aiArea = document.getElementById('ai-content-area');
+                aiArea.innerHTML = `<span class="text-orange-200">"10 minutes until Shabbat, breathe and put it all away... it can wait"</span>`;
+                aiArea.classList.remove('hidden');
+                if (!notificationsSent.finalDetox && !isTestMode) {
+                    showNotification('Digital Sunset', '10 minutes until Shabbat. Breathe and put it all away.', '📴');
+                    notificationsSent.finalDetox = true;
+                }
+            }
+            else {
+                body.className = 'state-sunset';
+                statusLabel.innerText = "Shabbat Shalom";
+            }
+        }
+
+        function toggleTestMode() {
+            isTestMode = document.getElementById('test-mode-toggle').checked;
+            const container = document.getElementById('test-slider-container');
+            if (isTestMode) {
+                container.classList.remove('opacity-30', 'pointer-events-none');
+                manualUpdateVibe(document.getElementById('test-slider').value);
+            } else {
+                container.classList.add('opacity-30', 'pointer-events-none');
+                startCountdown();
+            }
+        }
+
+        function manualUpdateVibe(val) { updateDisplay(parseFloat(val)); }
+
+        function showNotification(title, bodyText, icon) {
+            // 1. Show the visual Toast (internal)
+            const notif = document.getElementById('notification');
+            document.getElementById('notif-title').innerText = title;
+            document.getElementById('notif-body').innerText = bodyText;
+            document.getElementById('notif-icon').innerText = icon;
+            notif.style.transform = 'translate(-50%, 0)';
+            setTimeout(() => { notif.style.transform = 'translate(-50%, -200%)'; }, 6000);
+
+            // 2. Show System Alert (external) if permission is granted
+            if (Notification.permission === 'granted') {
+                new Notification(title, {
+                    body: bodyText,
+                    icon: 'https://cdn-icons-png.flaticon.com/512/3050/3050306.png'
+                });
+            }
+        }
+    </script>
 </body>
 </html>
