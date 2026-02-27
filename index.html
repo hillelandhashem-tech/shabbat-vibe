@@ -76,7 +76,7 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
-            padding: calc(var(--safe-top) + 20px) 1.5rem calc(var(--safe-bottom) + 20px);
+            padding: calc(var(--safe-top) + 10px) 1.5rem calc(var(--safe-bottom) + 20px);
             max-width: 450px;
             margin: 0 auto;
             width: 100%;
@@ -127,16 +127,16 @@
                 </div>
 
                 <!-- 2. Spiritual Identity Row -->
-                <div class="text-center pt-8">
+                <div class="text-center pt-10">
                     <div id="parsha-display" class="text-[14px] uppercase font-bold tracking-[0.7em] opacity-40 mb-3">—</div>
                     <div id="current-time-display" class="text-[11px] opacity-30 font-medium tracking-[0.4em] uppercase">11:32 AM</div>
                 </div>
 
                 <!-- 3. Main Countdown Area (Highly Prominent) -->
-                <div class="flex-grow flex flex-col justify-center items-center py-4">
+                <div class="flex-grow flex flex-col justify-center items-center py-6">
                     <div class="text-center w-full">
-                        <h2 id="status-label" class="text-[12px] uppercase tracking-[0.6em] font-semibold opacity-40 mb-4">Time until lighting</h2>
-                        <div id="countdown" class="serif text-[90px] leading-none glow-gold py-2 transition-all">00:00</div>
+                        <h2 id="status-label" class="text-[12px] uppercase tracking-[0.6em] font-semibold opacity-40 mb-6">Time until lighting</h2>
+                        <div id="countdown" class="serif text-[72px] sm:text-[84px] leading-none glow-gold py-2 transition-all tracking-tighter">00:00:00</div>
                     </div>
                 </div>
 
@@ -271,7 +271,7 @@
                     document.getElementById('havdalah-time').innerText = hTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 }
                 if (parsha) {
-                    let cleanName = parsha.title.replace(/Parashat|Parshat/gi, '').trim();
+                    let cleanName = parsha.title.replace(/Parashat|Parashat/gi, '').trim();
                     document.getElementById('parsha-display').innerText = `PARSHAT ${cleanName.toUpperCase()}`;
                 }
                 document.getElementById('location-display').innerText = data.location.city || zip;
@@ -284,21 +284,28 @@
                 const now = new Date();
                 document.getElementById('current-time-display').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 if (!lightingTime) return;
-                updateDisplay((lightingTime - now) / 60000);
+                updateDisplay(lightingTime - now);
             }, 1000);
         }
 
-        function updateDisplay(totalMins) {
+        function updateDisplay(diffMs) {
+            const totalMins = diffMs / 60000;
             const statusLabel = document.getElementById('status-label');
             const countdownEl = document.getElementById('countdown');
             const body = document.body;
 
-            if (totalMins > 0) {
-                const h = Math.floor(totalMins / 60);
-                const m = Math.floor(totalMins % 60);
-                countdownEl.innerText = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+            if (diffMs > 0) {
+                const totalSeconds = Math.floor(diffMs / 1000);
+                const h = Math.floor(totalSeconds / 3600);
+                const m = Math.floor((totalSeconds % 3600) / 60);
+                const s = totalSeconds % 60;
+                countdownEl.innerText = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
             } else if (totalMins <= 0 && totalMins > -18) {
-                countdownEl.innerText = `${String(Math.floor(18 + totalMins)).padStart(2, '0')} MIN`;
+                const sunsetDiffMs = (18 * 60000) + diffMs;
+                const totalSeconds = Math.floor(sunsetDiffMs / 1000);
+                const m = Math.floor(totalSeconds / 60);
+                const s = totalSeconds % 60;
+                countdownEl.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} MIN`;
             } else {
                 countdownEl.innerText = "Shabbat Shalom";
             }
@@ -331,7 +338,6 @@
                 document.getElementById('ai-source').innerText = `— ${item.source}`;
                 document.getElementById('ai-content-area').classList.remove('hidden');
                 btn.innerHTML = originalContent;
-                // Scroll specifically to the insight area
                 document.getElementById('ai-content-area').scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 500);
         }
