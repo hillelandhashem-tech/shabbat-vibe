@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Shabbat Vibe - Digital Sunset</title>
-    <!-- Manifest for PWA feel -->
+    <!-- PWA Meta Tags -->
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3050/3050306.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -28,9 +28,7 @@
             flex-direction: column;
         }
 
-        .serif {
-            font-family: 'Playfair Display', serif;
-        }
+        .serif { font-family: 'Playfair Display', serif; }
 
         .glass {
             background: rgba(255, 255, 255, 0.05);
@@ -38,11 +36,9 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .glow-gold {
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-        }
+        .glow-gold { text-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
 
-        /* Gentle Techelet Progression Phases */
+        /* Color States */
         .state-normal { background-color: #f8fafc; color: #1e293b; }
         .state-2h { background-color: #e0f2fe; color: #0369a1; } 
         .state-1h { background-color: #bae6fd; color: #075985; } 
@@ -56,16 +52,13 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        .animate-warm {
-            animation: pulse-warm 6s infinite ease-in-out;
-        }
+        .animate-warm { animation: pulse-warm 6s infinite ease-in-out; }
 
         .loading-spinner {
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top: 2px solid white;
-            width: 16px;
-            height: 16px;
+            width: 16px; height: 16px;
             animation: spin 1s linear infinite;
             display: inline-block;
         }
@@ -83,12 +76,13 @@
             justify-content: space-between;
         }
 
-        /* Ensure smooth scrolling for long quotes */
         .wisdom-box {
             max-height: 250px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
+
+        .parsha-link:active { opacity: 0.5; transition: opacity 0.2s; }
     </style>
 </head>
 <body class="state-normal">
@@ -102,8 +96,8 @@
                 <p class="opacity-60 text-lg">Your Digital Sunset Ritual</p>
             </div>
             
-            <div class="w-full max-w-sm space-y-8">
-                <div class="space-y-3 text-left">
+            <div class="w-full max-w-sm space-y-8 text-left">
+                <div class="space-y-3">
                     <label class="text-[11px] uppercase tracking-[0.3em] font-bold opacity-40 ml-2">Current Location</label>
                     <input type="text" id="zip-input" placeholder="Enter Zip Code" 
                         class="w-full bg-white/50 border-2 border-slate-200 rounded-3xl px-4 py-6 text-3xl text-center focus:outline-none focus:border-sky-400 transition-colors shadow-sm">
@@ -120,18 +114,20 @@
         <div id="dashboard-view" class="hidden flex-grow flex flex-col">
             <div id="app-container">
                 
-                <!-- 1. Header (Spread Settings and Location) -->
+                <!-- 1. Header -->
                 <div class="flex justify-between items-center w-full">
                     <button onclick="showSetup()" class="text-[11px] opacity-40 hover:opacity-100 uppercase tracking-[0.3em] font-bold px-4 py-2 -ml-4 active:bg-black/5 rounded-full transition-all">Settings</button>
                     <div id="location-display" class="text-[11px] font-bold uppercase tracking-[0.3em] opacity-60 text-right">NY, New York</div>
                 </div>
 
-                <!-- 2. Spiritual Identity Row -->
+                <!-- 2. Parsha -->
                 <div class="text-center pt-8">
-                    <div id="parsha-display" class="text-[14px] uppercase font-bold tracking-[0.7em] opacity-40 mb-2">—</div>
+                    <a id="parsha-link" href="#" target="_blank" class="parsha-link block no-underline">
+                        <div id="parsha-display" class="text-[14px] uppercase font-bold tracking-[0.7em] opacity-40 mb-2">LOADING...</div>
+                    </a>
                 </div>
 
-                <!-- 3. Main Countdown Area (Highly Prominent) -->
+                <!-- 3. Countdown -->
                 <div class="flex-grow flex flex-col justify-center items-center py-4">
                     <div class="text-center w-full">
                         <h2 id="status-label" class="text-[12px] uppercase tracking-[0.6em] font-semibold opacity-40 mb-6">Time until lighting</h2>
@@ -139,25 +135,23 @@
                     </div>
                 </div>
 
-                <!-- 4. Times & Wisdom Section -->
+                <!-- 4. Footer & Stats -->
                 <div class="space-y-10">
-                    <!-- Times Grid -->
                     <div id="times-grid" class="py-10 border-y border-slate-200/20 grid grid-cols-3 gap-1 text-center">
                         <div class="space-y-2">
                             <p class="text-[9px] uppercase opacity-40 font-bold tracking-[0.2em]">Candles</p>
-                            <p id="lighting-time" class="text-lg font-semibold tracking-tight">05:37 PM</p>
+                            <p id="lighting-time" class="text-lg font-semibold tracking-tight">—:— PM</p>
                         </div>
                         <div class="space-y-2">
                             <p class="text-[9px] uppercase opacity-40 font-bold tracking-[0.2em]">Starts</p>
-                            <p id="shabbat-starts" class="text-lg font-semibold tracking-tight">05:55 PM</p>
+                            <p id="shabbat-starts" class="text-lg font-semibold tracking-tight">—:— PM</p>
                         </div>
                         <div class="space-y-2 opacity-40">
                             <p class="text-[9px] uppercase font-bold tracking-[0.2em]">Havdalah</p>
-                            <p id="havdalah-time" class="text-lg tracking-tight">06:39 PM</p>
+                            <p id="havdalah-time" class="text-lg tracking-tight">—:— PM</p>
                         </div>
                     </div>
 
-                    <!-- Wisdom/Insight Area -->
                     <div class="space-y-8">
                         <div id="ai-content-area" onclick="hideWeeklySpark()" class="hidden p-8 glass rounded-[2.5rem] transition-all border border-white/20 shadow-2xl wisdom-box active:scale-[0.98]">
                             <div id="ai-quote" class="text-base italic leading-relaxed"></div>
@@ -216,7 +210,6 @@
         let sunsetTime = null;
         let timerInterval = null;
         let lastRandomIndex = -1;
-        
         let notificationsSent = { pre2h: false, pre1h: false, pre30m: false, pre10m: false, lighting: false, finalDetox: false };
 
         window.onload = () => { 
@@ -270,8 +263,9 @@
                     document.getElementById('havdalah-time').innerText = hTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 }
                 if (parsha) {
-                    let cleanName = parsha.title.replace(/Parashat|Parashat/gi, '').trim();
+                    let cleanName = parsha.title.replace(/Parashat|Parshat/gi, '').trim();
                     document.getElementById('parsha-display').innerText = `PARSHAT ${cleanName.toUpperCase()}`;
+                    document.getElementById('parsha-link').href = `https://www.chabad.org/torah/parshah/default_cdo/jewish/Parshah-Insights.htm`;
                 }
                 document.getElementById('location-display').innerText = data.location.city || zip;
             } catch (e) { showNotification('Connection Error', 'Check internet.', '🌐'); }
@@ -360,11 +354,10 @@
 
         function testSystemNotification() { showNotification('Vibe Check', 'Your alerts are working!', '🧘'); }
 
-        function showNotification(title, bodyText, icon) {
+        function showNotification(title, bodyText) {
             const notif = document.getElementById('notification');
             document.getElementById('notif-title').innerText = title;
             document.getElementById('notif-body').innerText = bodyText;
-            document.getElementById('notif-icon').innerText = icon;
             notif.style.transform = 'translate(-50%, 0)';
             setTimeout(() => { notif.style.transform = 'translate(-50%, -250%)'; }, 6000);
             if (Notification.permission === 'granted') new Notification(title, { body: bodyText });
