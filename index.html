@@ -16,7 +16,6 @@
             --safe-bottom: env(safe-area-inset-bottom, 20px);
             --techelet: #8BBEE3;
             --soft-purple: #BB9FE3;
-            --pencil-stem: #94a3b8;
             --cream-bg: #fffcf7;
         }
 
@@ -34,7 +33,7 @@
         .serif { font-family: 'Playfair Display', serif; }
         .cursive { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
-        /* Watercolor/Paper Texture */
+        /* Watercolor/Paper Texture Overlay */
         body::before {
             content: "";
             position: fixed;
@@ -45,6 +44,30 @@
             z-index: 10;
         }
 
+        /* Floral Asset Styling */
+        .floral-vine {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 2s ease;
+            width: 340px; 
+            height: auto;
+        }
+
+        .top-right {
+            top: -15px;
+            right: -45px;
+            transform: rotate(8deg);
+            opacity: 0.9;
+        }
+
+        .bottom-left {
+            bottom: -35px;
+            left: -55px;
+            transform: scaleX(-1) rotate(-18deg);
+            opacity: 0.7;
+        }
+
         .glass {
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(12px);
@@ -52,19 +75,9 @@
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
         }
 
-        /* Vibe Transitions */
         .state-normal { background-color: var(--cream-bg); color: #4a3737; }
-        .state-2h { background-color: #eef7ff; color: #334155; } 
         .state-sunset { background-color: #1e1b4b; color: #f8fafc; } 
         
-        @keyframes pulse-gentle {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
-        .animate-warm { animation: pulse-gentle 8s infinite ease-in-out; }
-
         #app-container {
             display: flex;
             flex-direction: column;
@@ -78,26 +91,9 @@
             z-index: 5;
         }
 
-        /* Floral SVG Decorations based on uploaded Gemini generated image */
-        .floral-vine {
-            position: absolute;
-            pointer-events: none;
-            z-index: 1;
-            transition: opacity 2s ease;
-        }
-        .top-right {
-            top: -20px; right: -30px; width: 240px; opacity: 0.7;
-            transform: scaleX(-1) rotate(15deg);
-        }
-        .bottom-left {
-            bottom: 40px; left: -40px; width: 280px; opacity: 0.6;
-            transform: rotate(-10deg);
-        }
-
         .parsha-link { letter-spacing: 0.4em; transition: all 0.3s; text-decoration: none; border-bottom: 1px solid transparent; }
         .parsha-link:active { opacity: 0.5; border-color: currentColor; }
-
-        .standalone-faded { opacity: 0.25 !important; }
+        .standalone-faded { opacity: 0.2 !important; }
 
         .loading-spinner {
             border: 2px solid rgba(0, 0, 0, 0.1);
@@ -112,40 +108,8 @@
 </head>
 <body class="state-normal">
 
-    <!-- Floral SVG Component (Reused for Top and Bottom) -->
-    <svg id="dec-top" class="floral-vine top-right" viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Sweeping Stem -->
-        <path d="M50 550C80 400 150 250 350 100" stroke="var(--pencil-stem)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 1"/>
-        
-        <!-- Large Cornflower (Techelet) -->
-        <g transform="translate(180, 320)">
-            <circle cx="0" cy="0" r="8" fill="#FDE68A" opacity="0.6"/>
-            <path d="M0 -40C10 -20 20 -10 0 0C-20 -10 -10 -20 0 -40Z" fill="var(--techelet)" stroke="var(--techelet)" stroke-width="0.5" opacity="0.8"/>
-            <path d="M40 0C20 10 10 20 0 0C10 -20 20 -10 40 0Z" fill="var(--techelet)" stroke="var(--techelet)" stroke-width="0.5" opacity="0.8"/>
-            <path d="M0 40C-10 20 -20 10 0 0C20 10 10 20 0 40Z" fill="var(--techelet)" stroke="var(--techelet)" stroke-width="0.5" opacity="0.8"/>
-            <path d="M-40 0C-20 -10 -10 -20 0 0C-10 20 -20 10 -40 0Z" fill="var(--techelet)" stroke="var(--techelet)" stroke-width="0.5" opacity="0.8"/>
-            <!-- Additional petals for "sketched" detail -->
-            <path d="M28 -28C14 -14 7 -7 0 0C-14 14 -28 28 28 -28Z" fill="var(--soft-purple)" opacity="0.4"/>
-            <path d="M-28 -28C-14 -14 -7 -7 0 0C14 14 28 28 -28 -28Z" fill="var(--soft-purple)" opacity="0.4"/>
-        </g>
-
-        <!-- Bud and Petals -->
-        <ellipse cx="300" cy="180" rx="10" ry="15" fill="var(--soft-purple)" opacity="0.5" transform="rotate(-30, 300, 180)"/>
-        <path d="M80 400C70 380 60 385 65 395" fill="var(--techelet)" opacity="0.4"/>
-        <path d="M320 450C330 460 340 455 335 445" fill="var(--soft-purple)" opacity="0.3"/>
-    </svg>
-
-    <svg id="dec-bottom" class="floral-vine bottom-left" viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M350 550C320 400 250 250 50 100" stroke="var(--pencil-stem)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 1"/>
-        <g transform="translate(120, 380)">
-            <circle cx="0" cy="0" r="8" fill="#FDE68A" opacity="0.6"/>
-            <path d="M0 -40C10 -20 20 -10 0 0C-20 -10 -10 -20 0 -40Z" fill="var(--soft-purple)" stroke="var(--soft-purple)" stroke-width="0.5" opacity="0.8"/>
-            <path d="M40 0C20 10 10 20 0 0C10 -20 20 -10 40 0Z" fill="var(--techelet)" stroke="var(--techelet)" stroke-width="0.5" opacity="0.8"/>
-            <path d="M0 40C-10 20 -20 10 0 0C20 10 10 20 0 40Z" fill="var(--soft-purple)" stroke="var(--soft-purple)" stroke-width="0.5" opacity="0.8"/>
-            <path d="M-40 0C-20 -10 -10 -20 0 0C-10 20 -20 10 -40 0Z" fill="var(--techelet)" stroke="var(--techelet)" stroke-width="0.5" opacity="0.8"/>
-        </g>
-        <ellipse cx="100" cy="150" rx="10" ry="15" fill="var(--techelet)" opacity="0.5" transform="rotate(20, 100, 150)"/>
-    </svg>
+    <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-top" class="floral-vine top-right">
+    <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-bottom" class="floral-vine bottom-left">
 
     <div id="app" class="flex flex-col flex-grow w-full transition-all duration-1000">
         
@@ -164,11 +128,11 @@
                 </div>
                 
                 <button onclick="saveSetup()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
-                    BEGIN RITUAL
+                    Be Here.
                 </button>
             </div>
             <div class="flex-grow"></div>
-            <p class="text-[9px] opacity-20 tracking-widest pb-4 uppercase font-bold">Version 2.9</p>
+            <p class="text-[9px] opacity-20 tracking-widest pb-4 uppercase font-bold">Version 2.9.3</p>
         </div>
 
         <!-- Dashboard View -->
@@ -180,7 +144,6 @@
                     <div id="location-display" class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 text-right">LOCATION</div>
                 </div>
 
-                <!-- Standalone Header Logic -->
                 <div id="parsha-header" class="text-center pt-8">
                     <a id="parsha-link" href="#" target="_blank" class="parsha-link block no-underline">
                         <div id="parsha-display" class="serif text-lg italic tracking-[0.2em] opacity-50 mb-2">LOADING...</div>
@@ -190,7 +153,7 @@
                 <div class="flex-grow flex flex-col justify-center items-center py-4">
                     <div class="text-center w-full">
                         <h2 id="status-label" class="cursive text-xl opacity-50 mb-6">Time until lighting</h2>
-                        <div id="countdown" class="serif leading-none glow-gold py-2 transition-all tracking-tighter">00:00:00</div>
+                        <div id="countdown" class="serif leading-none glow-gold py-2 transition-all tracking-tighter" style="font-size: 72px;">00:00:00</div>
                         <div id="blessing-container" class="hidden mt-8 space-y-2">
                              <p class="cursive text-xl opacity-80 px-10 leading-relaxed text-center italic">Be blessed with the breath of life.</p>
                              <p class="serif text-sm uppercase tracking-[0.4em] opacity-40">Baruch HaShem</p>
@@ -199,7 +162,6 @@
                 </div>
 
                 <div class="space-y-10">
-                    <!-- Times Grid -->
                     <div id="times-section" class="py-10 border-y border-slate-900/5 grid grid-cols-3 gap-1 text-center">
                         <div class="space-y-2">
                             <p class="text-[9px] uppercase opacity-40 font-bold tracking-[0.3em]">Candles</p>
@@ -215,41 +177,23 @@
                         </div>
                     </div>
 
-                    <div id="wisdom-section" class="space-y-8">
-                        <div id="ai-content-area" onclick="hideWeeklySpark()" class="hidden p-8 glass rounded-[2.5rem] transition-all border border-white/60 shadow-lg active:scale-[0.98] overflow-y-auto max-h-64">
-                            <div id="ai-quote" class="text-lg cursive leading-relaxed text-slate-700"></div>
-                            <div id="ai-source" class="mt-6 text-[10px] uppercase tracking-[0.3em] font-bold opacity-40 text-right"></div>
-                            <p class="text-[8px] opacity-20 text-center mt-8 uppercase tracking-[0.5em] font-bold">Tap to dismiss</p>
-                        </div>
-                        
-                        <div class="flex flex-col gap-6">
-                            <button id="spark-btn" onclick="toggleWeeklySpark()" class="flex flex-col items-center justify-center gap-2 bg-white/20 hover:bg-white/40 border border-slate-900/5 py-8 rounded-[3rem] transition-all active:scale-95 shadow-sm">
-                                <span class="serif text-base tracking-[0.1em] text-slate-700">Rebbe's Insight</span>
-                                <span class="text-[9px] uppercase tracking-[0.4em] opacity-30 font-medium tracking-widest">A SPARK OF WISDOM</span>
-                            </button>
-                            
-                            <div class="flex flex-col items-center gap-4 pb-4">
-                                <button id="notif-perm-btn" onclick="requestNotificationPermission()" class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-30 hover:opacity-100 transition-opacity p-2">
-                                    Enable Alerts 🔔
-                                </button>
-                                <button id="test-notif-btn" class="hidden text-[10px] uppercase tracking-[0.3em] text-sky-600 font-bold" onclick="testSystemNotification()">
-                                    Test Alert Now ⚡
-                                </button>
-                            </div>
-                        </div>
+                    <div id="wisdom-section" class="pb-6">
+                        <button id="spark-btn" onclick="toggleWeeklySpark()" class="w-full flex flex-col items-center justify-center gap-2 bg-white/20 hover:bg-white/40 border border-slate-900/5 py-8 rounded-[3rem] transition-all active:scale-95 shadow-sm">
+                            <span class="serif text-base tracking-[0.1em] text-slate-700">Rebbe's Insight</span>
+                            <span class="text-[9px] uppercase tracking-[0.4em] opacity-30 font-medium tracking-widest">A SPARK OF WISDOM</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="notification" class="fixed top-12 left-1/2 -translate-x-1/2 w-[90%] max-w-sm glass p-6 rounded-[2rem] shadow-2xl transform translate-y-[-250%] transition-transform duration-700 z-50">
-        <div class="flex items-center gap-5">
-            <div id="notif-icon" class="p-3 bg-blue-50 text-blue-400 rounded-full text-2xl leading-none">🕯️</div>
-            <div class="flex-grow">
-                <p id="notif-title" class="serif font-bold text-base">The Shabbat App</p>
-                <p id="notif-body" class="text-xs opacity-60 leading-tight">Connection updated.</p>
-            </div>
+    <!-- Wisdom Modal Overlay -->
+    <div id="ai-content-area" onclick="hideWeeklySpark()" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#fffcf7]/95 backdrop-blur-md">
+        <div class="max-w-xs text-center space-y-6">
+            <div id="ai-quote" class="text-2xl cursive leading-relaxed text-slate-700"></div>
+            <div id="ai-source" class="text-[10px] uppercase tracking-[0.3em] font-bold opacity-40"></div>
+            <p class="text-[8px] opacity-20 uppercase tracking-[0.5em] pt-8">Tap to close</p>
         </div>
     </div>
 
@@ -273,14 +217,12 @@
         let havdalahTime = null;
         let timerInterval = null;
         let lastRandomIndex = -1;
-        let notificationsSent = { pre2h: false, pre1h: false, pre30m: false, pre10m: false, lighting: false, finalDetox: false };
 
         window.onload = () => { 
             if (currentZip) {
                 initDashboard(currentZip);
                 document.getElementById('zip-input').value = currentZip;
             }
-            checkNotificationStatus();
         };
 
         function saveSetup() {
@@ -295,8 +237,6 @@
         function showSetup() {
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('setup-view').classList.remove('hidden');
-            document.body.className = 'state-normal';
-            window.scrollTo(0, 0);
         }
 
         async function initDashboard(zip) {
@@ -330,7 +270,7 @@
                     document.getElementById('parsha-link').href = `https://www.chabad.org/torah/parshah/default_cdo/jewish/Parshah-Insights.htm`;
                 }
                 document.getElementById('location-display').innerText = (data.location.city || zip).toUpperCase();
-            } catch (e) { showNotification('Connection Error', 'Check internet.'); }
+            } catch (e) { console.error("Fetch error", e); }
         }
 
         function startCountdown() {
@@ -352,7 +292,7 @@
             const body = document.body;
             const dayOfWeek = now.getDay(); 
 
-            // Post-Havdalah standalone mode logic (Saturday Night after Havdalah)
+            // Saturday Night Shavua Tov Logic
             if (dayOfWeek === 6 && havdalahTime && now > havdalahTime) {
                 body.className = 'state-normal';
                 parshaHeader.classList.add('hidden');
@@ -371,30 +311,30 @@
             if (dayOfWeek >= 0 && dayOfWeek <= 4) {
                 body.className = 'state-normal';
                 parshaHeader.classList.remove('hidden');
-                timesSection.classList.add('hidden'); // Keep grid hidden during week if no times loaded
+                timesSection.classList.add('hidden');
                 blessingContainer.classList.add('hidden');
                 decTop.classList.remove('standalone-faded');
                 decBottom.classList.remove('standalone-faded');
-                statusLabel.innerText = "Waiting for Shabbat";
+                
+                statusLabel.innerText = ""; // Removed "Waiting for Shabbat"
+                
                 const daysUntil = (5 - dayOfWeek);
-                countdownEl.innerText = `${daysUntil} ${daysUntil === 1 ? 'DAY' : 'DAYS'} UNTIL`;
-                countdownEl.style.fontSize = "42px";
-                countdownEl.style.letterSpacing = "0.2em";
+                countdownEl.innerText = `${daysUntil} ${daysUntil === 1 ? 'day' : 'days'} until Shabbat`;
+                countdownEl.style.fontSize = "32px";
+                countdownEl.style.letterSpacing = "0.02em";
                 return;
             }
 
-            // Default Friday / Shabbat Day Visibility
+            // Friday / Shabbat Visibility Reset
             parshaHeader.classList.remove('hidden');
             timesSection.classList.remove('hidden');
             blessingContainer.classList.add('hidden');
             decTop.classList.remove('standalone-faded');
             decBottom.classList.remove('standalone-faded');
 
-            // Friday logic
+            // Friday H:M:S logic
             if (dayOfWeek === 5 && lightingTime) {
                 const diffMs = lightingTime - now;
-                const totalMins = diffMs / 60000;
-
                 if (diffMs > 0) {
                     const totalSeconds = Math.floor(diffMs / 1000);
                     const h = Math.floor(totalSeconds / 3600);
@@ -403,90 +343,36 @@
                     countdownEl.innerText = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
                     countdownEl.style.fontSize = "72px";
                     countdownEl.style.letterSpacing = "normal";
-                } else if (totalMins <= 0 && totalMins > -18) {
-                    const sunsetDiffMs = (18 * 60000) + diffMs;
+                    statusLabel.innerText = "Time until lighting";
+                } else if (diffMs > -1080000) { // Within 18 mins
+                    const sunsetDiffMs = 1080000 + diffMs;
                     const totalSeconds = Math.floor(sunsetDiffMs / 1000);
                     const m = Math.floor(totalSeconds / 60);
                     const s = totalSeconds % 60;
                     countdownEl.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} MIN`;
                     countdownEl.style.fontSize = "72px";
-                    countdownEl.style.letterSpacing = "normal";
+                    statusLabel.innerText = "Lighting window active";
                 } else {
                     countdownEl.innerText = "SHABBAT SHALOM";
                     countdownEl.style.fontSize = "42px";
-                    countdownEl.style.letterSpacing = "0.2em";
+                    statusLabel.innerText = "Rest and Connect";
                 }
-
-                if (totalMins > 120) { body.className = 'state-normal'; statusLabel.innerText = "Preparation for Holiness"; }
-                else if (totalMins <= 120 && totalMins > 60) { body.className = 'state-2h'; statusLabel.innerText = "A Taste of Techelet"; }
-                else if (totalMins <= 60 && totalMins > 30) { body.className = 'state-1h'; statusLabel.innerText = "One hour until lighting"; }
-                else if (totalMins <= 30 && totalMins > 10) { body.className = 'state-30m'; statusLabel.innerText = "Thirty minutes until lighting"; }
-                else if (totalMins <= 10 && totalMins > 0) { body.className = 'state-10m-pre'; statusLabel.innerText = "Ten minutes until window"; }
-                else if (totalMins <= 0 && totalMins > -8) { body.className = 'state-sunset'; statusLabel.innerText = "Lighting time is now"; }
-                else if (totalMins <= -8 && totalMins > -18) { body.className = 'state-sunset animate-warm'; statusLabel.innerText = "It can wait... rest"; }
-                else { body.className = 'state-sunset'; statusLabel.innerText = "Rest and Connect"; }
-            }
-            
-            // Saturday Before Havdalah
-            if (dayOfWeek === 6 && (!havdalahTime || now <= havdalahTime)) {
-                body.className = 'state-sunset';
-                statusLabel.innerText = "Rest and Connect";
-                countdownEl.innerText = "SHABBAT SHALOM";
-                countdownEl.style.fontSize = "42px";
-                countdownEl.style.letterSpacing = "0.2em";
             }
         }
 
         function toggleWeeklySpark() {
             const area = document.getElementById('ai-content-area');
-            if (!area.classList.contains('hidden')) { hideWeeklySpark(); } else { showWeeklySpark(); }
-        }
-
-        function showWeeklySpark() {
-            const btn = document.getElementById('spark-btn');
-            const originalContent = btn.innerHTML;
-            btn.innerHTML = `<span class="loading-spinner"></span>`;
-            
-            setTimeout(() => {
-                let index;
-                do { index = Math.floor(Math.random() * wisdomLibrary.length); } while (index === lastRandomIndex);
-                lastRandomIndex = index;
-                const item = wisdomLibrary[index];
-                document.getElementById('ai-quote').innerText = item.teaching;
-                document.getElementById('ai-source').innerText = `— ${item.source}`;
-                document.getElementById('ai-content-area').classList.remove('hidden');
-                btn.innerHTML = originalContent;
-                document.getElementById('ai-content-area').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 600);
+            let index;
+            do { index = Math.floor(Math.random() * wisdomLibrary.length); } while (index === lastRandomIndex);
+            lastRandomIndex = index;
+            const item = wisdomLibrary[index];
+            document.getElementById('ai-quote').innerText = item.teaching;
+            document.getElementById('ai-source').innerText = `— ${item.source}`;
+            area.classList.remove('hidden');
         }
 
         function hideWeeklySpark() {
             document.getElementById('ai-content-area').classList.add('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function checkNotificationStatus() {
-            if (Notification.permission === 'granted') {
-                document.getElementById('notif-perm-btn').innerText = "ALERTS ACTIVE";
-                document.getElementById('test-notif-btn').classList.remove('hidden');
-            }
-        }
-
-        async function requestNotificationPermission() {
-            if (Notification.permission === 'granted') return;
-            const p = await Notification.requestPermission();
-            checkNotificationStatus();
-        }
-
-        function testSystemNotification() { showNotification('Vibe Check', 'Your connection is ready.'); }
-
-        function showNotification(title, bodyText) {
-            const notif = document.getElementById('notification');
-            document.getElementById('notif-title').innerText = title;
-            document.getElementById('notif-body').innerText = bodyText;
-            notif.style.transform = 'translate(-50%, 0)';
-            setTimeout(() => { notif.style.transform = 'translate(-50%, -250%)'; }, 6000);
-            if (Notification.permission === 'granted') new Notification(title, { body: bodyText });
         }
     </script>
 </body>
