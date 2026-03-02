@@ -6,7 +6,7 @@
     <title>The Shabbat App - Your Key to Connection</title>
     
     <!-- PWA / iOS App Settings -->
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/Untitled%20design.svg">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/shabbat-icon-180.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Shabbat App">
@@ -23,6 +23,27 @@
             --cream-bg: #fffcf7;
         }
 
+        /* Mobile Preview Wrapper for Desktop Edits */
+        @media (min-width: 500px) {
+            body {
+                background-color: #f1f5f9 !important;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 40px 0;
+            }
+            #phone-mockup {
+                width: 390px;
+                height: 844px;
+                background-color: var(--cream-bg);
+                border-radius: 40px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                position: relative;
+                overflow: hidden;
+                border: 8px solid #1e293b;
+            }
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             transition: background-color 3s ease-in-out, color 2s ease-in-out;
@@ -32,32 +53,28 @@
             margin: 0;
             background-color: var(--cream-bg); 
             color: #4a3737;
-            position: relative;
         }
 
         .serif { font-family: 'Playfair Display', serif; }
         .cursive { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
-        /* Watercolor/Paper Texture Overlay */
-        body::before {
+        /* Watercolor Texture Overlay */
+        #app-viewport::before {
             content: "";
-            position: fixed;
+            position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://www.transparenttextures.com/patterns/p6.png');
             opacity: 0.1;
             pointer-events: none;
-            z-index: 100; /* Highest layer to apply texture over everything */
+            z-index: 100;
         }
 
-        /* Background Design Elements - Placed behind content */
+        /* Background Design Elements */
         .design-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 0; /* Foundation layer */
+            z-index: 0;
         }
 
         .floral-vine {
@@ -68,158 +85,152 @@
         }
 
         .top-right {
-            top: -20px;
-            right: -60px;
+            top: -20px; right: -60px;
             transform: rotate(10deg);
             opacity: 0.8;
         }
 
         .bottom-left {
-            bottom: -50px;
-            left: -80px;
+            bottom: -50px; left: -80px;
             transform: scaleX(-1) rotate(-20deg);
             opacity: 0.55;
         }
 
+        /* Glassmorphism Patch */
         .glass {
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+            background: rgba(255, 255, 255, 0.28);
+            backdrop-filter: blur(9.6px);
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
         }
 
-        .state-normal { background-color: var(--cream-bg); color: #4a3737; }
-        .state-sunset { background-color: #1e1b4b; color: #f8fafc; } 
-        
         #app-container {
             display: flex;
             flex-direction: column;
-            flex-grow: 1;
+            height: 100%;
             padding: calc(var(--safe-top) + 20px) 1.5rem calc(var(--safe-bottom) + 20px);
-            max-width: 450px;
-            margin: 0 auto;
-            width: 100%;
-            min-height: 100vh;
             justify-content: space-between;
             position: relative;
-            z-index: 20; /* Elevated content layer */
+            z-index: 20;
         }
 
         .parsha-link { 
-            letter-spacing: 0.4em; 
+            letter-spacing: 0.1em; 
             transition: all 0.3s; 
             text-decoration: none; 
-            border-bottom: 1px solid transparent; 
         }
-        .parsha-link:active { opacity: 0.5; border-color: currentColor; }
+        .parsha-link:active { opacity: 0.6; }
         .standalone-faded { opacity: 0.15 !important; }
 
-        .loading-spinner {
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top: 2px solid currentColor;
-            width: 16px; height: 16px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .state-normal { background-color: var(--cream-bg); color: #4a3737; }
+        .state-sunset { background-color: #1e1b4b; color: #f8fafc; } 
 
-        /* Ensure input and button are visually prominent */
         #zip-input {
-            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(4px);
         }
     </style>
 </head>
 <body class="state-normal">
 
-    <!-- Design framing layers -->
-    <div class="design-layer">
-        <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-top" class="floral-vine top-right">
-        <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-bottom" class="floral-vine bottom-left">
-    </div>
-
-    <div id="app" class="flex flex-col flex-grow w-full transition-all duration-1000">
-        
-        <!-- Setup View -->
-        <div id="setup-view" class="flex flex-col justify-center items-center h-screen p-8 text-center relative z-20">
-            <div class="pt-6">
-                <h1 class="serif text-5xl mb-4 tracking-tight text-slate-800">The Shabbat App</h1>
-                <p class="cursive text-xl opacity-60">Your Key to Connection</p>
-            </div>
+    <!-- Wrapper to simulate a phone on desktop -->
+    <div id="phone-mockup">
+        <div id="app-viewport" class="relative h-full w-full">
             
-            <div class="w-full max-w-sm space-y-12 mt-12">
-                <div class="space-y-4 text-left">
-                    <label class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-40 ml-4">Current Location</label>
-                    <input type="text" id="zip-input" placeholder="Zip Code" 
-                        class="w-full bg-white/50 border-b border-slate-300 px-4 py-4 text-3xl text-center focus:outline-none focus:border-sky-300 transition-colors rounded-none">
-                </div>
-                
-                <button onclick="saveSetup()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
-                    Be Here.
-                </button>
+            <div class="design-layer">
+                <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-top" class="floral-vine top-right">
+                <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-bottom" class="floral-vine bottom-left">
             </div>
-            <div class="flex-grow"></div>
-            <p class="text-[9px] opacity-20 tracking-widest pb-4 uppercase font-bold">Version 3.1</p>
-        </div>
 
-        <!-- Dashboard View -->
-        <div id="dashboard-view" class="hidden flex-grow flex flex-col min-h-screen">
-            <div id="app-container">
+            <div id="app" class="h-full w-full transition-all duration-1000">
                 
-                <!-- 1. Header (Settings / Location) -->
-                <div class="flex justify-between items-center w-full">
-                    <button onclick="showSetup()" class="text-[10px] opacity-40 hover:opacity-100 uppercase tracking-[0.3em] font-bold px-4 py-2 -ml-4 active:bg-black/5 rounded-full transition-all">Settings</button>
-                    <div id="location-display" class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 text-right">LOCATION</div>
-                </div>
-
-                <!-- 2. Spiritual Information -->
-                <div id="parsha-header" class="text-center pt-8">
-                    <a id="parsha-link" href="#" target="_blank" class="parsha-link block no-underline">
-                        <div id="parsha-display" class="serif text-lg italic tracking-[0.2em] opacity-50 mb-2">LOADING...</div>
-                    </a>
-                </div>
-
-                <!-- 3. Main Countdown Area -->
-                <div class="flex-grow flex flex-col justify-center items-center py-4">
-                    <div class="text-center w-full">
-                        <h2 id="status-label" class="cursive text-xl opacity-50 mb-6"></h2>
-                        <div id="countdown" class="serif leading-none py-2 transition-all tracking-tighter" style="font-size: 68px;">00:00:00</div>
-                        <div id="blessing-container" class="hidden mt-8 space-y-3">
-                             <p class="cursive text-2xl opacity-90 px-8 leading-relaxed text-center italic">Be blessed with the breath of life.</p>
-                             <p class="serif text-xs uppercase tracking-[0.6em] opacity-30">Baruch HaShem</p>
+                <!-- Setup View -->
+                <div id="setup-view" class="flex flex-col justify-center items-center h-full p-8 text-center relative z-20">
+                    
+                    <div class="w-full mb-16 px-4">
+                        <div class="glass py-10 px-6 rounded-[3rem] inline-block w-full max-w-sm">
+                            <h1 class="serif text-5xl tracking-tight text-slate-800 mb-3">The Shabbat App</h1>
+                            <p class="cursive text-xl opacity-90 text-slate-700">Your Key to Connection</p>
                         </div>
                     </div>
-                </div>
-
-                <!-- 4. Times & Wisdom Sections -->
-                <div class="space-y-10">
-                    <div id="times-section" class="py-10 border-y border-slate-900/5 grid grid-cols-3 gap-1 text-center">
-                        <div class="space-y-2">
-                            <p class="text-[9px] uppercase opacity-40 font-bold tracking-[0.3em]">Candles</p>
-                            <p id="lighting-time" class="serif text-xl">—:—</p>
+                    
+                    <div class="w-full max-w-xs space-y-12">
+                        <div class="space-y-4 text-center">
+                            <label class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-40 block">Current Location</label>
+                            <input type="text" id="zip-input" placeholder="Zip Code" 
+                                class="w-full border border-slate-200/50 px-4 py-5 text-3xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
                         </div>
-                        <div class="space-y-2">
-                            <p class="text-[9px] uppercase opacity-40 font-bold tracking-[0.3em]">Starts</p>
-                            <p id="shabbat-starts" class="serif text-xl">—:—</p>
-                        </div>
-                        <div class="space-y-2 opacity-40">
-                            <p class="text-[9px] uppercase font-bold tracking-[0.3em]">Havdalah</p>
-                            <p id="havdalah-time" class="serif text-xl">—:—</p>
-                        </div>
-                    </div>
-
-                    <div id="wisdom-section" class="pb-8">
-                        <button id="spark-btn" onclick="toggleWeeklySpark()" class="w-full flex flex-col items-center justify-center gap-2 bg-white/30 hover:bg-white/50 border border-slate-900/5 py-8 rounded-[3rem] transition-all active:scale-95 shadow-sm">
-                            <span class="serif text-base tracking-[0.15em] text-slate-700">Rebbe's Insight</span>
-                            <span class="text-[9px] uppercase tracking-[0.4em] opacity-30 font-medium tracking-widest">A SPARK OF WISDOM</span>
+                        
+                        <button onclick="saveSetup()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
+                            Be Here.
                         </button>
                     </div>
+
+                    <!-- Version tag -->
+                    <div class="absolute bottom-8 w-full text-center">
+                        <p class="text-[9px] opacity-20 tracking-widest uppercase font-bold">Version 3.9</p>
+                    </div>
+                </div>
+
+                <!-- Dashboard View -->
+                <div id="dashboard-view" class="hidden h-full flex flex-col">
+                    <div id="app-container">
+                        
+                        <div class="flex justify-between items-center w-full">
+                            <button onclick="showSetup()" class="text-[10px] opacity-40 hover:opacity-100 uppercase tracking-[0.3em] font-bold px-4 py-2 -ml-4 active:bg-black/5 rounded-full transition-all">Settings</button>
+                            <div id="location-display" class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 text-right">LOCATION</div>
+                        </div>
+
+                        <!-- Parsha Header -->
+                        <div id="parsha-header" class="text-center pt-8">
+                            <a id="parsha-link" href="#" target="_blank" class="parsha-link block no-underline">
+                                <div id="parsha-prefix" class="serif text-[10px] uppercase tracking-[0.5em] opacity-40 mb-1">PARSHAT</div>
+                                <div id="parsha-name" class="serif text-3xl font-bold tracking-[0.05em] text-slate-800">LOADING...</div>
+                            </a>
+                        </div>
+
+                        <!-- Main Display Area -->
+                        <div class="flex-grow flex flex-col justify-center items-center py-4">
+                            <div id="countdown" class="text-center w-full serif leading-none py-2 transition-all tracking-tighter">
+                                <!-- Dynamically populated by JS -->
+                                00:00:00
+                            </div>
+                            <div id="blessing-container" class="hidden mt-8 space-y-3 text-center">
+                                 <p class="cursive text-2xl opacity-90 px-8 leading-relaxed italic">Be blessed with the breath of life.</p>
+                                 <p class="serif text-xs uppercase tracking-[0.6em] opacity-30">Baruch HaShem</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-10">
+                            <div id="times-section" class="py-10 border-y border-slate-900/5 grid grid-cols-3 gap-1 text-center">
+                                <div class="space-y-2">
+                                    <p class="text-[9px] uppercase opacity-40 font-bold tracking-[0.3em]">Candles</p>
+                                    <p id="lighting-time" class="serif text-xl">—:—</p>
+                                </div>
+                                <div class="space-y-2">
+                                    <p class="text-[9px] uppercase opacity-40 font-bold tracking-[0.3em]">Starts</p>
+                                    <p id="shabbat-starts" class="serif text-xl">—:—</p>
+                                </div>
+                                <div class="space-y-2 opacity-40">
+                                    <p class="text-[9px] uppercase font-bold tracking-[0.3em]">Havdalah</p>
+                                    <p id="havdalah-time" class="serif text-xl">—:—</p>
+                                </div>
+                            </div>
+
+                            <div id="wisdom-section" class="pb-8">
+                                <button id="spark-btn" onclick="toggleWeeklySpark()" class="w-full flex flex-col items-center justify-center gap-2 bg-white/30 hover:bg-white/50 border border-slate-900/5 py-8 rounded-[3rem] transition-all active:scale-95 shadow-sm">
+                                    <span class="serif text-base tracking-[0.15em] text-slate-700">Rebbe's Insight</span>
+                                    <span class="text-[9px] uppercase tracking-[0.4em] opacity-30 font-medium tracking-widest">A SPARK OF WISDOM</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal for Wisdom Library Overlay -->
+    <!-- Modal for Wisdom Overlay -->
     <div id="ai-content-area" onclick="hideWeeklySpark()" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#fffcf7]/98 backdrop-blur-md">
         <div class="max-w-xs text-center space-y-8">
             <div id="ai-quote" class="text-2xl cursive leading-relaxed text-slate-700"></div>
@@ -295,7 +306,7 @@
                 }
                 if (parsha) {
                     let cleanName = parsha.title.replace(/Parashat|Parashat/gi, '').trim();
-                    document.getElementById('parsha-display').innerText = `PARSHAT ${cleanName.toUpperCase()}`;
+                    document.getElementById('parsha-name').innerText = cleanName.toUpperCase();
                     document.getElementById('parsha-link').href = `https://www.chabad.org/torah/parshah/default_cdo/jewish/Parshah-Insights.htm`;
                 }
                 document.getElementById('location-display').innerText = (data.location.city || zip).toUpperCase();
@@ -311,14 +322,12 @@
         }
 
         function updateDisplay(now) {
-            const statusLabel = document.getElementById('status-label');
             const countdownEl = document.getElementById('countdown');
             const blessingContainer = document.getElementById('blessing-container');
             const parshaHeader = document.getElementById('parsha-header');
             const timesSection = document.getElementById('times-section');
             const decTop = document.getElementById('dec-top');
             const decBottom = document.getElementById('dec-bottom');
-            const body = document.body;
             const dayOfWeek = now.getDay(); 
 
             // Saturday Night Shavua Tov Mode
@@ -328,10 +337,7 @@
                 blessingContainer.classList.remove('hidden');
                 decTop.classList.add('standalone-faded');
                 decBottom.classList.add('standalone-faded');
-                statusLabel.innerText = "A New Week Begins";
-                countdownEl.innerText = "SHAVUA TOV";
-                countdownEl.style.fontSize = "46px";
-                countdownEl.style.letterSpacing = "0.2em";
+                countdownEl.innerHTML = `<span style="font-size: 52px; letter-spacing: 0.2em;">SHAVUA TOV</span>`;
                 return;
             }
 
@@ -342,15 +348,16 @@
                 blessingContainer.classList.add('hidden');
                 decTop.classList.remove('standalone-faded');
                 decBottom.classList.remove('standalone-faded');
-                statusLabel.innerText = "";
                 const daysUntil = (5 - dayOfWeek);
-                countdownEl.innerText = `${daysUntil} ${daysUntil === 1 ? 'day' : 'days'} until Shabbat`;
-                countdownEl.style.fontSize = "32px";
-                countdownEl.style.letterSpacing = "0.02em";
+                
+                countdownEl.innerHTML = `
+                    <div style="font-size: 140px; font-weight: 700; line-height: 1;">${daysUntil}</div>
+                    <div style="font-size: 18px; opacity: 0.6; margin-top: 25px; letter-spacing: 0.1em; font-family: 'Cormorant Garamond', serif; font-style: italic;">${daysUntil === 1 ? 'day' : 'days'} until</div>
+                    <div style="font-size: 52px; font-weight: 400; margin-top: 12px; letter-spacing: 0.15em; text-transform: uppercase;">Shabbat</div>
+                `;
                 return;
             }
 
-            // Friday / Shabbat Day Visibility Reset
             parshaHeader.classList.remove('hidden');
             timesSection.classList.remove('hidden');
             blessingContainer.classList.add('hidden');
@@ -365,21 +372,15 @@
                     const h = Math.floor(totalSeconds / 3600);
                     const m = Math.floor((totalSeconds % 3600) / 60);
                     const s = totalSeconds % 60;
-                    countdownEl.innerText = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-                    countdownEl.style.fontSize = "72px";
-                    statusLabel.innerText = "Time until lighting";
-                } else if (diffMs > -1080000) { // Within 18 mins
+                    countdownEl.innerHTML = `<div style="font-size: 72px;">${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}</div>`;
+                } else if (diffMs > -1080000) { 
                     const sunsetDiffMs = 1080000 + diffMs;
                     const totalSeconds = Math.floor(sunsetDiffMs / 1000);
                     const m = Math.floor(totalSeconds / 60);
                     const s = totalSeconds % 60;
-                    countdownEl.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} MIN`;
-                    countdownEl.style.fontSize = "72px";
-                    statusLabel.innerText = "The Window is Open";
+                    countdownEl.innerHTML = `<div style="font-size: 72px;">${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} MIN</div>`;
                 } else {
-                    countdownEl.innerText = "SHABBAT SHALOM";
-                    countdownEl.style.fontSize = "42px";
-                    statusLabel.innerText = "Rest and Connect";
+                    countdownEl.innerHTML = `<span style="font-size: 42px; letter-spacing: 0.2em;">SHABBAT SHALOM</span>`;
                 }
             }
         }
