@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>The Shabbat App - Your Key to Connection</title>
-    <!-- Updated App Icon Link -->
+    
+    <!-- PWA / iOS App Settings -->
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/Untitled%20design.svg">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Shabbat App">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap');
@@ -35,43 +38,51 @@
         .serif { font-family: 'Playfair Display', serif; }
         .cursive { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
-        /* Watercolor/Paper Texture Overlay - Always on top but transparent */
+        /* Watercolor/Paper Texture Overlay */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://www.transparenttextures.com/patterns/p6.png');
-            opacity: 0.08;
+            opacity: 0.1;
             pointer-events: none;
-            z-index: 50;
+            z-index: 100; /* Highest layer to apply texture over everything */
         }
 
-        /* Floral Asset Styling - Pushed to background */
-        .floral-vine {
+        /* Background Design Elements - Placed behind content */
+        .design-layer {
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
-            z-index: 0; /* Behind everything */
+            z-index: 0; /* Foundation layer */
+        }
+
+        .floral-vine {
+            position: absolute;
             transition: opacity 2s ease;
-            width: 360px; 
+            width: 380px; 
             height: auto;
         }
 
         .top-right {
-            top: -15px;
+            top: -20px;
             right: -60px;
-            transform: rotate(12deg);
-            opacity: 0.85;
+            transform: rotate(10deg);
+            opacity: 0.8;
         }
 
         .bottom-left {
-            bottom: -40px;
+            bottom: -50px;
             left: -80px;
-            transform: scaleX(-1) rotate(-22deg);
-            opacity: 0.6;
+            transform: scaleX(-1) rotate(-20deg);
+            opacity: 0.55;
         }
 
         .glass {
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.6);
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
@@ -91,7 +102,7 @@
             min-height: 100vh;
             justify-content: space-between;
             position: relative;
-            z-index: 10; /* Content in front of flowers */
+            z-index: 20; /* Elevated content layer */
         }
 
         .parsha-link { 
@@ -101,7 +112,6 @@
             border-bottom: 1px solid transparent; 
         }
         .parsha-link:active { opacity: 0.5; border-color: currentColor; }
-
         .standalone-faded { opacity: 0.15 !important; }
 
         .loading-spinner {
@@ -113,28 +123,35 @@
             display: inline-block;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Ensure input and button are visually prominent */
+        #zip-input {
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+        }
     </style>
 </head>
 <body class="state-normal">
 
-    <!-- Floral background elements -->
-    <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-top" class="floral-vine top-right">
-    <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-bottom" class="floral-vine bottom-left">
+    <!-- Design framing layers -->
+    <div class="design-layer">
+        <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-top" class="floral-vine top-right">
+        <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-bottom" class="floral-vine bottom-left">
+    </div>
 
     <div id="app" class="flex flex-col flex-grow w-full transition-all duration-1000">
         
         <!-- Setup View -->
         <div id="setup-view" class="flex flex-col justify-center items-center h-screen p-8 text-center relative z-20">
             <div class="pt-6">
-                <h1 class="serif text-5xl mb-3 tracking-tight text-slate-800">The Shabbat App</h1>
+                <h1 class="serif text-5xl mb-4 tracking-tight text-slate-800">The Shabbat App</h1>
                 <p class="cursive text-xl opacity-60">Your Key to Connection</p>
             </div>
             
             <div class="w-full max-w-sm space-y-12 mt-12">
                 <div class="space-y-4 text-left">
-                    <label class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-30 ml-4">Current Location</label>
+                    <label class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-40 ml-4">Current Location</label>
                     <input type="text" id="zip-input" placeholder="Zip Code" 
-                        class="w-full bg-white/40 border-b border-slate-300 px-4 py-4 text-3xl text-center focus:outline-none focus:border-sky-300 transition-colors">
+                        class="w-full bg-white/50 border-b border-slate-300 px-4 py-4 text-3xl text-center focus:outline-none focus:border-sky-300 transition-colors rounded-none">
                 </div>
                 
                 <button onclick="saveSetup()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
@@ -142,35 +159,39 @@
                 </button>
             </div>
             <div class="flex-grow"></div>
-            <p class="text-[9px] opacity-20 tracking-widest pb-4 uppercase font-bold">Version 3.0.1</p>
+            <p class="text-[9px] opacity-20 tracking-widest pb-4 uppercase font-bold">Version 3.1</p>
         </div>
 
         <!-- Dashboard View -->
         <div id="dashboard-view" class="hidden flex-grow flex flex-col min-h-screen">
             <div id="app-container">
                 
+                <!-- 1. Header (Settings / Location) -->
                 <div class="flex justify-between items-center w-full">
                     <button onclick="showSetup()" class="text-[10px] opacity-40 hover:opacity-100 uppercase tracking-[0.3em] font-bold px-4 py-2 -ml-4 active:bg-black/5 rounded-full transition-all">Settings</button>
                     <div id="location-display" class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 text-right">LOCATION</div>
                 </div>
 
+                <!-- 2. Spiritual Information -->
                 <div id="parsha-header" class="text-center pt-8">
                     <a id="parsha-link" href="#" target="_blank" class="parsha-link block no-underline">
                         <div id="parsha-display" class="serif text-lg italic tracking-[0.2em] opacity-50 mb-2">LOADING...</div>
                     </a>
                 </div>
 
+                <!-- 3. Main Countdown Area -->
                 <div class="flex-grow flex flex-col justify-center items-center py-4">
                     <div class="text-center w-full">
                         <h2 id="status-label" class="cursive text-xl opacity-50 mb-6"></h2>
-                        <div id="countdown" class="serif leading-none glow-gold py-2 transition-all tracking-tighter" style="font-size: 72px;">00:00:00</div>
-                        <div id="blessing-container" class="hidden mt-8 space-y-2">
-                             <p class="cursive text-2xl opacity-80 px-8 leading-relaxed text-center italic">Be blessed with the breath of life.</p>
-                             <p class="serif text-xs uppercase tracking-[0.5em] opacity-30">Baruch HaShem</p>
+                        <div id="countdown" class="serif leading-none py-2 transition-all tracking-tighter" style="font-size: 68px;">00:00:00</div>
+                        <div id="blessing-container" class="hidden mt-8 space-y-3">
+                             <p class="cursive text-2xl opacity-90 px-8 leading-relaxed text-center italic">Be blessed with the breath of life.</p>
+                             <p class="serif text-xs uppercase tracking-[0.6em] opacity-30">Baruch HaShem</p>
                         </div>
                     </div>
                 </div>
 
+                <!-- 4. Times & Wisdom Sections -->
                 <div class="space-y-10">
                     <div id="times-section" class="py-10 border-y border-slate-900/5 grid grid-cols-3 gap-1 text-center">
                         <div class="space-y-2">
@@ -188,8 +209,8 @@
                     </div>
 
                     <div id="wisdom-section" class="pb-8">
-                        <button id="spark-btn" onclick="toggleWeeklySpark()" class="w-full flex flex-col items-center justify-center gap-2 bg-white/20 hover:bg-white/40 border border-slate-900/5 py-8 rounded-[3rem] transition-all active:scale-95 shadow-sm">
-                            <span class="serif text-base tracking-[0.1em] text-slate-700">Rebbe's Insight</span>
+                        <button id="spark-btn" onclick="toggleWeeklySpark()" class="w-full flex flex-col items-center justify-center gap-2 bg-white/30 hover:bg-white/50 border border-slate-900/5 py-8 rounded-[3rem] transition-all active:scale-95 shadow-sm">
+                            <span class="serif text-base tracking-[0.15em] text-slate-700">Rebbe's Insight</span>
                             <span class="text-[9px] uppercase tracking-[0.4em] opacity-30 font-medium tracking-widest">A SPARK OF WISDOM</span>
                         </button>
                     </div>
@@ -198,7 +219,7 @@
         </div>
     </div>
 
-    <!-- Wisdom Overlay -->
+    <!-- Modal for Wisdom Library Overlay -->
     <div id="ai-content-area" onclick="hideWeeklySpark()" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#fffcf7]/98 backdrop-blur-md">
         <div class="max-w-xs text-center space-y-8">
             <div id="ai-quote" class="text-2xl cursive leading-relaxed text-slate-700"></div>
@@ -297,9 +318,10 @@
             const timesSection = document.getElementById('times-section');
             const decTop = document.getElementById('dec-top');
             const decBottom = document.getElementById('dec-bottom');
+            const body = document.body;
             const dayOfWeek = now.getDay(); 
 
-            // Saturday Night Shavua Tov
+            // Saturday Night Shavua Tov Mode
             if (dayOfWeek === 6 && havdalahTime && now > havdalahTime) {
                 parshaHeader.classList.add('hidden');
                 timesSection.classList.add('hidden');
@@ -313,7 +335,7 @@
                 return;
             }
 
-            // Sunday - Thursday 
+            // Sunday - Thursday Mode
             if (dayOfWeek >= 0 && dayOfWeek <= 4) {
                 parshaHeader.classList.remove('hidden');
                 timesSection.classList.add('hidden');
@@ -328,13 +350,14 @@
                 return;
             }
 
-            // Friday / Shabbat Day
+            // Friday / Shabbat Day Visibility Reset
             parshaHeader.classList.remove('hidden');
             timesSection.classList.remove('hidden');
             blessingContainer.classList.add('hidden');
             decTop.classList.remove('standalone-faded');
             decBottom.classList.remove('standalone-faded');
 
+            // Friday precision countdown
             if (dayOfWeek === 5 && lightingTime) {
                 const diffMs = lightingTime - now;
                 if (diffMs > 0) {
@@ -345,7 +368,7 @@
                     countdownEl.innerText = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
                     countdownEl.style.fontSize = "72px";
                     statusLabel.innerText = "Time until lighting";
-                } else if (diffMs > -1080000) {
+                } else if (diffMs > -1080000) { // Within 18 mins
                     const sunsetDiffMs = 1080000 + diffMs;
                     const totalSeconds = Math.floor(sunsetDiffMs / 1000);
                     const m = Math.floor(totalSeconds / 60);
