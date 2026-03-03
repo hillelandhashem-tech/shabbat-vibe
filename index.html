@@ -84,13 +84,16 @@
             }
         }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             transition: background-color 3s ease-in-out, color 2s ease-in-out;
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
-            overflow-x: hidden;
-            margin: 0;
             background-color: var(--cream-bg); 
             color: #4a3737;
         }
@@ -201,15 +204,14 @@
 
             <div id="app" class="h-full w-full transition-all duration-1000">
                 
-                <!-- Setup View -->
-                <div id="setup-view" class="flex flex-col justify-center items-center h-full p-8 text-center relative z-20">
+                <!-- Setup View: Explicit h-full and flex centering -->
+                <div id="setup-view" class="flex flex-col justify-center items-center h-full p-8 text-center relative z-20 overflow-hidden">
                     
-                    <!-- Content Stack for absolute centering -->
-                    <div class="flex flex-col items-center w-full max-w-xs space-y-16">
+                    <!-- Content Stack: Tightened space-y and max-width for cleaner center grouping -->
+                    <div class="flex flex-col items-center w-full max-w-xs space-y-12 pb-12">
                         
                         <!-- Title Frost Card -->
                         <div class="glass py-10 px-8 rounded-[3rem] w-full">
-                            <!-- Increased margin-bottom (mb-8) for more space -->
                             <h1 class="serif text-5xl tracking-tight text-slate-800 mb-8">The Shabbat App</h1>
                             <p class="cursive text-xl opacity-90 text-slate-700">You made it. Baruch HaShem</p>
                         </div>
@@ -228,10 +230,10 @@
 
                     </div>
 
-                    <!-- Version tag & Replay -->
+                    <!-- Version tag & Replay: Grounded to the very bottom -->
                     <div class="absolute bottom-8 w-full text-center flex flex-col items-center gap-2">
                         <button onclick="replayDedication()" class="replay-btn">Replay Intro</button>
-                        <p class="text-[9px] opacity-20 tracking-widest uppercase font-bold">Version 5.5</p>
+                        <p class="text-[9px] opacity-20 tracking-widest uppercase font-bold">Version 5.6</p>
                     </div>
                 </div>
 
@@ -437,7 +439,7 @@
                     const totalSeconds = Math.floor(sunsetDiffMs / 1000);
                     const m = Math.floor(totalSeconds / 60);
                     const s = totalSeconds % 60;
-                    countdownEl.innerHTML = `<div style="font-size: 72px;">${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} MIN</div>`;
+                    countdownEl.innerHTML = `<div style="font-size: 72px;">${String(m).padStart(2, '0')}:${String(m).padStart(2, '0')} MIN</div>`;
                 } else {
                     countdownEl.innerHTML = `<span style="font-size: 42px; letter-spacing: 0.2em;">SHABBAT SHALOM</span>`;
                 }
