@@ -21,8 +21,6 @@
         :root {
             --safe-top: env(safe-area-inset-top, 20px);
             --safe-bottom: env(safe-area-inset-bottom, 20px);
-            --techelet: #8BBEE3;
-            --soft-purple: #BB9FE3;
             --cream-bg: #fffcf7;
         }
 
@@ -88,18 +86,18 @@
         }
 
         .top-right {
-            top: -20px; right: -60px;
-            transform: rotate(10deg);
-            opacity: 0.8;
+            top: -10px; right: -50px;
+            transform: rotate(5deg);
+            opacity: 0.7;
         }
 
         .bottom-left {
-            bottom: -50px; left: -80px;
-            transform: scaleX(-1) rotate(-20deg);
-            opacity: 0.55;
+            bottom: -30px; left: -60px;
+            transform: scaleX(-1) rotate(-15deg);
+            opacity: 0.5;
         }
 
-        /* Glassmorphism Patch */
+        /* Glassmorphism Effect */
         .glass {
             background: rgba(255, 255, 255, 0.28);
             backdrop-filter: blur(9.6px);
@@ -117,17 +115,6 @@
             z-index: 20;
         }
 
-        .parsha-link { 
-            letter-spacing: 0.1em; 
-            transition: all 0.3s; 
-            text-decoration: none; 
-        }
-        .parsha-link:active { opacity: 0.6; }
-        .standalone-faded { opacity: 0.15 !important; }
-
-        .state-normal { background-color: var(--cream-bg); color: #4a3737; }
-        .state-sunset { background-color: #1e1b4b; color: #f8fafc; } 
-
         #zip-input {
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(4px);
@@ -136,10 +123,10 @@
 </head>
 <body class="state-normal">
 
-    <!-- Wrapper to simulate a phone on desktop -->
     <div id="phone-mockup">
         <div id="app-viewport" class="relative h-full w-full">
             
+            <!-- Design elements fixed behind content -->
             <div class="design-layer">
                 <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-top" class="floral-vine top-right">
                 <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-bottom" class="floral-vine bottom-left">
@@ -150,28 +137,32 @@
                 <!-- Setup View -->
                 <div id="setup-view" class="flex flex-col justify-center items-center h-full p-8 text-center relative z-20">
                     
-                    <div class="w-full mb-16 px-4">
-                        <div class="glass py-10 px-6 rounded-[3rem] inline-block w-full max-sm">
+                    <!-- Content Stack for absolute centering -->
+                    <div class="flex flex-col items-center w-full max-w-xs space-y-16">
+                        
+                        <!-- Title Frost Card -->
+                        <div class="glass py-10 px-8 rounded-[3rem] w-full">
                             <h1 class="serif text-5xl tracking-tight text-slate-800 mb-3">The Shabbat App</h1>
                             <p class="cursive text-xl opacity-90 text-slate-700">Your Key to Connection</p>
                         </div>
-                    </div>
-                    
-                    <div class="w-full max-w-xs space-y-12">
-                        <div class="space-y-4 text-center">
-                            <label class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-40 block">Current Location</label>
+                        
+                        <!-- Input Section -->
+                        <div class="w-full space-y-4">
+                            <label class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-40 block">Where are You?</label>
                             <input type="text" id="zip-input" placeholder="Zip Code" 
                                 class="w-full border border-slate-200/50 px-4 py-5 text-3xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
                         </div>
                         
+                        <!-- Action Button -->
                         <button onclick="saveSetup()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
                             Be Here.
                         </button>
+
                     </div>
 
                     <!-- Version tag -->
                     <div class="absolute bottom-8 w-full text-center">
-                        <p class="text-[9px] opacity-20 tracking-widest uppercase font-bold">Version 4.3</p>
+                        <p class="text-[9px] opacity-20 tracking-widest uppercase font-bold">Version 4.7</p>
                     </div>
                 </div>
 
@@ -184,23 +175,16 @@
                             <div id="location-display" class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 text-right">LOCATION</div>
                         </div>
 
-                        <!-- Parsha Header -->
+                        <!-- Parsha Header: Hyperlink removed -->
                         <div id="parsha-header" class="text-center pt-8">
-                            <a id="parsha-link" href="#" target="_blank" class="parsha-link block no-underline">
-                                <div id="parsha-prefix" class="serif text-[10px] uppercase tracking-[0.5em] opacity-40 mb-1">PARSHAT</div>
-                                <div id="parsha-name" class="serif text-3xl font-bold tracking-[0.05em] text-slate-800">LOADING...</div>
-                            </a>
+                            <div id="parsha-prefix" class="serif text-[10px] uppercase tracking-[0.5em] opacity-40 mb-1">PARSHAT</div>
+                            <div id="parsha-name" class="serif text-3xl font-bold tracking-[0.05em] text-slate-800">LOADING...</div>
                         </div>
 
-                        <!-- Main Display Area -->
                         <div class="flex-grow flex flex-col justify-center items-center py-4">
                             <div id="countdown" class="text-center w-full serif leading-none py-2 transition-all tracking-tighter">
-                                <!-- Dynamically populated by JS -->
+                                <!-- Populated by JS -->
                                 00:00:00
-                            </div>
-                            <div id="blessing-container" class="hidden mt-8 space-y-3 text-center">
-                                 <p class="cursive text-2xl opacity-90 px-8 leading-relaxed italic">Be blessed with the breath of life.</p>
-                                 <p class="serif text-xs uppercase tracking-[0.6em] opacity-30">Baruch HaShem</p>
                             </div>
                         </div>
 
@@ -233,7 +217,6 @@
         </div>
     </div>
 
-    <!-- Modal for Wisdom Library Overlay -->
     <div id="ai-content-area" onclick="hideWeeklySpark()" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#fffcf7]/98 backdrop-blur-md">
         <div class="max-w-xs text-center space-y-8">
             <div id="ai-quote" class="text-2xl cursive leading-relaxed text-slate-700"></div>
@@ -310,7 +293,6 @@
                 if (parsha) {
                     let cleanName = parsha.title.replace(/Parashat|Parashat/gi, '').trim();
                     document.getElementById('parsha-name').innerText = cleanName.toUpperCase();
-                    document.getElementById('parsha-link').href = `https://www.chabad.org/torah/parshah/default_cdo/jewish/Parshah-Insights.htm`;
                 }
                 document.getElementById('location-display').innerText = (data.location.city || zip).toUpperCase();
             } catch (e) { console.error("Fetch error", e); }
@@ -326,48 +308,23 @@
 
         function updateDisplay(now) {
             const countdownEl = document.getElementById('countdown');
-            const blessingContainer = document.getElementById('blessing-container');
-            const parshaHeader = document.getElementById('parsha-header');
-            const timesSection = document.getElementById('times-section');
-            const decTop = document.getElementById('dec-top');
-            const decBottom = document.getElementById('dec-bottom');
             const dayOfWeek = now.getDay(); 
 
-            // Saturday Night Shavua Tov Mode
             if (dayOfWeek === 6 && havdalahTime && now > havdalahTime) {
-                parshaHeader.classList.add('hidden');
-                timesSection.classList.add('hidden');
-                blessingContainer.classList.remove('hidden');
-                decTop.classList.add('standalone-faded');
-                decBottom.classList.add('standalone-faded');
                 countdownEl.innerHTML = `<span style="font-size: 52px; letter-spacing: 0.2em;">SHAVUA TOV</span>`;
                 return;
             }
 
-            // Sunday - Thursday Mode
             if (dayOfWeek >= 0 && dayOfWeek <= 4) {
-                parshaHeader.classList.remove('hidden');
-                timesSection.classList.add('hidden');
-                blessingContainer.classList.add('hidden');
-                decTop.classList.remove('standalone-faded');
-                decBottom.classList.remove('standalone-faded');
                 const daysUntil = (5 - dayOfWeek);
-                
                 countdownEl.innerHTML = `
                     <div style="font-size: 140px; font-weight: 700; line-height: 1;">${daysUntil}</div>
-                    <div style="font-size: 18px; opacity: 0.6; margin-top: 25px; letter-spacing: 0.1em; font-family: 'Cormorant Garamond', serif; font-style: italic;">${daysUntil === 1 ? 'day' : 'days'} until</div>
+                    <div style="font-size: 18px; opacity: 0.85; margin-top: 25px; letter-spacing: 0.1em; font-family: 'Cormorant Garamond', serif; font-style: italic;">${daysUntil === 1 ? 'day' : 'days'} until</div>
                     <div style="font-size: 52px; font-weight: 400; margin-top: 12px; letter-spacing: 0.15em; text-transform: uppercase;">Shabbat</div>
                 `;
                 return;
             }
 
-            parshaHeader.classList.remove('hidden');
-            timesSection.classList.remove('hidden');
-            blessingContainer.classList.add('hidden');
-            decTop.classList.remove('standalone-faded');
-            decBottom.classList.remove('standalone-faded');
-
-            // Friday precision countdown
             if (dayOfWeek === 5 && lightingTime) {
                 const diffMs = lightingTime - now;
                 if (diffMs > 0) {
