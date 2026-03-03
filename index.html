@@ -28,7 +28,7 @@
         #dedication-screen {
             position: fixed;
             top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            width: 100vw; height: 100dvh;
             background-color: #fcfaf5; 
             display: flex;
             justify-content: center;
@@ -40,18 +40,27 @@
 
         .content-wrapper {
             text-align: center;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        /* Container to hide video edge artifacts */
+        .video-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            /* Subtle fade mask on top/bottom to hide potential lines */
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+            mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
         }
 
         #bloom-video {
             width: 100%;
-            max-width: 450px; 
             height: auto;
             display: block;
             margin: 0 auto;
-            /* Fix for horizontal lines: scale slightly to overlap edges and remove aliasing */
-            transform: scale(1.02);
-            outline: none;
-            border: none;
+            transform: scale(1.05); /* Slight overscan to hide edge aliasing */
+            object-fit: cover;
         }
 
         .dedication-text {
@@ -91,6 +100,7 @@
 
         html, body {
             height: 100%;
+            width: 100%;
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -101,6 +111,8 @@
             transition: background-color 3s ease-in-out, color 2s ease-in-out;
             background-color: var(--cream-bg); 
             color: #4a3737;
+            /* Force exact viewport height */
+            height: 100dvh;
         }
 
         .serif { font-family: 'Playfair Display', serif; }
@@ -123,6 +135,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 0;
+            overflow: hidden;
         }
 
         .floral-vine {
@@ -185,10 +198,12 @@
     <!-- Dedication Opening Page -->
     <div id="dedication-screen">
         <div class="content-wrapper">
-            <video autoplay muted playsinline id="bloom-video">
-                <source src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/shabbat-intro-v3.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <div class="video-container">
+                <video autoplay muted playsinline id="bloom-video">
+                    <source src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/shabbat-intro-v3.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
 
             <div class="dedication-text">
                 <h1 class="playfair text-3xl">For Moriah</h1>
@@ -199,7 +214,7 @@
     </div>
 
     <div id="phone-mockup">
-        <div id="app-viewport" class="relative h-full w-full">
+        <div id="app-viewport" class="relative h-full w-full overflow-hidden">
             
             <!-- Design elements fixed behind content -->
             <div class="design-layer">
@@ -209,11 +224,11 @@
 
             <div id="app" class="h-full w-full transition-all duration-1000">
                 
-                <!-- Setup View -->
-                <div id="setup-view" class="flex flex-col justify-center items-center h-full p-8 text-center relative z-20 overflow-hidden">
+                <!-- Setup View: Using dvh units for absolute vertical centering in standalone mode -->
+                <div id="setup-view" class="flex flex-col justify-center items-center h-full w-full p-8 text-center relative z-20 overflow-hidden" style="min-height: 100dvh;">
                     
                     <!-- Content Stack -->
-                    <div class="flex flex-col items-center w-full max-w-xs space-y-12 pb-12">
+                    <div class="flex flex-col items-center w-full max-w-xs space-y-12 pb-16">
                         
                         <!-- Title Frost Card -->
                         <div class="glass py-10 px-8 rounded-[3rem] w-full">
@@ -223,23 +238,23 @@
                         
                         <!-- Input Section -->
                         <div class="w-full space-y-4">
-                            <!-- Darkened label opacity for better visibility -->
-                            <label class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-70 block">Where are You?</label>
+                            <!-- Darker label for better visibility -->
+                            <label class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-90 block">Where are You?</label>
                             <input type="text" id="zip-input" placeholder="Zip Code" 
                                 class="w-full border border-slate-200/50 px-4 py-5 text-3xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
                         </div>
                         
-                        <!-- Action Button updated text -->
+                        <!-- Action Button -->
                         <button onclick="saveSetup()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
                             You're wonderful.
                         </button>
 
                     </div>
 
-                    <!-- Version tag & Replay -->
+                    <!-- Version tag & Replay: Fixed to bottom -->
                     <div class="absolute bottom-8 w-full text-center flex flex-col items-center gap-2">
                         <button onclick="replayDedication()" class="replay-btn">Replay Intro</button>
-                        <p class="text-[9px] opacity-20 tracking-widest uppercase font-bold">Version 5.7</p>
+                        <p class="text-[9px] opacity-20 tracking-widest uppercase font-bold">Version 5.8</p>
                     </div>
                 </div>
 
