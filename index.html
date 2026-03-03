@@ -14,14 +14,53 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Shabbat App">
     
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap');
-        
         :root {
             --safe-top: env(safe-area-inset-top, 20px);
             --safe-bottom: env(safe-area-inset-bottom, 20px);
             --cream-bg: #fffcf7;
+        }
+
+        /* Dedication Page Styling */
+        #dedication-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: #fcfaf5; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
+        }
+
+        .content-wrapper {
+            text-align: center;
+        }
+
+        #bloom-video {
+            width: 100%;
+            max-width: 450px; 
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .dedication-text {
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeInText 2s ease-in forwards;
+            animation-delay: 1.2s;
+        }
+
+        .playfair { font-family: 'Playfair Display', serif; font-weight: 700; color: #333; }
+        .playfair-italic { font-family: 'Playfair Display', serif; font-style: italic; color: #555; }
+
+        @keyframes fadeInText {
+            to { opacity: 1; }
         }
 
         /* Mobile Preview Wrapper for Desktop Edits */
@@ -119,9 +158,37 @@
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(4px);
         }
+        
+        .replay-btn {
+            font-size: 8px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.2em;
+            opacity: 0.2;
+            transition: opacity 0.3s;
+            cursor: pointer;
+            border-bottom: 1px solid transparent;
+        }
+        .replay-btn:hover { opacity: 0.5; border-color: currentColor; }
     </style>
 </head>
 <body class="state-normal">
+
+    <!-- Dedication Opening Page -->
+    <div id="dedication-screen">
+        <div class="content-wrapper">
+            <video autoplay muted playsinline id="bloom-video">
+                <source src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/shabbat-intro-v3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <div class="dedication-text">
+                <h1 class="playfair text-3xl">For Moriah</h1>
+                <p class="playfair-italic text-xl mt-3">my Eishet Chayil</p>
+                <p class="playfair-italic text-lg mt-2 opacity-70">ata berka mamesh.</p>
+            </div>
+        </div>
+    </div>
 
     <div id="phone-mockup">
         <div id="app-viewport" class="relative h-full w-full">
@@ -142,8 +209,9 @@
                         
                         <!-- Title Frost Card -->
                         <div class="glass py-10 px-8 rounded-[3rem] w-full">
-                            <h1 class="serif text-5xl tracking-tight text-slate-800 mb-3">The Shabbat App</h1>
-                            <p class="cursive text-xl opacity-90 text-slate-700">Your Key to Connection</p>
+                            <!-- Increased margin-bottom (mb-8) for more space -->
+                            <h1 class="serif text-5xl tracking-tight text-slate-800 mb-8">The Shabbat App</h1>
+                            <p class="cursive text-xl opacity-90 text-slate-700">You made it. Baruch HaShem</p>
                         </div>
                         
                         <!-- Input Section -->
@@ -160,9 +228,10 @@
 
                     </div>
 
-                    <!-- Version tag -->
-                    <div class="absolute bottom-8 w-full text-center">
-                        <p class="text-[9px] opacity-20 tracking-widest uppercase font-bold">Version 4.7</p>
+                    <!-- Version tag & Replay -->
+                    <div class="absolute bottom-8 w-full text-center flex flex-col items-center gap-2">
+                        <button onclick="replayDedication()" class="replay-btn">Replay Intro</button>
+                        <p class="text-[9px] opacity-20 tracking-widest uppercase font-bold">Version 5.5</p>
                     </div>
                 </div>
 
@@ -175,7 +244,6 @@
                             <div id="location-display" class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 text-right">LOCATION</div>
                         </div>
 
-                        <!-- Parsha Header: Hyperlink removed -->
                         <div id="parsha-header" class="text-center pt-8">
                             <div id="parsha-prefix" class="serif text-[10px] uppercase tracking-[0.5em] opacity-40 mb-1">PARSHAT</div>
                             <div id="parsha-name" class="serif text-3xl font-bold tracking-[0.05em] text-slate-800">LOADING...</div>
@@ -209,6 +277,10 @@
                                     <span class="serif text-base tracking-[0.15em] text-slate-700">Rebbe's Insight</span>
                                     <span class="text-[9px] uppercase tracking-[0.4em] opacity-30 font-medium tracking-widest">A SPARK OF WISDOM</span>
                                 </button>
+                                
+                                <div class="w-full text-center mt-6">
+                                    <button onclick="replayDedication()" class="replay-btn">Replay Intro</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -217,6 +289,7 @@
         </div>
     </div>
 
+    <!-- Modal for Wisdom Library Overlay -->
     <div id="ai-content-area" onclick="hideWeeklySpark()" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#fffcf7]/98 backdrop-blur-md">
         <div class="max-w-xs text-center space-y-8">
             <div id="ai-quote" class="text-2xl cursive leading-relaxed text-slate-700"></div>
@@ -244,8 +317,34 @@
         let havdalahTime = null;
         let timerInterval = null;
         let lastRandomIndex = -1;
+        let dedicationTimeout = null;
+
+        function runDedicationTimer() {
+            if (dedicationTimeout) clearTimeout(dedicationTimeout);
+            dedicationTimeout = setTimeout(() => {
+                const screen = document.getElementById('dedication-screen');
+                screen.style.opacity = '0';
+                setTimeout(() => {
+                    screen.style.display = 'none';
+                }, 1000);
+            }, 5000); 
+        }
+
+        function replayDedication() {
+            const screen = document.getElementById('dedication-screen');
+            const video = document.getElementById('bloom-video');
+            screen.style.display = 'flex';
+            setTimeout(() => {
+                screen.style.opacity = '1';
+                video.currentTime = 0;
+                video.play();
+                runDedicationTimer();
+            }, 10);
+        }
 
         window.onload = () => { 
+            runDedicationTimer();
+
             if (currentZip) {
                 initDashboard(currentZip);
                 document.getElementById('zip-input').value = currentZip;
