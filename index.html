@@ -44,12 +44,10 @@
             max-width: 450px;
         }
 
-        /* Container to hide video edge artifacts */
         .video-container {
             position: relative;
             width: 100%;
             overflow: hidden;
-            /* Subtle fade mask on top/bottom to hide potential lines */
             -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
             mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
         }
@@ -59,7 +57,7 @@
             height: auto;
             display: block;
             margin: 0 auto;
-            transform: scale(1.05); /* Slight overscan to hide edge aliasing */
+            transform: scale(1.05); 
             object-fit: cover;
         }
 
@@ -77,7 +75,6 @@
             to { opacity: 1; }
         }
 
-        /* Mobile Preview Wrapper for Desktop Edits */
         @media (min-width: 500px) {
             body {
                 background-color: #f1f5f9 !important;
@@ -111,14 +108,12 @@
             transition: background-color 3s ease-in-out, color 2s ease-in-out;
             background-color: var(--cream-bg); 
             color: #4a3737;
-            /* Force exact viewport height */
             height: 100dvh;
         }
 
         .serif { font-family: 'Playfair Display', serif; }
         .cursive { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
-        /* Watercolor Texture Overlay */
         #app-viewport::before {
             content: "";
             position: absolute;
@@ -129,7 +124,6 @@
             z-index: 100;
         }
 
-        /* Background Design Elements */
         .design-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -157,7 +151,6 @@
             opacity: 0.5;
         }
 
-        /* Glassmorphism Effect */
         .glass {
             background: rgba(255, 255, 255, 0.28);
             backdrop-filter: blur(9.6px);
@@ -208,7 +201,7 @@
             <div class="dedication-text">
                 <h1 class="playfair text-3xl">For Moriah</h1>
                 <p class="playfair-italic text-xl mt-3">my Eishet Chayil</p>
-                <p class="playfair-italic text-lg mt-2 opacity-70">ata berka mamesh.</p>
+                <!-- Line removed as per request -->
             </div>
         </div>
     </div>
@@ -216,7 +209,6 @@
     <div id="phone-mockup">
         <div id="app-viewport" class="relative h-full w-full overflow-hidden">
             
-            <!-- Design elements fixed behind content -->
             <div class="design-layer">
                 <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-top" class="floral-vine top-right">
                 <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-bottom" class="floral-vine bottom-left">
@@ -224,41 +216,33 @@
 
             <div id="app" class="h-full w-full transition-all duration-1000">
                 
-                <!-- Setup View: Using dvh units for absolute vertical centering in standalone mode -->
                 <div id="setup-view" class="flex flex-col justify-center items-center h-full w-full p-8 text-center relative z-20 overflow-hidden" style="min-height: 100dvh;">
                     
-                    <!-- Content Stack -->
                     <div class="flex flex-col items-center w-full max-w-xs space-y-12 pb-16">
                         
-                        <!-- Title Frost Card -->
                         <div class="glass py-10 px-8 rounded-[3rem] w-full">
                             <h1 class="serif text-5xl tracking-tight text-slate-800 mb-8">The Shabbat App</h1>
                             <p class="cursive text-xl opacity-90 text-slate-700">You made it. Baruch HaShem</p>
                         </div>
                         
-                        <!-- Input Section -->
                         <div class="w-full space-y-4">
-                            <!-- Darker label for better visibility -->
                             <label class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-90 block">Where are You?</label>
                             <input type="text" id="zip-input" placeholder="Zip Code" 
                                 class="w-full border border-slate-200/50 px-4 py-5 text-3xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
                         </div>
                         
-                        <!-- Action Button -->
                         <button onclick="saveSetup()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
                             You're wonderful.
                         </button>
 
                     </div>
 
-                    <!-- Version tag & Replay: Fixed to bottom -->
                     <div class="absolute bottom-8 w-full text-center flex flex-col items-center gap-2">
                         <button onclick="replayDedication()" class="replay-btn">Replay Intro</button>
-                        <p class="text-[9px] opacity-20 tracking-widest uppercase font-bold">Version 5.8</p>
+                        <p class="text-[9px] opacity-20 tracking-widest uppercase font-bold">Version 5.9</p>
                     </div>
                 </div>
 
-                <!-- Dashboard View -->
                 <div id="dashboard-view" class="hidden h-full flex flex-col">
                     <div id="app-container">
                         
@@ -274,7 +258,6 @@
 
                         <div class="flex-grow flex flex-col justify-center items-center py-4">
                             <div id="countdown" class="text-center w-full serif leading-none py-2 transition-all tracking-tighter">
-                                <!-- Populated by JS -->
                                 00:00:00
                             </div>
                         </div>
@@ -312,7 +295,6 @@
         </div>
     </div>
 
-    <!-- Modal for Wisdom Library Overlay -->
     <div id="ai-content-area" onclick="hideWeeklySpark()" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#fffcf7]/98 backdrop-blur-md">
         <div class="max-w-xs text-center space-y-8">
             <div id="ai-quote" class="text-2xl cursive leading-relaxed text-slate-700"></div>
@@ -367,7 +349,6 @@
 
         window.onload = () => { 
             runDedicationTimer();
-
             if (currentZip) {
                 initDashboard(currentZip);
                 document.getElementById('zip-input').value = currentZip;
