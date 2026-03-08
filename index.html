@@ -25,7 +25,7 @@
             --shabbat-bg: #1e1b4b;
         }
 
-        /* Dedication Page Styling */
+        /* Dedication Page & Autoplay Fallback */
         #dedication-screen {
             position: fixed;
             top: 0; left: 0;
@@ -37,6 +37,15 @@
             z-index: 9999;
             transition: opacity 1s ease-out;
             overflow: hidden;
+        }
+
+        #autoplay-fallback {
+            position: absolute;
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
 
         .content-wrapper {
@@ -69,14 +78,21 @@
             animation-delay: 1.2s;
         }
 
+        .app-fade-in {
+            animation: appReveal 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes appReveal {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .playfair { font-family: 'Playfair Display', serif; font-weight: 700; color: #333; }
         .playfair-italic { font-family: 'Playfair Display', serif; font-style: italic; color: #555; }
 
-        @keyframes fadeInText {
-            to { opacity: 1; }
-        }
+        @keyframes fadeInText { to { opacity: 1; } }
 
-        /* Updated Desktop Preview Wrapper: "Zoomed Out" and more responsive */
+        /* Desktop Preview Scaling */
         @media (min-width: 500px) {
             body {
                 background-color: #f1f5f9 !important;
@@ -94,14 +110,12 @@
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                 position: relative;
                 overflow: hidden;
-                border: 10px solid #1e293b;
-                transform: scale(0.9); /* Default zoom out */
+                border: 12px solid #1e293b;
+                transform: scale(0.8);
                 transition: transform 0.3s ease;
             }
-            /* Adaptive scale for smaller preview windows */
-            @media (max-height: 900px) { #phone-mockup { transform: scale(0.8); } }
-            @media (max-height: 800px) { #phone-mockup { transform: scale(0.7); } }
-            @media (max-height: 700px) { #phone-mockup { transform: scale(0.6); } }
+            @media (max-height: 800px) { #phone-mockup { transform: scale(0.65); } }
+            @media (max-height: 650px) { #phone-mockup { transform: scale(0.5); } }
         }
 
         html, body {
@@ -148,17 +162,8 @@
             height: auto;
         }
 
-        .top-right {
-            top: -10px; right: -50px;
-            transform: rotate(5deg);
-            opacity: 0.7;
-        }
-
-        .bottom-left {
-            bottom: -30px; left: -60px;
-            transform: scaleX(-1) rotate(-15deg);
-            opacity: 0.5;
-        }
+        .top-right { top: -10px; right: -50px; transform: rotate(5deg); opacity: 0.7; }
+        .bottom-left { bottom: -30px; left: -60px; transform: scaleX(-1) rotate(-15deg); opacity: 0.5; }
 
         .glass {
             background: rgba(255, 255, 255, 0.28);
@@ -171,20 +176,19 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            padding: calc(var(--safe-top) + 20px) 1.5rem calc(var(--safe-bottom) + 20px);
+            padding: calc(var(--safe-top) + 20px) 1.5rem calc(var(--safe-bottom) + 10px);
             justify-content: space-between;
             position: relative;
             z-index: 20;
         }
 
-        /* Theme Inversion States */
         body.state-normal { background-color: var(--cream-bg); color: #4a3737; }
         body.state-sunset { background-color: var(--shabbat-bg); color: #f8fafc; }
-        body.state-sunset .glass { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); color: white; }
+        body.state-sunset .glass { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); color: white; }
         body.state-sunset #parsha-name { color: #f8fafc; }
-        body.state-sunset .border-y { border-color: rgba(255,255,255,0.1); }
-        body.state-sunset #zip-input, body.state-sunset #name-input { background: rgba(255, 255, 255, 0.1); color: white; border-color: rgba(255,255,255,0.2); }
-        body.state-sunset .replay-btn { color: white; opacity: 0.4; }
+        body.state-sunset .border-y { border-color: rgba(255,255,255,0.05); }
+        body.state-sunset input { background: rgba(255, 255, 255, 0.05); color: white; border-color: rgba(255,255,255,0.1); }
+        body.state-sunset label { color: white; opacity: 0.6; }
 
         .custom-input {
             background: rgba(255, 255, 255, 0.4);
@@ -200,19 +204,18 @@
             opacity: 0.2;
             transition: opacity 0.3s;
             cursor: pointer;
-            border-bottom: 1px solid transparent;
         }
-        .replay-btn:hover { opacity: 0.5; border-color: currentColor; }
 
         .audit-slider-container {
-            position: absolute;
-            bottom: 40px;
-            left: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.05);
-            padding: 20px;
+            width: 100%;
+            max-width: 280px;
+            background: rgba(0,0,0,0.03);
+            padding: 12px;
             border-radius: 20px;
-            z-index: 1000;
+            margin: 10px auto 0;
+        }
+        body.state-sunset .audit-slider-container {
+            background: rgba(255,255,255,0.05);
         }
     </style>
 </head>
@@ -220,14 +223,16 @@
 
     <!-- Dedication Opening Page -->
     <div id="dedication-screen">
+        <div id="autoplay-fallback" class="text-center">
+            <button onclick="forcePlayVideo()" class="glass px-12 py-6 rounded-full serif text-xl italic tracking-wide">Enter the Silence</button>
+            <p class="serif text-xs opacity-40 uppercase tracking-[0.3em]">Tap to begin</p>
+        </div>
         <div class="content-wrapper">
             <div class="video-container">
                 <video autoplay muted playsinline id="bloom-video">
                     <source src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/shabbat-intro-v3.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
                 </video>
             </div>
-
             <div class="dedication-text">
                 <h1 class="playfair text-3xl">For Moriah</h1>
                 <p class="playfair-italic text-xl mt-3">my Eishet Chayil</p>
@@ -245,50 +250,30 @@
 
             <div id="app" class="h-full w-full transition-all duration-1000">
                 
-                <!-- NAME SETUP VIEW -->
-                <div id="name-setup-view" class="hidden flex flex-col justify-center items-center h-full w-full p-8 text-center relative z-20 overflow-hidden" style="min-height: 100dvh;">
-                    <div class="flex flex-col items-center w-full max-w-xs space-y-12 pb-16">
+                <!-- UNIFIED SETUP VIEW -->
+                <div id="setup-view" class="hidden flex flex-col justify-center items-center h-full w-full p-8 text-center relative z-20 overflow-hidden" style="min-height: 100dvh;">
+                    <div class="flex flex-col items-center w-full max-w-xs space-y-10 pb-16">
                         <div class="glass py-10 px-8 rounded-[3rem] w-full">
-                            <h1 class="serif text-5xl tracking-tight text-slate-800 mb-8">The Shabbat App</h1>
+                            <h1 class="serif text-5xl tracking-tight text-slate-800 mb-8 leading-tight">The Shabbat App</h1>
                             <p class="cursive text-xl opacity-90 text-slate-700">You made it. Baruch HaShem</p>
                         </div>
-                        <div class="w-full space-y-4">
-                            <label class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-90 block">Who are You?</label>
-                            <input type="text" id="name-input" placeholder="Your Name" 
-                                class="w-full custom-input px-4 py-5 text-3xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
+                        
+                        <div class="w-full space-y-6">
+                            <div class="space-y-2">
+                                <!-- Removed "Who are You?" label per request -->
+                                <input type="text" id="name-input" placeholder="Your Name" 
+                                    class="w-full custom-input px-4 py-4 text-2xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[9px] uppercase tracking-[0.4em] font-bold opacity-70 block">Where are You?</label>
+                                <input type="text" id="zip-input" placeholder="Zip Code" 
+                                    class="w-full custom-input px-4 py-4 text-2xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
+                            </div>
                         </div>
-                        <button onclick="saveName()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
-                            Next
-                        </button>
-                    </div>
-                </div>
 
-                <!-- ZIP SETUP VIEW -->
-                <div id="zip-setup-view" class="hidden flex flex-col justify-center items-center h-full w-full p-8 text-center relative z-20 overflow-hidden" style="min-height: 100dvh;">
-                    <div class="flex flex-col items-center w-full max-w-xs space-y-12 pb-16">
-                        <div class="glass py-10 px-8 rounded-[3rem] w-full">
-                            <h1 class="serif text-5xl tracking-tight text-slate-800 mb-8">The Shabbat App</h1>
-                            <p class="cursive text-xl opacity-90 text-slate-700">Finding your light...</p>
-                        </div>
-                        <div class="w-full space-y-4">
-                            <label class="text-[10px] uppercase tracking-[0.4em] font-bold opacity-90 block">Where are You?</label>
-                            <input type="text" id="zip-input" placeholder="Zip Code" 
-                                class="w-full custom-input px-4 py-5 text-3xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
-                        </div>
-                        <button onclick="saveZip()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
+                        <button onclick="saveSetup()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
                             You're wonderful.
                         </button>
-
-                        <div class="audit-slider-container space-y-4">
-                             <p class="text-[9px] uppercase font-bold tracking-widest opacity-40">Audit: Friday Timeline</p>
-                             <input type="range" id="audit-slider" min="-60" max="60" value="0" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer">
-                             <div class="flex justify-between text-[8px] opacity-40 uppercase font-bold">
-                                <span>-1hr</span>
-                                <span>Candle Lighting</span>
-                                <span>+1hr</span>
-                             </div>
-                             <p class="text-[10px] opacity-50 italic">Testing offset: <span id="audit-val">0</span> mins</p>
-                        </div>
                     </div>
                 </div>
 
@@ -296,12 +281,12 @@
                 <div id="dashboard-view" class="hidden h-full flex flex-col">
                     <div id="app-container">
                         <div class="flex justify-between items-center w-full">
-                            <button onclick="resetApp()" class="text-[10px] opacity-40 hover:opacity-100 uppercase tracking-[0.3em] font-bold px-4 py-2 -ml-4 active:bg-black/5 rounded-full transition-all">Settings</button>
+                            <button onclick="showSetup()" class="text-[10px] opacity-40 hover:opacity-100 uppercase tracking-[0.3em] font-bold px-4 py-2 -ml-4 active:bg-black/5 rounded-full transition-all">Settings</button>
                             <div id="location-display" class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 text-right">LOCATION</div>
                         </div>
 
-                        <div id="parsha-header" class="text-center pt-8">
-                            <div id="greeting-text" class="serif text-[10px] uppercase tracking-[0.4em] opacity-40 mb-1">SHABBAT SHALOM</div>
+                        <div id="parsha-header" class="text-center pt-6">
+                            <div id="greeting-text" class="serif text-[10px] uppercase tracking-[0.4em] opacity-40 mb-1 tracking-[0.2em]">SHABBAT SHALOM</div>
                             <div id="parsha-name" class="serif text-3xl font-bold tracking-[0.05em] text-slate-800">LOADING...</div>
                         </div>
 
@@ -312,13 +297,13 @@
                             </div>
                         </div>
 
-                        <div class="space-y-6">
-                            <button onclick="toggleCookingView()" class="w-full flex justify-between items-center px-6 py-4 border border-slate-900/5 rounded-2xl bg-white/30 backdrop-blur-sm active:scale-98 transition-all">
-                                <span class="serif text-xs uppercase tracking-[0.3em] opacity-60">What are we making?</span>
+                        <div class="space-y-4">
+                            <button onclick="toggleCookingView()" class="w-full flex justify-between items-center px-6 py-4 border border-slate-900/5 rounded-2xl bg-white/20 backdrop-blur-sm active:scale-98 transition-all">
+                                <span class="serif text-[10px] uppercase tracking-[0.3em] opacity-60 font-bold">What are we making?</span>
                                 <span class="opacity-30">→</span>
                             </button>
 
-                            <div id="times-section" class="py-10 border-y border-slate-900/5 grid grid-cols-3 gap-1 text-center">
+                            <div id="times-section" class="py-8 border-y border-slate-900/5 grid grid-cols-3 gap-1 text-center">
                                 <div class="space-y-2">
                                     <p class="text-[9px] uppercase opacity-40 font-bold tracking-[0.3em]">Candles</p>
                                     <p id="lighting-time" class="serif text-xl">—:—</p>
@@ -333,14 +318,27 @@
                                 </div>
                             </div>
 
-                            <div id="wisdom-section" class="pb-8">
-                                <button id="spark-btn" onclick="toggleWeeklySpark()" class="glass w-full flex flex-col items-center justify-center gap-2 py-8 rounded-[3rem] transition-all active:scale-95">
+                            <div id="wisdom-section" class="pb-2">
+                                <button id="spark-btn" onclick="toggleWeeklySpark()" class="glass w-full flex flex-col items-center justify-center gap-2 py-6 rounded-[3rem] transition-all active:scale-95">
                                     <span class="serif text-base tracking-[0.15em] text-slate-700">Rebbe's Insight</span>
                                     <span class="text-[9px] uppercase tracking-[0.4em] opacity-30 font-medium tracking-widest">A SPARK OF WISDOM</span>
                                 </button>
-                                <div class="w-full text-center mt-6">
+                                
+                                <div class="w-full text-center mt-4">
                                     <button onclick="replayDedication()" class="replay-btn">Replay Intro</button>
                                 </div>
+                            </div>
+
+                            <!-- AUDIT SLIDER (Moved to Dashboard Page 3) -->
+                            <div class="audit-slider-container space-y-2">
+                                 <p class="text-[8px] uppercase font-black tracking-widest opacity-30 text-center">Audit Friday Window</p>
+                                 <input type="range" id="audit-slider" min="-60" max="60" value="0" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                                 <div class="flex justify-between text-[6px] opacity-30 uppercase font-black px-1">
+                                    <span>-1hr</span>
+                                    <span>Friday Evening Window</span>
+                                    <span>+1hr</span>
+                                 </div>
+                                 <p class="text-[8px] opacity-40 italic text-center">Offset: <span id="audit-val">0</span> mins</p>
                             </div>
                         </div>
                     </div>
@@ -350,13 +348,13 @@
                 <div id="cooking-view" class="hidden h-full flex flex-col bg-[#fffcf7] p-8 z-50 absolute inset-0 overflow-y-auto">
                     <div class="flex justify-between items-center mb-12">
                         <button onclick="toggleCookingView()" class="text-[10px] uppercase font-bold tracking-widest opacity-40">← Back</button>
-                        <h2 class="serif text-2xl">Checklist</h2>
+                        <h2 class="serif text-2xl italic">Checklist</h2>
                     </div>
                     <div class="space-y-8">
                         <div class="flex gap-2">
-                            <input type="text" id="cooking-input" placeholder="What are we making?" 
+                            <input type="text" id="cooking-input" placeholder="What's for dinner?" 
                                 class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
-                            <button onclick="addCookingItem()" class="bg-slate-800 text-white w-12 h-12 rounded-xl text-xl">+</button>
+                            <button onclick="addCookingItem()" class="bg-slate-800 text-white w-12 h-12 rounded-xl text-xl font-light">+</button>
                         </div>
                         <div id="cooking-list" class="space-y-4"></div>
                     </div>
@@ -392,22 +390,34 @@
         let currentZip = localStorage.getItem('shabbat_zip');
         let cookingTasks = JSON.parse(localStorage.getItem('cooking_tasks') || '[]');
         
-        let lightingTime = null; 
-        let havdalahTime = null;
-        let timerInterval = null;
-        let lastRandomIndex = -1;
-        let dedicationTimeout = null;
-        let shabbatCountdownRevealed = false;
-        let auditOffset = 0; 
+        let lightingTime = null, havdalahTime = null, timerInterval = null, lastRandomIndex = -1, dedicationTimeout = null;
+        let shabbatCountdownRevealed = false, auditOffset = 0; 
 
         // Setup Audit Slider
-        const auditSlider = document.getElementById('audit-slider');
-        if (auditSlider) {
-            auditSlider.addEventListener('input', (e) => {
-                auditOffset = parseInt(e.target.value);
-                document.getElementById('audit-val').innerText = auditOffset;
-                updateDisplay(new Date()); 
+        document.getElementById('audit-slider').addEventListener('input', (e) => {
+            auditOffset = parseInt(e.target.value);
+            document.getElementById('audit-val').innerText = auditOffset;
+            updateDisplay(new Date()); 
+        });
+
+        // Autoplay Logic
+        function startDedication() {
+            const video = document.getElementById('bloom-video');
+            const fallback = document.getElementById('autoplay-fallback');
+            
+            video.play().then(() => {
+                fallback.style.display = "none";
+                runDedicationTimer();
+            }).catch(e => {
+                fallback.style.display = "flex";
             });
+        }
+
+        function forcePlayVideo() {
+            const video = document.getElementById('bloom-video');
+            document.getElementById('autoplay-fallback').style.display = "none";
+            video.play();
+            runDedicationTimer();
         }
 
         function runDedicationTimer() {
@@ -425,58 +435,46 @@
         function replayDedication() {
             const screen = document.getElementById('dedication-screen');
             const video = document.getElementById('bloom-video');
-            screen.style.display = 'flex';
-            setTimeout(() => {
-                screen.style.opacity = '1';
-                video.currentTime = 0;
-                video.play();
-                runDedicationTimer();
-            }, 10);
+            screen.style.opacity = '1';
+            video.currentTime = 0;
+            startDedication();
         }
 
-        window.onload = () => { 
-            runDedicationTimer();
-        };
+        window.onload = startDedication;
 
         function checkSetupState() {
-            if (!userName) {
-                document.getElementById('name-setup-view').classList.remove('hidden');
-            } else if (!currentZip) {
-                document.getElementById('zip-setup-view').classList.remove('hidden');
+            const setupView = document.getElementById('setup-view');
+            if (!userName || !currentZip) {
+                setupView.classList.remove('hidden');
+                setupView.classList.add('app-fade-in');
+                document.getElementById('name-input').value = userName || "";
+                document.getElementById('zip-input').value = currentZip || "";
             } else {
                 initDashboard(currentZip);
             }
         }
 
-        function saveName() {
-            const val = document.getElementById('name-input').value;
-            if (val.trim()) {
-                userName = val.trim();
-                localStorage.setItem('shabbat_user_name', userName);
-                document.getElementById('name-setup-view').classList.add('hidden');
-                checkSetupState();
-            }
-        }
-
-        function saveZip() {
-            const zip = document.getElementById('zip-input').value;
-            if (zip.length === 5) {
-                localStorage.setItem('shabbat_zip', zip);
+        function saveSetup() {
+            const name = document.getElementById('name-input').value.trim();
+            const zip = document.getElementById('zip-input').value.trim();
+            if (name && zip.length === 5) {
+                userName = name;
                 currentZip = zip;
-                document.getElementById('zip-setup-view').classList.add('hidden');
+                localStorage.setItem('shabbat_user_name', name);
+                localStorage.setItem('shabbat_zip', zip);
+                document.getElementById('setup-view').classList.add('hidden');
                 initDashboard(zip);
             }
         }
 
-        function resetApp() {
+        function showSetup() {
             document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('name-setup-view').classList.remove('hidden');
-            document.getElementById('name-input').value = userName || "";
-            document.getElementById('zip-input').value = currentZip || "";
+            checkSetupState();
         }
 
         async function initDashboard(zip) {
             document.getElementById('dashboard-view').classList.remove('hidden');
+            document.getElementById('dashboard-view').classList.add('app-fade-in');
             const greeting = document.getElementById('greeting-text');
             if (userName) greeting.innerText = `SHABBAT SHALOM, ${userName.toUpperCase()}`;
             renderCookingTasks();
@@ -511,10 +509,7 @@
 
         function startCountdown() {
             if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                const now = new Date();
-                updateDisplay(now);
-            }, 1000);
+            timerInterval = setInterval(() => updateDisplay(new Date()), 1000);
         }
 
         function updateDisplay(nowRaw) {
@@ -526,14 +521,14 @@
 
             if (lightingTime) {
                 const diffToLighting = (lightingTime - now) / 60000;
-                if (diffToLighting <= 0 && now < havdalahTime) {
-                    body.classList.add('state-sunset');
-                    body.classList.remove('state-normal');
-                    body.style.backgroundColor = ""; 
-                } else if (diffToLighting > 0 && diffToLighting <= 30) {
+                if (diffToLighting > 0 && diffToLighting <= 30) {
                     body.classList.remove('state-sunset');
                     const ratio = 1 - (diffToLighting / 30);
                     body.style.backgroundColor = `color-mix(in srgb, var(--cream-bg), var(--shabbat-bg) ${ratio * 100}%)`;
+                } 
+                else if (diffToLighting <= 0 && now < havdalahTime) {
+                    body.classList.add('state-sunset');
+                    body.style.backgroundColor = ""; 
                 } else {
                     body.classList.add('state-normal');
                     body.classList.remove('state-sunset');
@@ -607,39 +602,29 @@
             area.classList.remove('hidden');
         }
 
-        function hideWeeklySpark() {
-            document.getElementById('ai-content-area').classList.add('hidden');
-        }
-
-        function toggleCookingView() {
-            const view = document.getElementById('cooking-view');
-            view.classList.toggle('hidden');
-        }
+        function hideWeeklySpark() { document.getElementById('ai-content-area').classList.add('hidden'); }
+        function toggleCookingView() { document.getElementById('cooking-view').classList.toggle('hidden'); }
 
         function addCookingItem() {
             const input = document.getElementById('cooking-input');
             if (input.value.trim()) {
                 cookingTasks.push({ id: Date.now(), text: input.value.trim(), done: false });
                 input.value = "";
-                saveTasks();
+                localStorage.setItem('cooking_tasks', JSON.stringify(cookingTasks));
                 renderCookingTasks();
             }
         }
 
         function toggleTask(id) {
             cookingTasks = cookingTasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
-            saveTasks();
+            localStorage.setItem('cooking_tasks', JSON.stringify(cookingTasks));
             renderCookingTasks();
         }
 
         function removeTask(id) {
             cookingTasks = cookingTasks.filter(t => t.id !== id);
-            saveTasks();
-            renderCookingTasks();
-        }
-
-        function saveTasks() {
             localStorage.setItem('cooking_tasks', JSON.stringify(cookingTasks));
+            renderCookingTasks();
         }
 
         function renderCookingTasks() {
@@ -649,7 +634,7 @@
                     <span class="serif text-lg ${t.done ? 'line-through' : ''}">${t.text}</span>
                     <button onclick="event.stopPropagation(); removeTask(${t.id})" class="opacity-20 hover:opacity-100 text-sm">✕</button>
                 </div>
-            `).join('') || `<p class="text-center opacity-30 cursive py-8">No tasks yet.</p>`;
+            `).join('') || `<p class="text-center opacity-30 cursive py-8">What shall we prepare?</p>`;
         }
     </script>
 </body>
