@@ -155,15 +155,17 @@
             overflow: hidden;
         }
 
-        .floral-vine {
+        /* Updated Background: Single Centered Large Bouquet */
+        .floral-bouquet {
             position: absolute;
-            transition: opacity 2s ease;
-            width: 380px; 
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.4);
+            opacity: 0.25;
+            width: 500px;
             height: auto;
+            transition: opacity 2s ease;
         }
-
-        .top-right { top: -10px; right: -50px; transform: rotate(5deg); opacity: 0.7; }
-        .bottom-left { bottom: -30px; left: -60px; transform: scaleX(-1) rotate(-15deg); opacity: 0.5; }
 
         .glass {
             background: rgba(255, 255, 255, 0.28);
@@ -217,6 +219,16 @@
         body.state-sunset .audit-slider-container {
             background: rgba(255,255,255,0.05);
         }
+
+        .cooking-section-header {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.25rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+            border-left: 2px solid #8BBEE3;
+        }
     </style>
 </head>
 <body class="state-normal">
@@ -244,8 +256,8 @@
         <div id="app-viewport" class="relative h-full w-full overflow-hidden">
             
             <div class="design-layer">
-                <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-top" class="floral-vine top-right">
-                <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="dec-bottom" class="floral-vine bottom-left">
+                <!-- Single Large Background Bouquet -->
+                <img src="https://raw.githubusercontent.com/hillelandhashem-tech/transparent-vine.svg/main/transparent-vine.svg" id="main-bouquet" class="floral-bouquet">
             </div>
 
             <div id="app" class="h-full w-full transition-all duration-1000">
@@ -260,7 +272,6 @@
                         
                         <div class="w-full space-y-6">
                             <div class="space-y-2">
-                                <!-- Removed "Who are You?" label per request -->
                                 <input type="text" id="name-input" placeholder="Your Name" 
                                     class="w-full custom-input px-4 py-4 text-2xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
                             </div>
@@ -272,7 +283,7 @@
                         </div>
 
                         <button onclick="saveSetup()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
-                            You're wonderful.
+                            Let's create...
                         </button>
                     </div>
                 </div>
@@ -286,7 +297,8 @@
                         </div>
 
                         <div id="parsha-header" class="text-center pt-6">
-                            <div id="greeting-text" class="serif text-[10px] uppercase tracking-[0.4em] opacity-40 mb-1 tracking-[0.2em]">SHABBAT SHALOM</div>
+                            <!-- Updated Greeting Logic: Darker, Bigger, More Visible -->
+                            <div id="greeting-text" class="serif text-[13px] uppercase tracking-[0.35em] opacity-80 mb-2 leading-relaxed">SHABBAT SHALOM</div>
                             <div id="parsha-name" class="serif text-3xl font-bold tracking-[0.05em] text-slate-800">LOADING...</div>
                         </div>
 
@@ -329,7 +341,6 @@
                                 </div>
                             </div>
 
-                            <!-- AUDIT SLIDER (Moved to Dashboard Page 3) -->
                             <div class="audit-slider-container space-y-2">
                                  <p class="text-[8px] uppercase font-black tracking-widest opacity-30 text-center">Audit Friday Window</p>
                                  <input type="range" id="audit-slider" min="-60" max="60" value="0" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer">
@@ -346,17 +357,31 @@
 
                 <!-- COOKING CHECKLIST VIEW -->
                 <div id="cooking-view" class="hidden h-full flex flex-col bg-[#fffcf7] p-8 z-50 absolute inset-0 overflow-y-auto">
-                    <div class="flex justify-between items-center mb-12">
+                    <div class="flex justify-between items-center mb-8">
                         <button onclick="toggleCookingView()" class="text-[10px] uppercase font-bold tracking-widest opacity-40">← Back</button>
                         <h2 class="serif text-2xl italic">Checklist</h2>
                     </div>
-                    <div class="space-y-8">
-                        <div class="flex gap-2">
-                            <input type="text" id="cooking-input" placeholder="What's for dinner?" 
-                                class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
-                            <button onclick="addCookingItem()" class="bg-slate-800 text-white w-12 h-12 rounded-xl text-xl font-light">+</button>
+
+                    <div class="space-y-12 pb-12">
+                        <div class="space-y-6">
+                            <h3 class="cooking-section-header">What's for dinner?</h3>
+                            <div class="flex gap-2">
+                                <input type="text" id="dinner-input" placeholder="Main, side, or soup..." 
+                                    class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
+                                <button onclick="addCookingItem('dinner')" class="bg-slate-800 text-white w-12 h-12 rounded-xl text-xl font-light">+</button>
+                            </div>
+                            <div id="dinner-list" class="space-y-3"></div>
                         </div>
-                        <div id="cooking-list" class="space-y-4"></div>
+
+                        <div class="space-y-6">
+                            <h3 class="cooking-section-header">What's for lunch?</h3>
+                            <div class="flex gap-2">
+                                <input type="text" id="lunch-input" placeholder="Salad, dish, or treat..." 
+                                    class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
+                                <button onclick="addCookingItem('lunch')" class="bg-slate-800 text-white w-12 h-12 rounded-xl text-xl font-light">+</button>
+                            </div>
+                            <div id="lunch-list" class="space-y-3"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -435,9 +460,12 @@
         function replayDedication() {
             const screen = document.getElementById('dedication-screen');
             const video = document.getElementById('bloom-video');
-            screen.style.opacity = '1';
-            video.currentTime = 0;
-            startDedication();
+            screen.style.display = 'flex';
+            setTimeout(() => {
+                screen.style.opacity = '1';
+                video.currentTime = 0;
+                startDedication();
+            }, 10);
         }
 
         window.onload = startDedication;
@@ -603,12 +631,17 @@
         }
 
         function hideWeeklySpark() { document.getElementById('ai-content-area').classList.add('hidden'); }
-        function toggleCookingView() { document.getElementById('cooking-view').classList.toggle('hidden'); }
+        function toggleCookingView() { 
+            document.getElementById('cooking-view').classList.toggle('hidden'); 
+            if (!document.getElementById('cooking-view').classList.contains('hidden')) {
+                renderCookingTasks();
+            }
+        }
 
-        function addCookingItem() {
-            const input = document.getElementById('cooking-input');
+        function addCookingItem(type) {
+            const input = document.getElementById(`${type}-input`);
             if (input.value.trim()) {
-                cookingTasks.push({ id: Date.now(), text: input.value.trim(), done: false });
+                cookingTasks.push({ id: Date.now(), text: input.value.trim(), done: false, type: type });
                 input.value = "";
                 localStorage.setItem('cooking_tasks', JSON.stringify(cookingTasks));
                 renderCookingTasks();
@@ -628,13 +661,21 @@
         }
 
         function renderCookingTasks() {
-            const list = document.getElementById('cooking-list');
-            list.innerHTML = cookingTasks.map(t => `
+            const dinnerList = document.getElementById('dinner-list');
+            const lunchList = document.getElementById('lunch-list');
+            
+            const dinnerItems = cookingTasks.filter(t => t.type === 'dinner');
+            const lunchItems = cookingTasks.filter(t => t.type === 'lunch');
+
+            const renderMapper = t => `
                 <div class="flex items-center justify-between p-4 bg-white/50 border border-slate-900/5 rounded-2xl ${t.done ? 'opacity-40' : ''}" onclick="toggleTask(${t.id})">
                     <span class="serif text-lg ${t.done ? 'line-through' : ''}">${t.text}</span>
                     <button onclick="event.stopPropagation(); removeTask(${t.id})" class="opacity-20 hover:opacity-100 text-sm">✕</button>
                 </div>
-            `).join('') || `<p class="text-center opacity-30 cursive py-8">What shall we prepare?</p>`;
+            `;
+
+            dinnerList.innerHTML = dinnerItems.map(renderMapper).join('') || `<p class="text-center opacity-30 cursive py-4">Nothing for dinner yet.</p>`;
+            lunchList.innerHTML = lunchItems.map(renderMapper).join('') || `<p class="text-center opacity-30 cursive py-4">Nothing for lunch yet.</p>`;
         }
     </script>
 </body>
