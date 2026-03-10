@@ -169,7 +169,7 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            padding: calc(var(--safe-top) + 15px) 1.5rem calc(var(--safe-bottom) + 15px);
+            padding: calc(var(--safe-top) + 20px) 1.5rem calc(var(--safe-bottom) + 20px);
             justify-content: space-between;
             position: relative;
             z-index: 20;
@@ -273,25 +273,26 @@
                             <div id="location-display" class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 text-right">LOCATION</div>
                         </div>
 
-                        <div id="parsha-header" class="text-center pt-4">
-                            <div id="greeting-text" class="serif text-[15px] uppercase tracking-[0.35em] text-slate-900 opacity-100 mb-1 leading-relaxed">SHABBAT SHALOM</div>
+                        <div id="parsha-header" class="text-center pt-6">
+                            <!-- Greeting: Increased margin-bottom (mb-6) for space below greeting -->
+                            <div id="greeting-text" class="serif text-[15px] uppercase tracking-[0.35em] text-slate-900 opacity-100 mb-6 leading-relaxed">SHABBAT SHALOM</div>
                             <div id="parsha-name" class="serif text-3xl font-bold tracking-[0.05em] text-slate-800">LOADING...</div>
                         </div>
 
-                        <div class="flex-grow flex flex-col justify-center items-center py-2">
+                        <div class="flex-grow flex flex-col justify-center items-center py-4">
                             <div id="countdown-container" class="text-center w-full">
                                 <div id="countdown" class="serif leading-none py-2 transition-all tracking-tighter">00:00:00</div>
                                 <button id="reveal-btn" onclick="toggleShabbatReveal()" class="hidden glass mx-auto px-8 py-6 rounded-full serif text-base tracking-[0.2em] uppercase opacity-90 shadow-lg active:scale-95 transition-all">Shabbat Countdown</button>
                             </div>
                         </div>
 
-                        <div class="space-y-4">
+                        <div class="space-y-6">
                             <button onclick="toggleCookingView()" class="w-full flex justify-between items-center px-6 py-4 border border-slate-900/5 rounded-2xl bg-white/20 backdrop-blur-sm active:scale-98 transition-all">
                                 <span class="serif text-[10px] uppercase tracking-[0.3em] opacity-60 font-bold">What are we making?</span>
                                 <span class="opacity-30">→</span>
                             </button>
 
-                            <div id="times-section" class="py-6 border-y border-slate-900/5 grid grid-cols-3 gap-1 text-center">
+                            <div id="times-section" class="py-8 border-y border-slate-900/5 grid grid-cols-3 gap-1 text-center">
                                 <div class="space-y-1">
                                     <p class="text-[9px] uppercase opacity-40 font-bold tracking-[0.3em]">Candles</p>
                                     <p id="lighting-time" class="serif text-xl">—:—</p>
@@ -306,13 +307,13 @@
                                 </div>
                             </div>
 
-                            <div id="wisdom-section" class="pb-2">
+                            <div id="wisdom-section" class="pb-4">
                                 <button id="spark-btn" onclick="toggleWeeklySpark()" class="glass w-full flex flex-col items-center justify-center gap-2 py-6 rounded-[3rem] transition-all active:scale-95">
                                     <span class="serif text-base tracking-[0.15em] text-slate-700">Rebbe's Insight</span>
                                     <span class="text-[9px] uppercase tracking-[0.4em] opacity-30 font-medium tracking-widest">A SPARK OF WISDOM</span>
                                 </button>
                                 
-                                <div class="w-full text-center mt-4">
+                                <div class="w-full text-center mt-6">
                                     <button onclick="replayDedication()" class="replay-btn">Replay Intro</button>
                                 </div>
                             </div>
