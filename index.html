@@ -165,13 +165,12 @@
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
         }
 
-        /* Fixed Centering & Spacing for Dashboard */
         #app-container {
             display: flex;
             flex-direction: column;
             height: 100%;
-            /* Use clamp to provide balanced top/bottom room across all heights */
-            padding: calc(var(--safe-top) + 10px) 1.5rem clamp(20px, 4vh, calc(var(--safe-bottom) + 20px));
+            padding: calc(var(--safe-top) + 15px) 1.5rem clamp(20px, 4vh, calc(var(--safe-bottom) + 20px));
+            justify-content: space-between;
             position: relative;
             z-index: 20;
         }
@@ -209,6 +208,38 @@
             padding-left: 0.5rem;
             border-left: 2px solid #8BBEE3;
         }
+
+        /* Paywall Styling */
+        #paywall-screen {
+            position: fixed;
+            inset: 0;
+            background-color: var(--cream-bg);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .dev-toggle-container {
+            margin-top: 1rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            padding-top: 1rem;
+        }
+
+        .reset-link {
+            font-size: 8px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.15em;
+            opacity: 0.15;
+            transition: opacity 0.3s;
+            cursor: pointer;
+            margin-top: 2rem;
+        }
+        .reset-link:hover { opacity: 0.4; }
     </style>
 </head>
 <body class="state-normal">
@@ -228,6 +259,25 @@
         </div>
     </div>
 
+    <!-- Paywall Modal -->
+    <div id="paywall-screen" class="hidden">
+        <button onclick="hidePaywall()" class="absolute top-12 left-8 text-[10px] uppercase font-bold tracking-widest opacity-40">✕ Close</button>
+        <div class="max-w-xs space-y-10">
+            <div class="space-y-4">
+                <h2 class="serif text-4xl leading-tight text-slate-800">Organize your Shabbat.</h2>
+                <p class="serif text-lg italic opacity-70">Unlock the Menu Planner, join the community, and keep this app ad-free for $2.99/month.</p>
+            </div>
+            
+            <button onclick="simulateSubscription()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
+                Help Us Grow!
+            </button>
+
+            <button onclick="restorePurchase()" class="text-[9px] uppercase tracking-[0.2em] font-bold opacity-30 border-b border-transparent hover:border-slate-300 transition-all">
+                Restore Purchase
+            </button>
+        </div>
+    </div>
+
     <div id="phone-mockup">
         <div id="app-viewport" class="relative h-full w-full overflow-hidden">
             
@@ -237,9 +287,9 @@
 
             <div id="app" class="h-full w-full transition-all duration-1000">
                 
-                <!-- SETUP VIEW -->
+                <!-- SETUP VIEW / SETTINGS -->
                 <div id="setup-view" class="hidden flex flex-col justify-center items-center h-full w-full p-8 text-center relative z-20 overflow-hidden" style="min-height: 100dvh;">
-                    <div class="flex flex-col items-center w-full max-w-xs space-y-10 pb-16">
+                    <div class="flex flex-col items-center w-full max-w-xs space-y-8 pb-16">
                         <div class="glass py-10 px-8 rounded-[3rem] w-full">
                             <h1 class="serif text-5xl tracking-tight text-slate-800 mb-8 leading-tight">The Shabbat App</h1>
                             <div class="cursive text-xl opacity-90 text-slate-700 leading-relaxed">
@@ -263,26 +313,33 @@
                         <button onclick="saveSetup()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
                             Let's create...
                         </button>
+
+                        <!-- DEVELOPER TOOLS -->
+                        <div class="dev-toggle-container w-full">
+                            <div class="flex items-center justify-between px-4">
+                                <span class="text-[9px] uppercase font-bold tracking-widest opacity-30">Premium Status</span>
+                                <button id="premium-toggle-btn" onclick="togglePremiumDev()" class="text-[9px] uppercase font-bold px-3 py-1 rounded-full border border-slate-200 opacity-40">OFF</button>
+                            </div>
+                            <div class="text-center">
+                                <button onclick="hardResetApp()" class="reset-link">Reset App Data</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- DASHBOARD VIEW -->
                 <div id="dashboard-view" class="hidden h-full flex flex-col">
                     <div id="app-container">
-                        <!-- Top Bar -->
                         <div class="flex justify-between items-center w-full shrink-0">
                             <button onclick="showSetupManual()" class="text-[10px] opacity-40 hover:opacity-100 uppercase tracking-[0.3em] font-bold px-4 py-2 -ml-4 active:bg-black/5 rounded-full transition-all">Settings</button>
                             <div id="location-display" class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 text-right">LOCATION</div>
                         </div>
 
-                        <!-- Header -->
                         <div id="parsha-header" class="text-center pt-4 shrink-0">
-                            <!-- Greeting: Added more margin-bottom (mb-10) for space below greeting -->
                             <div id="greeting-text" class="serif text-[15px] uppercase tracking-[0.35em] text-slate-900 opacity-100 mb-10 leading-relaxed">SHABBAT SHALOM</div>
                             <div id="parsha-name" class="serif text-3xl font-bold tracking-[0.05em] text-slate-800">LOADING...</div>
                         </div>
 
-                        <!-- Central Content (Countdown) - Uses flex-grow to center middle content -->
                         <div class="flex-grow flex flex-col justify-center items-center py-2">
                             <div id="countdown-container" class="text-center w-full">
                                 <div id="countdown" class="serif leading-none py-2 transition-all tracking-tighter">00:00:00</div>
@@ -290,10 +347,13 @@
                             </div>
                         </div>
 
-                        <!-- Lower Actions -->
                         <div class="space-y-4 mt-auto shrink-0">
+                            <!-- Paywall Guarded Button -->
                             <button onclick="toggleCookingView()" class="w-full flex justify-between items-center px-6 py-4 border border-slate-900/5 rounded-2xl bg-white/20 backdrop-blur-sm active:scale-98 transition-all">
-                                <span class="serif text-[10px] uppercase tracking-[0.3em] opacity-60 font-bold">What are we making?</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="serif text-[10px] uppercase tracking-[0.3em] opacity-60 font-bold">What are we making?</span>
+                                    <span id="premium-badge" class="text-[7px] bg-slate-800 text-white px-2 py-0.5 rounded-full tracking-widest font-black uppercase hidden">Pro</span>
+                                </div>
                                 <span class="opacity-30">→</span>
                             </button>
 
@@ -384,6 +444,7 @@
 
         let userName = localStorage.getItem('shabbat_user_name');
         let currentZip = localStorage.getItem('shabbat_zip');
+        let isPremium = localStorage.getItem('shabbat_is_premium') === 'true';
         let cookingTasks = JSON.parse(localStorage.getItem('cooking_tasks') || '[]');
         
         let lightingTime = null, havdalahTime = null, timerInterval = null, lastRandomIndex = -1, dedicationTimeout = null;
@@ -417,6 +478,7 @@
             const video = document.getElementById('bloom-video');
             video.play().catch(e => console.log("Auto-play blocked, waiting for interaction"));
             runDedicationTimer();
+            updatePremiumUI();
         };
 
         function checkSetupState() {
@@ -429,6 +491,11 @@
             } else {
                 initDashboard(currentZip);
             }
+        }
+
+        function hardResetApp() {
+            localStorage.clear();
+            location.reload();
         }
 
         function saveSetup() {
@@ -566,6 +633,72 @@
             }
         }
 
+        // PAYWALL LOGIC
+        function toggleCookingView() {
+            if (!isPremium) {
+                showPaywall();
+                return;
+            }
+            document.getElementById('cooking-view').classList.toggle('hidden'); 
+            if (!document.getElementById('cooking-view').classList.contains('hidden')) {
+                renderCookingTasks();
+            }
+        }
+
+        function showPaywall() {
+            const screen = document.getElementById('paywall-screen');
+            screen.classList.remove('hidden');
+            screen.classList.add('app-fade-in');
+        }
+
+        function hidePaywall() {
+            document.getElementById('paywall-screen').classList.add('hidden');
+        }
+
+        function simulateSubscription() {
+            isPremium = true;
+            localStorage.setItem('shabbat_is_premium', 'true');
+            hidePaywall();
+            updatePremiumUI();
+            toggleCookingView(); // Open the planner immediately after "subscribing"
+        }
+
+        function restorePurchase() {
+            // Mock restoration
+            const modal = document.createElement('div');
+            modal.className = "fixed inset-0 z-[10001] flex items-center justify-center p-6 bg-black/20 backdrop-blur-sm";
+            modal.innerHTML = `
+                <div class="bg-white p-8 rounded-3xl text-center space-y-4 max-w-xs shadow-2xl">
+                    <p class="serif text-xl">Restoring access...</p>
+                    <p class="text-xs opacity-50 uppercase tracking-widest">Checking your account</p>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            setTimeout(() => { document.body.removeChild(modal); }, 1500);
+        }
+
+        function togglePremiumDev() {
+            isPremium = !isPremium;
+            localStorage.setItem('shabbat_is_premium', isPremium);
+            updatePremiumUI();
+        }
+
+        function updatePremiumUI() {
+            const btn = document.getElementById('premium-toggle-btn');
+            const badge = document.getElementById('premium-badge');
+            if (isPremium) {
+                btn.innerText = "ON";
+                btn.style.opacity = "1";
+                btn.classList.add('border-slate-800');
+                badge.classList.remove('hidden');
+            } else {
+                btn.innerText = "OFF";
+                btn.style.opacity = "0.4";
+                btn.classList.remove('border-slate-800');
+                badge.classList.add('hidden');
+            }
+        }
+
         function toggleShabbatReveal() {
             shabbatCountdownRevealed = true;
             updateDisplay(new Date());
@@ -583,12 +716,6 @@
         }
 
         function hideWeeklySpark() { document.getElementById('ai-content-area').classList.add('hidden'); }
-        function toggleCookingView() { 
-            document.getElementById('cooking-view').classList.toggle('hidden'); 
-            if (!document.getElementById('cooking-view').classList.contains('hidden')) {
-                renderCookingTasks();
-            }
-        }
 
         function addCookingItem(type) {
             const input = document.getElementById(`${type}-input`);
