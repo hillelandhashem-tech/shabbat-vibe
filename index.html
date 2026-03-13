@@ -210,7 +210,7 @@
             border-left: 2px solid #8BBEE3;
         }
 
-        /* Paywall Styling - High Z-index but below Dedication */
+        /* Paywall Styling - Below Dedication but above App */
         #paywall-screen {
             position: fixed;
             inset: 0;
@@ -241,6 +241,9 @@
             margin-top: 2rem;
         }
         .reset-link:hover { opacity: 0.4; }
+
+        /* Hidden Class */
+        .hidden { display: none !important; }
     </style>
 </head>
 <body class="state-normal">
@@ -260,7 +263,7 @@
         </div>
     </div>
 
-    <!-- Paywall Modal (Hidden by Default) -->
+    <!-- Paywall Modal (Only triggered for specific premium features) -->
     <div id="paywall-screen" class="hidden">
         <button onclick="hidePaywall()" class="absolute top-12 left-8 text-[10px] uppercase font-bold tracking-widest opacity-40">✕ Close</button>
         <div class="max-w-xs space-y-10">
@@ -338,7 +341,6 @@
 
                         <!-- Header -->
                         <div id="parsha-header" class="text-center pt-2 shrink-0">
-                            <!-- Increased Spacing: mb-12 -->
                             <div id="greeting-text" class="serif text-[16px] uppercase tracking-[0.35em] text-slate-900 font-bold opacity-100 mb-12 leading-relaxed">SHABBAT SHALOM</div>
                             <div id="parsha-name" class="serif text-3xl font-bold tracking-[0.05em] text-slate-800">LOADING...</div>
                         </div>
@@ -353,7 +355,8 @@
 
                         <!-- Footer content -->
                         <div class="space-y-4 shrink-0 mt-auto">
-                            <button onclick="toggleCookingView()" class="w-full flex justify-between items-center px-6 py-4 border border-slate-900/5 rounded-2xl bg-white/20 backdrop-blur-sm active:scale-98 transition-all">
+                            <!-- This is the 'Desired Location' for the Paywall -->
+                            <button onclick="handleMenuPlannerClick()" class="w-full flex justify-between items-center px-6 py-4 border border-slate-900/5 rounded-2xl bg-white/20 backdrop-blur-sm active:scale-98 transition-all">
                                 <div class="flex items-center gap-2">
                                     <span class="serif text-[10px] uppercase tracking-[0.3em] opacity-60 font-bold">What are we making?</span>
                                     <span id="premium-badge" class="text-[7px] bg-slate-800 text-white px-2 py-0.5 rounded-full tracking-widest font-black uppercase hidden">Pro</span>
@@ -390,7 +393,7 @@
                     </div>
                 </div>
 
-                <!-- COOKING VIEW -->
+                <!-- COOKING VIEW (Premium Only) -->
                 <div id="cooking-view" class="hidden h-full flex flex-col bg-[#fffcf7] p-8 z-50 absolute inset-0 overflow-y-auto">
                     <div class="flex justify-between items-center mb-8">
                         <button onclick="toggleCookingView()" class="text-[10px] uppercase font-bold tracking-widest opacity-40">← Back</button>
@@ -480,9 +483,6 @@
 
         window.onload = () => {
             const video = document.getElementById('bloom-video');
-            // Explicitly ensure paywall is hidden on fresh load
-            document.getElementById('paywall-screen').classList.add('hidden');
-            
             video.play().catch(e => console.log("Auto-play blocked"));
             runDedicationTimer();
             updatePremiumUI();
@@ -640,14 +640,19 @@
             }
         }
 
-        // PAYWALL LOGIC
-        function toggleCookingView() {
+        // PAYWALL & VIEW TRANSITIONS
+        function handleMenuPlannerClick() {
             if (!isPremium) {
                 showPaywall();
-                return;
+            } else {
+                toggleCookingView();
             }
-            document.getElementById('cooking-view').classList.toggle('hidden'); 
-            if (!document.getElementById('cooking-view').classList.contains('hidden')) {
+        }
+
+        function toggleCookingView() {
+            const cookingView = document.getElementById('cooking-view');
+            cookingView.classList.toggle('hidden'); 
+            if (!cookingView.classList.contains('hidden')) {
                 renderCookingTasks();
             }
         }
@@ -667,7 +672,7 @@
             localStorage.setItem('shabbat_is_premium', 'true');
             hidePaywall();
             updatePremiumUI();
-            toggleCookingView(); 
+            toggleCookingView(); // Open the planner immediately after "subscribing"
         }
 
         function restorePurchase() {
@@ -680,7 +685,10 @@
                 </div>
             `;
             document.body.appendChild(modal);
-            setTimeout(() => { if(modal.parentNode) document.body.removeChild(modal); }, 1500);
+            setTimeout(() => { 
+                if(modal.parentNode) document.body.removeChild(modal); 
+                // For demo purposes, we'll say nothing was found or just hide it
+            }, 1500);
         }
 
         function togglePremiumDev() {
@@ -693,15 +701,19 @@
             const btn = document.getElementById('premium-toggle-btn');
             const badge = document.getElementById('premium-badge');
             if (isPremium) {
-                btn.innerText = "ON";
-                btn.style.opacity = "1";
-                btn.classList.add('border-slate-800');
-                badge.classList.remove('hidden');
+                if (btn) {
+                    btn.innerText = "ON";
+                    btn.style.opacity = "1";
+                    btn.classList.add('border-slate-800');
+                }
+                if (badge) badge.classList.remove('hidden');
             } else {
-                btn.innerText = "OFF";
-                btn.style.opacity = "0.4";
-                btn.classList.remove('border-slate-800');
-                badge.classList.add('hidden');
+                if (btn) {
+                    btn.innerText = "OFF";
+                    btn.style.opacity = "0.4";
+                    btn.classList.remove('border-slate-800');
+                }
+                if (badge) badge.classList.add('hidden');
             }
         }
 
@@ -748,6 +760,8 @@
         function renderCookingTasks() {
             const dinnerList = document.getElementById('dinner-list');
             const lunchList = document.getElementById('lunch-list');
+            if (!dinnerList || !lunchList) return;
+
             const dinnerItems = cookingTasks.filter(t => t.type === 'dinner');
             const lunchItems = cookingTasks.filter(t => t.type === 'lunch');
 
