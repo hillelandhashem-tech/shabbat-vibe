@@ -25,7 +25,7 @@
             --shabbat-bg: #1e1b4b;
         }
 
-        /* Dedication Page Styling - Extreme Z-Index to block everything on load */
+        /* Dedication Page Styling */
         #dedication-screen {
             position: fixed;
             top: 0; left: 0;
@@ -203,7 +203,7 @@
         .cooking-section-header {
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             opacity: 0.8;
             margin-bottom: 0.5rem;
             padding-left: 0.5rem;
@@ -302,15 +302,10 @@
                         </div>
                         
                         <div class="w-full space-y-6">
-                            <div class="space-y-2">
-                                <input type="text" id="name-input" placeholder="Your Name" 
-                                    class="w-full custom-input px-4 py-4 text-2xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-[9px] uppercase tracking-[0.4em] font-bold opacity-70 block">Where are You?</label>
-                                <input type="text" id="zip-input" placeholder="Zip Code" 
-                                    class="w-full custom-input px-4 py-4 text-2xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
-                            </div>
+                            <input type="text" id="name-input" placeholder="Your Name" 
+                                class="w-full custom-input px-4 py-4 text-2xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
+                            <input type="text" id="zip-input" placeholder="Zip Code" 
+                                class="w-full custom-input px-4 py-4 text-2xl text-center focus:outline-none focus:border-sky-200 transition-colors rounded-3xl">
                         </div>
 
                         <button onclick="saveSetup()" class="w-full bg-slate-800 text-white py-6 rounded-full font-light tracking-[0.2em] text-lg shadow-xl active:scale-95 transition-all">
@@ -334,35 +329,44 @@
                     <div id="app-container">
                         <!-- Top Nav -->
                         <div class="flex justify-between items-center w-full shrink-0">
-                            <button onclick="showSetupManual()" class="text-[10px] opacity-40 hover:opacity-100 uppercase tracking-[0.3em] font-bold px-4 py-2 -ml-4 active:bg-black/5 rounded-full transition-all">Settings</button>
+                            <button onclick="showSetupManual()" class="text-[10px] opacity-40 hover:opacity-100 uppercase tracking-[0.3em] font-bold px-4 py-2 -ml-4 rounded-full transition-all">Settings</button>
                             <div id="location-display" class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 text-right">LOCATION</div>
                         </div>
 
                         <!-- Header -->
-                        <div id="parsha-header" class="text-center pt-2 shrink-0">
-                            <div id="greeting-text" class="serif text-[16px] uppercase tracking-[0.35em] text-slate-900 font-bold opacity-100 mb-12 leading-relaxed">SHABBAT SHALOM</div>
+                        <div id="parsha-header" class="text-center pt-1 shrink-0">
+                            <div id="greeting-text" class="serif text-[14px] uppercase tracking-[0.35em] text-slate-900 font-bold opacity-100 mb-0 leading-relaxed">SHABBAT SHALOM</div>
                             <div id="parsha-name" class="serif text-3xl font-bold tracking-[0.05em] text-slate-800">LOADING...</div>
                         </div>
 
                         <!-- Middle content -->
-                        <div class="flex-grow flex flex-col justify-center items-center py-4 min-h-0">
+                        <div class="flex-grow flex flex-col justify-start items-center pt-8 pb-2 min-h-0">
                             <div id="countdown-container" class="text-center w-full">
-                                <div id="countdown" class="serif leading-none py-2 transition-all tracking-tighter">00:00:00</div>
+                                <div id="countdown" class="serif leading-none py-1 transition-all tracking-tighter">00:00:00</div>
                                 <button id="reveal-btn" onclick="toggleShabbatReveal()" class="hidden glass mx-auto px-8 py-6 rounded-full serif text-base tracking-[0.2em] uppercase opacity-90 shadow-lg active:scale-95 transition-all">Shabbat Countdown</button>
                             </div>
                         </div>
 
                         <!-- Footer content -->
-                        <div class="space-y-4 shrink-0 mt-auto">
-                            <button onclick="handleMenuPlannerClick()" class="w-full flex justify-between items-center px-6 py-4 border border-slate-900/5 rounded-2xl bg-white/20 backdrop-blur-sm active:scale-98 transition-all">
+                        <div class="space-y-3 shrink-0 mt-auto">
+                            <!-- Button 1: Menu Planner -->
+                            <button id="menu-planner-btn" onclick="handleMenuPlannerClick()" class="w-full flex justify-between items-center px-6 py-4 border border-slate-900/5 rounded-2xl bg-white/20 backdrop-blur-sm active:scale-98 transition-all">
                                 <div class="flex items-center gap-2">
-                                    <span class="serif text-[10px] uppercase tracking-[0.3em] opacity-60 font-bold">What are we making?</span>
+                                    <span id="menu-btn-label" class="serif text-[10px] uppercase tracking-[0.3em] opacity-60 font-bold">What are we making?</span>
                                     <span id="premium-badge" class="text-[7px] bg-slate-800 text-white px-2 py-0.5 rounded-full tracking-widest font-black uppercase hidden">Pro</span>
                                 </div>
                                 <span class="opacity-30">→</span>
                             </button>
 
-                            <div id="times-section" class="py-6 border-y border-slate-900/5 grid grid-cols-3 gap-1 text-center">
+                            <!-- Button 2: Torah from Us -->
+                            <button id="torah-us-btn" onclick="toggleTorahView()" class="w-full flex justify-between items-center px-6 py-4 border border-slate-900/5 rounded-2xl bg-white/20 backdrop-blur-sm active:scale-98 transition-all">
+                                <div class="flex items-center gap-2">
+                                    <span class="serif text-[10px] uppercase tracking-[0.3em] opacity-60 font-bold">Torah from Us</span>
+                                </div>
+                                <span class="opacity-30">→</span>
+                            </button>
+
+                            <div id="times-section" class="py-4 border-y border-slate-900/5 grid grid-cols-3 gap-1 text-center transition-all duration-500">
                                 <div class="space-y-1">
                                     <p class="text-[9px] uppercase opacity-40 font-bold tracking-[0.3em]">Candles</p>
                                     <p id="lighting-time" class="serif text-xl">—:—</p>
@@ -377,13 +381,13 @@
                                 </div>
                             </div>
 
-                            <div id="wisdom-section" class="pb-2">
-                                <button id="spark-btn" onclick="toggleWeeklySpark()" class="glass w-full flex flex-col items-center justify-center gap-2 py-6 rounded-[3rem] transition-all active:scale-95">
+                            <div id="wisdom-section" class="pb-1">
+                                <button id="spark-btn" onclick="toggleWeeklySpark()" class="glass w-full flex flex-col items-center justify-center gap-2 py-5 rounded-[3rem] transition-all active:scale-95">
                                     <span class="serif text-base tracking-[0.15em] text-slate-700">Rebbe's Insight</span>
                                     <span class="text-[9px] uppercase tracking-[0.4em] opacity-30 font-medium tracking-widest">A SPARK OF WISDOM</span>
                                 </button>
                                 
-                                <div class="w-full text-center mt-4">
+                                <div class="w-full text-center mt-3">
                                     <button onclick="replayDedication()" class="replay-btn">Replay Intro</button>
                                 </div>
                             </div>
@@ -391,35 +395,89 @@
                     </div>
                 </div>
 
-                <!-- COOKING VIEW -->
+                <!-- COOKING VIEW / CHECKLIST -->
                 <div id="cooking-view" class="hidden h-full flex flex-col bg-[#fffcf7] p-8 z-50 absolute inset-0 overflow-y-auto">
                     <div class="flex justify-between items-center mb-8">
                         <button onclick="toggleCookingView()" class="text-[10px] uppercase font-bold tracking-widest opacity-40">← Back</button>
-                        <h2 class="serif text-2xl italic">Checklist</h2>
+                        <h2 id="cooking-view-title" class="serif text-2xl italic">Checklist</h2>
                     </div>
 
                     <div class="space-y-10 pb-12">
+                        <!-- Challah Section -->
                         <div class="space-y-4">
-                            <h3 class="cooking-section-header">What's for dinner?</h3>
+                            <h3 class="cooking-section-header">Challah / Sourdough</h3>
                             <div class="flex gap-2">
-                                <input type="text" id="dinner-input" placeholder="Main, side..." 
+                                <input type="text" id="challah-input" placeholder="Plain, Raisin..." 
                                     class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
-                                <button onclick="addCookingItem('dinner')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
+                                <button onclick="addCookingItem('challah')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
                             </div>
-                            <div id="dinner-list" class="space-y-2"></div>
+                            <div id="challah-list" class="space-y-2"></div>
                         </div>
 
+                        <!-- Dips Section -->
                         <div class="space-y-4">
-                            <h3 class="cooking-section-header">What's for lunch?</h3>
+                            <h3 class="cooking-section-header">Dips</h3>
                             <div class="flex gap-2">
-                                <input type="text" id="lunch-input" placeholder="Salad, dessert..." 
+                                <input type="text" id="dips-input" placeholder="Hummus, Matbucha..." 
                                     class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
-                                <button onclick="addCookingItem('lunch')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
+                                <button onclick="addCookingItem('dips')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
                             </div>
-                            <div id="lunch-list" class="space-y-2"></div>
+                            <div id="dips-list" class="space-y-2"></div>
+                        </div>
+
+                        <!-- Salads Section -->
+                        <div class="space-y-4">
+                            <h3 class="cooking-section-header">Salads</h3>
+                            <div class="flex gap-2">
+                                <input type="text" id="salads-input" placeholder="Israeli Salad..." 
+                                    class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
+                                <button onclick="addCookingItem('salads')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
+                            </div>
+                            <div id="salads-list" class="space-y-2"></div>
+                        </div>
+
+                        <!-- Main Dishes Section -->
+                        <div class="space-y-4">
+                            <h3 class="cooking-section-header">Main Dishes</h3>
+                            <div class="flex gap-2">
+                                <input type="text" id="main-input" placeholder="Chicken, Brisket..." 
+                                    class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
+                                <button onclick="addCookingItem('main')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
+                            </div>
+                            <div id="main-list" class="space-y-2"></div>
+                        </div>
+
+                        <!-- Dessert Section -->
+                        <div class="space-y-4">
+                            <h3 class="cooking-section-header">Dessert</h3>
+                            <div class="flex gap-2">
+                                <input type="text" id="dessert-input" placeholder="Cake, Fruit..." 
+                                    class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
+                                <button onclick="addCookingItem('dessert')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
+                            </div>
+                            <div id="dessert-list" class="space-y-2"></div>
                         </div>
                     </div>
                 </div>
+
+                <!-- TORAH FROM US VIEW -->
+                <div id="torah-view" class="hidden h-full flex flex-col bg-[#fffcf7] p-8 z-50 absolute inset-0">
+                    <div class="flex justify-between items-center mb-8">
+                        <button onclick="toggleTorahView()" class="text-[10px] uppercase font-bold tracking-widest opacity-40">← Back</button>
+                        <h2 class="serif text-2xl italic">Community</h2>
+                    </div>
+
+                    <div class="flex-grow flex flex-col justify-center items-center text-center space-y-10">
+                        <p class="serif text-xl italic text-slate-700 leading-relaxed px-4">
+                            Parsha insights shared by woman around the world
+                        </p>
+                        
+                        <button onclick="window.open('https://forms.google.com', '_blank')" class="bg-slate-800 text-white px-10 py-5 rounded-full font-light tracking-[0.2em] text-sm shadow-xl active:scale-95 transition-all">
+                            Share with Us!
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -439,12 +497,7 @@
             { teaching: "The light of the Shabbat candles reaches into the deepest corners of the soul and the home, bringing peace and harmony.", source: "Sicha, Parshat Vayakhel 1982" },
             { teaching: "When a person prepares for Shabbat during the week, they bring the sanctity of Shabbat into their daily mundane activities.", source: "Toras Menachem, Vol. 5" },
             { teaching: "A single candle can dispel much darkness. Imagine what the collective light of thousands of Shabbat candles can do.", source: "Letter, 1974" },
-            { teaching: "Shabbat gives us the strength to transform the entire world into a home for the Divine during the following six days.", source: "Likutei Sichos, Vol. 15" },
-            { teaching: "Rest on Shabbat is not for the sake of working better on Monday; it is the goal for which the entire week was created.", source: "Hayom Yom, 14 Kislev" },
-            { teaching: "The joy of Shabbat is a taste of the World to Come, where all effort ends and only essence remains.", source: "Likutei Sichos, Vol. 3" },
-            { teaching: "Everything we do on Friday is a preparation for the soul to receive its additional dimension on Shabbat.", source: "Toras Menachem, 1951" },
-            { teaching: "The atmosphere of Shabbat should be felt even before the day begins, through the peace we bring into our preparations.", source: "Igros Kodesh, Vol. 8" },
-            { teaching: "By lighting the candles, the Jewish woman brings the Divine Presence into the physical home.", source: "Sicha, 1980" }
+            { teaching: "Shabbat gives us the strength to transform the entire world into a home for the Divine during the following six days.", source: "Likutei Sichos, Vol. 15" }
         ];
 
         let userName = localStorage.getItem('shabbat_user_name');
@@ -452,22 +505,13 @@
         let isPremium = localStorage.getItem('shabbat_is_premium') === 'true';
         let cookingTasks = JSON.parse(localStorage.getItem('cooking_tasks') || '[]');
         
-        // Timezone Tracking
-        let currentTimezone = 'UTC'; 
-        let lightingTime = null, havdalahTime = null, timerInterval = null, lastRandomIndex = -1, dedicationTimeout = null;
-        let shabbatCountdownRevealed = false;
+        let currentTimezone = 'UTC', lightingTime = null, havdalahTime = null, timerInterval = null, lastRandomIndex = -1, dedicationTimeout = null, shabbatCountdownRevealed = false;
 
-        // Helper to format time specifically for the target timezone
         function formatInTargetTimezone(date) {
             if (!date) return '—:—';
-            return date.toLocaleTimeString('en-US', { 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                timeZone: currentTimezone 
-            });
+            return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: currentTimezone });
         }
 
-        // Helper to get current Date object adjusted for the target timezone for day/logic purposes
         function getTargetNow() {
             const now = new Date();
             return new Date(now.toLocaleString('en-US', { timeZone: currentTimezone }));
@@ -478,23 +522,8 @@
             dedicationTimeout = setTimeout(() => {
                 const screen = document.getElementById('dedication-screen');
                 screen.style.opacity = '0';
-                setTimeout(() => {
-                    screen.style.display = 'none';
-                    checkSetupState();
-                }, 1000);
+                setTimeout(() => { screen.style.display = 'none'; checkSetupState(); }, 1000);
             }, 5500); 
-        }
-
-        function replayDedication() {
-            const screen = document.getElementById('dedication-screen');
-            const video = document.getElementById('bloom-video');
-            screen.style.display = 'flex';
-            setTimeout(() => {
-                screen.style.opacity = '1';
-                video.currentTime = 0;
-                video.play();
-                runDedicationTimer();
-            }, 10);
         }
 
         window.onload = () => {
@@ -514,17 +543,13 @@
             }
         }
 
-        function hardResetApp() {
-            localStorage.clear();
-            location.reload();
-        }
+        function hardResetApp() { localStorage.clear(); location.reload(); }
 
         function saveSetup() {
             const name = document.getElementById('name-input').value.trim();
             const zip = document.getElementById('zip-input').value.trim();
             if (name && zip.length === 5) {
-                userName = name;
-                currentZip = zip;
+                userName = name; currentZip = zip;
                 localStorage.setItem('shabbat_user_name', name);
                 localStorage.setItem('shabbat_zip', zip);
                 document.getElementById('setup-view').classList.add('hidden');
@@ -534,18 +559,14 @@
 
         function showSetupManual() {
             document.getElementById('dashboard-view').classList.add('hidden');
-            const setupView = document.getElementById('setup-view');
-            setupView.classList.remove('hidden');
-            setupView.classList.add('app-fade-in');
+            document.getElementById('setup-view').classList.remove('hidden');
             document.getElementById('name-input').value = userName || "";
             document.getElementById('zip-input').value = currentZip || "";
         }
 
         async function initDashboard(zip) {
             document.getElementById('dashboard-view').classList.remove('hidden');
-            document.getElementById('dashboard-view').classList.add('app-fade-in');
-            const greeting = document.getElementById('greeting-text');
-            if (userName) greeting.innerText = `SHABBAT SHALOM, ${userName.toUpperCase()}`;
+            document.getElementById('greeting-text').innerText = "SHABBAT SHALOM, " + userName.toUpperCase();
             renderCookingTasks();
             await fetchShabbatTimes(zip);
             startCountdown();
@@ -555,28 +576,21 @@
             try {
                 const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&zip=${zip}&m=42&ash=on`);
                 const data = await response.json();
-                
-                // Set the current timezone from API response
                 currentTimezone = data.location.tzid || 'UTC';
-
                 const lighting = data.items.find(item => item.category === 'candles');
                 const havdalah = data.items.find(item => item.category === 'havdalah');
                 const parsha = data.items.find(item => item.category === 'parashat');
-
                 if (lighting) {
                     lightingTime = new Date(lighting.date);
                     document.getElementById('lighting-time').innerText = formatInTargetTimezone(lightingTime);
-                    // Sunset is usually +18 mins from lighting
-                    const sunset = new Date(lightingTime.getTime() + (18 * 60000));
-                    document.getElementById('shabbat-starts').innerText = formatInTargetTimezone(sunset);
+                    document.getElementById('shabbat-starts').innerText = formatInTargetTimezone(new Date(lightingTime.getTime() + (18 * 60000)));
                 }
                 if (havdalah) {
                     havdalahTime = new Date(havdalah.date);
                     document.getElementById('havdalah-time').innerText = formatInTargetTimezone(havdalahTime);
                 }
                 if (parsha) {
-                    let cleanName = parsha.title.replace(/Parashat|Parashat/gi, '').trim();
-                    document.getElementById('parsha-name').innerText = cleanName.toUpperCase();
+                    document.getElementById('parsha-name').innerText = parsha.title.replace(/Parashat|Parashat/gi, '').trim().toUpperCase();
                 }
                 document.getElementById('location-display').innerText = (data.location.city || zip).toUpperCase();
             } catch (e) { console.error("Fetch error", e); }
@@ -588,123 +602,107 @@
         }
 
         function updateDisplay() {
-            const now = new Date(); // Absolute current time
-            const targetNow = getTargetNow(); // Visual current time for zip code
-            
-            const body = document.body;
-            const countdownEl = document.getElementById('countdown');
-            const revealBtn = document.getElementById('reveal-btn');
-            
-            // Use targetNow for day/logic to ensure it matches the zip code calendar
-            const dayOfWeek = targetNow.getDay(); 
+            const now = new Date(), targetNow = getTargetNow(), body = document.body, countdownEl = document.getElementById('countdown'), revealBtn = document.getElementById('reveal-btn'), dayOfWeek = targetNow.getDay(); 
+            const timesSection = document.getElementById('times-section');
+            const menuLabel = document.getElementById('menu-btn-label');
 
+            // Default UI states
+            timesSection.classList.remove('hidden');
+            menuLabel.innerText = "What are we making?";
+            document.getElementById('cooking-view-title').innerText = "Checklist";
+
+            // Background logic
             if (lightingTime) {
                 const diffToLighting = (lightingTime - now) / 60000;
                 if (diffToLighting > 0 && diffToLighting <= 30) {
                     body.classList.remove('state-sunset');
-                    const ratio = 1 - (diffToLighting / 30);
-                    body.style.backgroundColor = `color-mix(in srgb, var(--cream-bg), var(--shabbat-bg) ${ratio * 100}%)`;
-                } 
-                else if (diffToLighting <= 0 && now < havdalahTime) {
-                    body.classList.add('state-sunset');
-                    body.style.backgroundColor = ""; 
-                } else {
-                    body.classList.add('state-normal');
-                    body.classList.remove('state-sunset');
-                    body.style.backgroundColor = ""; 
-                }
+                    body.style.backgroundColor = `color-mix(in srgb, var(--cream-bg), var(--shabbat-bg) ${(1 - (diffToLighting / 30)) * 100}%)`;
+                } else if (diffToLighting <= 0 && now < havdalahTime) {
+                    body.classList.add('state-sunset'); body.style.backgroundColor = ""; 
+                } else { body.classList.add('state-normal'); body.classList.remove('state-sunset'); body.style.backgroundColor = ""; }
             }
 
+            // Post-Havdalah logic (Shavua Tov) - Only for Saturday Night
             if (dayOfWeek === 6 && havdalahTime && now > havdalahTime) {
                 countdownEl.innerHTML = `<span style="font-size: 52px; letter-spacing: 0.2em;">SHAVUA TOV</span>`;
                 revealBtn.classList.add('hidden');
                 countdownEl.classList.remove('hidden');
+                
+                // Hide times and update button during Shavua Tov
+                timesSection.classList.add('hidden');
+                menuLabel.innerText = "Notes for next week";
+                document.getElementById('cooking-view-title').innerText = "Notes for next week";
                 return;
             }
 
+            // Weekday logic (Sun-Thu)
             if (dayOfWeek >= 0 && dayOfWeek <= 4) {
                 const daysUntil = (5 - dayOfWeek);
-                revealBtn.classList.add('hidden');
-                countdownEl.classList.remove('hidden');
-                countdownEl.innerHTML = `
-                    <div style="font-size: 140px; font-weight: 700; line-height: 1;">${daysUntil}</div>
-                    <div style="font-size: 18px; opacity: 0.85; margin-top: 25px; letter-spacing: 0.1em; font-family: 'Cormorant Garamond', serif; font-style: italic;">${daysUntil === 1 ? 'day' : 'days'} until</div>
-                    <div style="font-size: 52px; font-weight: 400; margin-top: 12px; letter-spacing: 0.15em; text-transform: uppercase;">Shabbat</div>
-                `;
+                countdownEl.innerHTML = `<div style="font-size: 140px; font-weight: 700; line-height: 1;">${daysUntil}</div><div style="font-size: 18px; opacity: 0.85; margin-top: 25px; letter-spacing: 0.1em; font-family: 'Cormorant Garamond', serif; font-style: italic;">${daysUntil === 1 ? 'day' : 'days'} until</div><div style="font-size: 52px; font-weight: 400; margin-top: 12px; letter-spacing: 0.15em; text-transform: uppercase;">Shabbat</div>`;
                 return;
             }
 
-            if (dayOfWeek === 5 && lightingTime) {
-                const diffMs = lightingTime - now;
-                if (diffMs > 0) {
+            // Friday / Saturday-before-Havdalah logic
+            if (lightingTime) {
+                const sunsetTime = new Date(lightingTime.getTime() + (18 * 60000));
+                const diffLightingMs = lightingTime - now;
+                const diffSunsetMs = sunsetTime - now;
+
+                if (diffLightingMs > 0) {
+                    // BEFORE LIGHTING: Countdown HH:MM:SS to Lighting Time
                     revealBtn.classList.add('hidden');
                     countdownEl.classList.remove('hidden');
-                    const totalSeconds = Math.floor(diffMs / 1000);
+                    const totalSeconds = Math.floor(diffLightingMs / 1000);
                     const h = Math.floor(totalSeconds / 3600);
                     const m = Math.floor((totalSeconds % 3600) / 60);
                     const s = totalSeconds % 60;
                     countdownEl.innerHTML = `<div style="font-size: 72px;">${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}</div>`;
-                } else {
+                } 
+                else if (diffSunsetMs > 0) {
+                    // BETWEEN LIGHTING AND SUNSET (The 18-minute window)
+                    revealBtn.classList.add('hidden');
+                    countdownEl.classList.remove('hidden');
+                    const totalSeconds = Math.floor(diffSunsetMs / 1000);
+                    const m = Math.floor(totalSeconds / 60);
+                    const s = totalSeconds % 60;
+                    countdownEl.innerHTML = `
+                        <div style="font-size: 72px;">${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}</div>
+                        <div style="font-size: 12px; opacity: 0.6; margin-top: 10px; letter-spacing: 0.3em; text-transform: uppercase; font-weight: bold;">Until Shabbat</div>
+                    `;
+                } 
+                else {
+                    // SHABBAT HAS STARTED
                     if (shabbatCountdownRevealed) {
-                        countdownEl.classList.remove('hidden');
-                        revealBtn.classList.add('hidden');
-                        const sunsetDiffMs = havdalahTime - now;
-                        if (sunsetDiffMs > 0) {
-                            const totalSeconds = Math.floor(sunsetDiffMs / 1000);
+                        countdownEl.classList.remove('hidden'); revealBtn.classList.add('hidden');
+                        const havdalahDiffMs = havdalahTime - now;
+                        if (havdalahDiffMs > 0) {
+                            const totalSeconds = Math.floor(havdalahDiffMs / 1000);
                             const h = Math.floor(totalSeconds / 3600);
                             const m = Math.floor((totalSeconds % 3600) / 60);
-                            countdownEl.innerHTML = `<div style="font-size: 72px;">${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')} <span style="font-size: 24px; opacity: 0.5;">MIN</span></div>`;
-                        } else {
-                            countdownEl.innerHTML = `<span style="font-size: 42px; letter-spacing: 0.2em;">SHABBAT SHALOM</span>`;
-                        }
-                    } else {
-                        countdownEl.classList.add('hidden');
-                        revealBtn.classList.remove('hidden');
+                            countdownEl.innerHTML = `
+                                <div style="font-size: 72px;">${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}</div>
+                                <div style="font-size: 12px; opacity: 0.6; margin-top: 10px; letter-spacing: 0.3em; text-transform: uppercase; font-weight: bold;">Until Havdalah</div>
+                            `;
+                        } else { countdownEl.innerHTML = `<span style="font-size: 42px; letter-spacing: 0.2em;">SHABBAT SHALOM</span>`; }
+                    } else { 
+                        countdownEl.classList.add('hidden'); 
+                        revealBtn.classList.remove('hidden'); 
                     }
                 }
             }
         }
 
-        function handleMenuPlannerClick() {
-            if (!isPremium) { showPaywall(); } else { toggleCookingView(); }
+        function handleMenuPlannerClick() { if (!isPremium) showPaywall(); else toggleCookingView(); }
+        function toggleCookingView() { document.getElementById('cooking-view').classList.toggle('hidden'); if (!document.getElementById('cooking-view').classList.contains('hidden')) renderCookingTasks(); }
+        
+        function toggleTorahView() {
+            document.getElementById('torah-view').classList.toggle('hidden');
         }
 
-        function toggleCookingView() {
-            const cookingView = document.getElementById('cooking-view');
-            cookingView.classList.toggle('hidden'); 
-            if (!cookingView.classList.contains('hidden')) { renderCookingTasks(); }
-        }
-
-        function showPaywall() {
-            const screen = document.getElementById('paywall-screen');
-            screen.classList.remove('hidden');
-            screen.classList.add('app-fade-in');
-        }
-
+        function showPaywall() { document.getElementById('paywall-screen').classList.remove('hidden'); }
         function hidePaywall() { document.getElementById('paywall-screen').classList.add('hidden'); }
-
-        function simulateSubscription() {
-            isPremium = true;
-            localStorage.setItem('shabbat_is_premium', 'true');
-            hidePaywall();
-            updatePremiumUI();
-            toggleCookingView();
-        }
-
-        function restorePurchase() {
-            const modal = document.createElement('div');
-            modal.className = "fixed inset-0 z-[100001] flex items-center justify-center p-6 bg-black/20 backdrop-blur-sm";
-            modal.innerHTML = `<div class="bg-white p-8 rounded-3xl text-center space-y-4 max-w-xs shadow-2xl"><p class="serif text-xl">Restoring access...</p></div>`;
-            document.body.appendChild(modal);
-            setTimeout(() => { if(modal.parentNode) document.body.removeChild(modal); }, 1500);
-        }
-
-        function togglePremiumDev() {
-            isPremium = !isPremium;
-            localStorage.setItem('shabbat_is_premium', isPremium);
-            updatePremiumUI();
-        }
-
+        function simulateSubscription() { isPremium = true; localStorage.setItem('shabbat_is_premium', 'true'); hidePaywall(); updatePremiumUI(); toggleCookingView(); }
+        
         function updatePremiumUI() {
             const btn = document.getElementById('premium-toggle-btn');
             const badge = document.getElementById('premium-badge');
@@ -717,22 +715,16 @@
             }
         }
 
-        function toggleShabbatReveal() {
-            shabbatCountdownRevealed = true;
-            updateDisplay();
-        }
+        function toggleShabbatReveal() { shabbatCountdownRevealed = true; updateDisplay(); }
 
         function toggleWeeklySpark() {
             const area = document.getElementById('ai-content-area');
-            let index;
-            do { index = Math.floor(Math.random() * wisdomLibrary.length); } while (index === lastRandomIndex);
-            lastRandomIndex = index;
-            const item = wisdomLibrary[index];
+            let index; do { index = Math.floor(Math.random() * wisdomLibrary.length); } while (index === lastRandomIndex);
+            lastRandomIndex = index; const item = wisdomLibrary[index];
             document.getElementById('ai-quote').innerText = item.teaching;
             document.getElementById('ai-source').innerText = `— ${item.source}`;
             area.classList.remove('hidden');
         }
-
         function hideWeeklySpark() { document.getElementById('ai-content-area').classList.add('hidden'); }
 
         function addCookingItem(type) {
@@ -758,12 +750,18 @@
         }
 
         function renderCookingTasks() {
-            const dinnerList = document.getElementById('dinner-list');
-            const lunchList = document.getElementById('lunch-list');
-            if (!dinnerList || !lunchList) return;
-            const renderMapper = t => `<div class="flex items-center justify-between p-4 bg-white/50 border border-slate-900/5 rounded-2xl ${t.done ? 'opacity-40' : ''}" onclick="toggleTask(${t.id})"><span class="serif text-lg ${t.done ? 'line-through' : ''}">${t.text}</span><button onclick="event.stopPropagation(); removeTask(${t.id})" class="opacity-20 hover:opacity-100 text-sm">✕</button></div>`;
-            dinnerList.innerHTML = cookingTasks.filter(t => t.type === 'dinner').map(renderMapper).join('') || `<p class="text-center opacity-30 cursive py-4">Nothing for dinner yet.</p>`;
-            lunchList.innerHTML = cookingTasks.filter(t => t.type === 'lunch').map(renderMapper).join('') || `<p class="text-center opacity-30 cursive py-4">Nothing for lunch yet.</p>`;
+            const categories = ['challah', 'dips', 'salads', 'main', 'dessert'];
+            categories.forEach(cat => {
+                const list = document.getElementById(`${cat}-list`);
+                if (!list) return;
+                const items = cookingTasks.filter(t => t.type === cat);
+                list.innerHTML = items.map(t => `
+                    <div class="flex items-center justify-between p-4 bg-white/50 border border-slate-900/5 rounded-2xl ${t.done ? 'opacity-40' : ''}" onclick="toggleTask(${t.id})">
+                        <span class="serif text-lg ${t.done ? 'line-through' : ''}">${t.text}</span>
+                        <button onclick="event.stopPropagation(); removeTask(${t.id})" class="opacity-20 hover:opacity-100 text-sm">✕</button>
+                    </div>
+                `).join('') || `<p class="text-center opacity-30 cursive py-4">No items yet.</p>`;
+            });
         }
     </script>
 </body>
