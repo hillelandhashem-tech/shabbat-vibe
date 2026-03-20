@@ -19,8 +19,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --safe-top: env(safe-area-inset-top, 20px);
-            --safe-bottom: env(safe-area-inset-bottom, 20px);
+            /* Increased safe area top padding for notched iPhones */
+            --safe-top: env(safe-area-inset-top, 44px);
+            --safe-bottom: env(safe-area-inset-bottom, 34px);
             --cream-bg: #fffcf7;
             --shabbat-bg: #1e1b4b;
         }
@@ -170,7 +171,8 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            padding: calc(var(--safe-top) + 10px) 1.5rem calc(var(--safe-bottom) + 15px);
+            /* Increased top padding for notch safety */
+            padding: calc(var(--safe-top) + 12px) 1.5rem calc(var(--safe-bottom) + 10px);
             position: relative;
             z-index: 20;
             overflow: hidden;
@@ -327,28 +329,28 @@
                 <!-- DASHBOARD VIEW -->
                 <div id="dashboard-view" class="hidden h-full flex flex-col">
                     <div id="app-container">
-                        <!-- Top Nav -->
-                        <div class="flex justify-between items-center w-full shrink-0">
+                        <!-- Top Nav - Increased distance from status bar -->
+                        <div class="flex justify-between items-center w-full shrink-0 mb-6">
                             <button onclick="showSetupManual()" class="text-[10px] opacity-40 hover:opacity-100 uppercase tracking-[0.3em] font-bold px-4 py-2 -ml-4 rounded-full transition-all">Settings</button>
                             <div id="location-display" class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 text-right">LOCATION</div>
                         </div>
 
                         <!-- Header -->
-                        <div id="parsha-header" class="text-center pt-1 shrink-0">
+                        <div id="parsha-header" class="text-center shrink-0">
                             <div id="greeting-text" class="serif text-[14px] uppercase tracking-[0.35em] text-slate-900 font-bold opacity-100 mb-0 leading-relaxed">SHABBAT SHALOM</div>
                             <div id="parsha-name" class="serif text-3xl font-bold tracking-[0.05em] text-slate-800">LOADING...</div>
                         </div>
 
-                        <!-- Middle content -->
-                        <div class="flex-grow flex flex-col justify-start items-center pt-8 pb-2 min-h-0">
-                            <div id="countdown-container" class="text-center w-full">
-                                <div id="countdown" class="serif leading-none py-1 transition-all tracking-tighter">00:00:00</div>
+                        <!-- Middle content - Balanced vertical spacing -->
+                        <div class="flex-grow flex flex-col justify-center items-center min-h-0 py-4">
+                            <div id="countdown-container" class="text-center w-full transform -translate-y-4">
+                                <div id="countdown" class="serif leading-none transition-all tracking-tighter">00:00:00</div>
                                 <button id="reveal-btn" onclick="toggleShabbatReveal()" class="hidden glass mx-auto px-8 py-6 rounded-full serif text-base tracking-[0.2em] uppercase opacity-90 shadow-lg active:scale-95 transition-all">Shabbat Countdown</button>
                             </div>
                         </div>
 
-                        <!-- Footer content -->
-                        <div class="space-y-3 shrink-0 mt-auto">
+                        <!-- Footer content - Tightened up to reduce bottom void -->
+                        <div class="space-y-3 shrink-0 mb-2">
                             <!-- Button 1: Menu Planner -->
                             <button id="menu-planner-btn" onclick="handleMenuPlannerClick()" class="w-full flex justify-between items-center px-6 py-4 border border-slate-900/5 rounded-2xl bg-white/20 backdrop-blur-sm active:scale-98 transition-all">
                                 <div class="flex items-center gap-2">
@@ -383,7 +385,7 @@
 
                             <div id="wisdom-section" class="pb-1">
                                 <button id="spark-btn" onclick="toggleWeeklySpark()" class="glass w-full flex flex-col items-center justify-center gap-2 py-5 rounded-[3rem] transition-all active:scale-95">
-                                    <span class="serif text-base tracking-[0.15em] text-slate-700">Rebbe's Insight</span>
+                                    <span class="serif text-base tracking-[0.15em] text-slate-700">Torah Insight</span>
                                     <span class="text-[9px] uppercase tracking-[0.4em] opacity-30 font-medium tracking-widest">A SPARK OF WISDOM</span>
                                 </button>
                                 
@@ -397,62 +399,48 @@
 
                 <!-- COOKING VIEW / CHECKLIST -->
                 <div id="cooking-view" class="hidden h-full flex flex-col bg-[#fffcf7] p-8 z-50 absolute inset-0 overflow-y-auto">
-                    <div class="flex justify-between items-center mb-8">
+                    <div class="flex justify-between items-center mb-8 pt-4">
                         <button onclick="toggleCookingView()" class="text-[10px] uppercase font-bold tracking-widest opacity-40">← Back</button>
                         <h2 id="cooking-view-title" class="serif text-2xl italic">Checklist</h2>
                     </div>
 
                     <div class="space-y-10 pb-12">
-                        <!-- Challah Section -->
-                        <div class="space-y-4">
+                        <div class="space-y-4" id="cat-challah-section">
                             <h3 class="cooking-section-header">Challah / Sourdough</h3>
                             <div class="flex gap-2">
-                                <input type="text" id="challah-input" placeholder="Plain, Raisin..." 
-                                    class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
+                                <input type="text" id="challah-input" placeholder="Plain, Raisin..." class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
                                 <button onclick="addCookingItem('challah')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
                             </div>
                             <div id="challah-list" class="space-y-2"></div>
                         </div>
-
-                        <!-- Dips Section -->
-                        <div class="space-y-4">
+                        <div class="space-y-4" id="cat-dips-section">
                             <h3 class="cooking-section-header">Dips</h3>
                             <div class="flex gap-2">
-                                <input type="text" id="dips-input" placeholder="Hummus, Matbucha..." 
-                                    class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
+                                <input type="text" id="dips-input" placeholder="Hummus..." class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
                                 <button onclick="addCookingItem('dips')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
                             </div>
                             <div id="dips-list" class="space-y-2"></div>
                         </div>
-
-                        <!-- Salads Section -->
-                        <div class="space-y-4">
+                        <div class="space-y-4" id="cat-salads-section">
                             <h3 class="cooking-section-header">Salads</h3>
                             <div class="flex gap-2">
-                                <input type="text" id="salads-input" placeholder="Israeli Salad..." 
-                                    class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
+                                <input type="text" id="salads-input" placeholder="Israeli Salad..." class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
                                 <button onclick="addCookingItem('salads')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
                             </div>
                             <div id="salads-list" class="space-y-2"></div>
                         </div>
-
-                        <!-- Main Dishes Section -->
-                        <div class="space-y-4">
+                        <div class="space-y-4" id="cat-main-section">
                             <h3 class="cooking-section-header">Main Dishes</h3>
                             <div class="flex gap-2">
-                                <input type="text" id="main-input" placeholder="Chicken, Brisket..." 
-                                    class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
+                                <input type="text" id="main-input" placeholder="Chicken..." class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
                                 <button onclick="addCookingItem('main')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
                             </div>
                             <div id="main-list" class="space-y-2"></div>
                         </div>
-
-                        <!-- Dessert Section -->
-                        <div class="space-y-4">
+                        <div class="space-y-4" id="cat-dessert-section">
                             <h3 class="cooking-section-header">Dessert</h3>
                             <div class="flex gap-2">
-                                <input type="text" id="dessert-input" placeholder="Cake, Fruit..." 
-                                    class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
+                                <input type="text" id="dessert-input" placeholder="Cake..." class="flex-grow custom-input px-4 py-3 rounded-xl focus:outline-none serif text-lg italic">
                                 <button onclick="addCookingItem('dessert')" class="bg-slate-800 text-white w-12 h-12 rounded-xl">+</button>
                             </div>
                             <div id="dessert-list" class="space-y-2"></div>
@@ -461,19 +449,21 @@
                 </div>
 
                 <!-- TORAH FROM US VIEW -->
-                <div id="torah-view" class="hidden h-full flex flex-col bg-[#fffcf7] p-8 z-50 absolute inset-0">
-                    <div class="flex justify-between items-center mb-8">
+                <div id="torah-view" class="hidden h-full flex flex-col bg-[#fffcf7] px-8 absolute inset-0 z-50">
+                    <!-- Header with more top padding for safe area -->
+                    <div class="flex justify-between items-center shrink-0" style="padding-top: calc(var(--safe-top) + 12px); margin-bottom: 2rem;">
                         <button onclick="toggleTorahView()" class="text-[10px] uppercase font-bold tracking-widest opacity-40">← Back</button>
-                        <h2 class="serif text-2xl italic">Community</h2>
+                        <h2 class="serif text-3xl italic">Community</h2>
                     </div>
 
-                    <div class="flex-grow flex flex-col justify-center items-center text-center space-y-10">
-                        <p class="serif text-xl italic text-slate-700 leading-relaxed px-4">
+                    <!-- Content shifted slightly higher than perfect center for better visual balance -->
+                    <div class="flex-grow flex flex-col justify-start items-center text-center pt-24 space-y-12">
+                        <p class="serif text-2xl italic text-slate-700 leading-relaxed px-4">
                             Parsha insights shared by woman around the world
                         </p>
                         
-                        <button onclick="window.open('https://forms.google.com', '_blank')" class="bg-slate-800 text-white px-10 py-5 rounded-full font-light tracking-[0.2em] text-sm shadow-xl active:scale-95 transition-all">
-                            Share with Us!
+                        <button disabled class="bg-slate-800/40 text-white/80 px-10 py-5 rounded-full font-light tracking-[0.2em] text-sm shadow-xl cursor-not-allowed">
+                            Coming Soon...
                         </button>
                     </div>
                 </div>
@@ -566,7 +556,8 @@
 
         async function initDashboard(zip) {
             document.getElementById('dashboard-view').classList.remove('hidden');
-            document.getElementById('greeting-text').innerText = "SHABBAT SHALOM, " + userName.toUpperCase();
+            const greeting = document.getElementById('greeting-text');
+            if (userName) greeting.innerText = "SHABBAT SHALOM, " + userName.toUpperCase();
             renderCookingTasks();
             await fetchShabbatTimes(zip);
             startCountdown();
@@ -606,11 +597,6 @@
             const timesSection = document.getElementById('times-section');
             const menuLabel = document.getElementById('menu-btn-label');
 
-            // Default UI states
-            timesSection.classList.remove('hidden');
-            menuLabel.innerText = "What are we making?";
-            document.getElementById('cooking-view-title').innerText = "Checklist";
-
             // Background logic
             if (lightingTime) {
                 const diffToLighting = (lightingTime - now) / 60000;
@@ -622,17 +608,19 @@
                 } else { body.classList.add('state-normal'); body.classList.remove('state-sunset'); body.style.backgroundColor = ""; }
             }
 
-            // Post-Havdalah logic (Shavua Tov) - Only for Saturday Night
+            // Post-Havdalah logic (Shavua Tov)
             if (dayOfWeek === 6 && havdalahTime && now > havdalahTime) {
                 countdownEl.innerHTML = `<span style="font-size: 52px; letter-spacing: 0.2em;">SHAVUA TOV</span>`;
                 revealBtn.classList.add('hidden');
                 countdownEl.classList.remove('hidden');
-                
-                // Hide times and update button during Shavua Tov
                 timesSection.classList.add('hidden');
                 menuLabel.innerText = "Notes for next week";
                 document.getElementById('cooking-view-title').innerText = "Notes for next week";
                 return;
+            } else {
+                timesSection.classList.remove('hidden');
+                menuLabel.innerText = "What are we making?";
+                document.getElementById('cooking-view-title').innerText = "Checklist";
             }
 
             // Weekday logic (Sun-Thu)
@@ -649,7 +637,6 @@
                 const diffSunsetMs = sunsetTime - now;
 
                 if (diffLightingMs > 0) {
-                    // BEFORE LIGHTING: Countdown HH:MM:SS to Lighting Time
                     revealBtn.classList.add('hidden');
                     countdownEl.classList.remove('hidden');
                     const totalSeconds = Math.floor(diffLightingMs / 1000);
@@ -659,7 +646,6 @@
                     countdownEl.innerHTML = `<div style="font-size: 72px;">${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}</div>`;
                 } 
                 else if (diffSunsetMs > 0) {
-                    // BETWEEN LIGHTING AND SUNSET (The 18-minute window)
                     revealBtn.classList.add('hidden');
                     countdownEl.classList.remove('hidden');
                     const totalSeconds = Math.floor(diffSunsetMs / 1000);
@@ -671,7 +657,6 @@
                     `;
                 } 
                 else {
-                    // SHABBAT HAS STARTED
                     if (shabbatCountdownRevealed) {
                         countdownEl.classList.remove('hidden'); revealBtn.classList.add('hidden');
                         const havdalahDiffMs = havdalahTime - now;
@@ -694,15 +679,12 @@
 
         function handleMenuPlannerClick() { if (!isPremium) showPaywall(); else toggleCookingView(); }
         function toggleCookingView() { document.getElementById('cooking-view').classList.toggle('hidden'); if (!document.getElementById('cooking-view').classList.contains('hidden')) renderCookingTasks(); }
-        
-        function toggleTorahView() {
-            document.getElementById('torah-view').classList.toggle('hidden');
-        }
-
+        function toggleTorahView() { document.getElementById('torah-view').classList.toggle('hidden'); }
         function showPaywall() { document.getElementById('paywall-screen').classList.remove('hidden'); }
         function hidePaywall() { document.getElementById('paywall-screen').classList.add('hidden'); }
         function simulateSubscription() { isPremium = true; localStorage.setItem('shabbat_is_premium', 'true'); hidePaywall(); updatePremiumUI(); toggleCookingView(); }
         
+        function togglePremiumDev() { isPremium = !isPremium; localStorage.setItem('shabbat_is_premium', isPremium); updatePremiumUI(); }
         function updatePremiumUI() {
             const btn = document.getElementById('premium-toggle-btn');
             const badge = document.getElementById('premium-badge');
@@ -750,8 +732,8 @@
         }
 
         function renderCookingTasks() {
-            const categories = ['challah', 'dips', 'salads', 'main', 'dessert'];
-            categories.forEach(cat => {
+            const cats = ['challah', 'dips', 'salads', 'main', 'dessert'];
+            cats.forEach(cat => {
                 const list = document.getElementById(`${cat}-list`);
                 if (!list) return;
                 const items = cookingTasks.filter(t => t.type === cat);
